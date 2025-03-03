@@ -1,0 +1,23 @@
+{
+    "cSpell.words": [
+        "addressdetails",
+        "addresstype",
+        "Atta",
+        "boundingbox",
+        "licence",
+        "pinput",
+        "svgrepo"
+    ],
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/*.git": true,
+        "**/*.g.dart": true,
+        "**/*freezed.dart":true
+    },
+    "explorerExclude.backup": {}
+}
