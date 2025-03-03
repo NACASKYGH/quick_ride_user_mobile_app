@@ -1,5 +1,4 @@
 import 'dart:math' show pow;
-import '../entity/osm_entity.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
+
 
 extension BuildContextX on BuildContext {
   ColorScheme get colors => Theme.of(this).colorScheme;
@@ -155,15 +155,5 @@ extension MapEventX on MapEvent {
     return this is MapEventDoubleTapZoomStart ||
         this is PointerPanZoomStartEvent ||
         this is MapEventDoubleTapZoomStart;
-  }
-}
-
-extension PickedDataX on PickedData {
-  String get findName {
-    return (name ?? '').isNotEmpty
-        ? name ?? 'Unknown'
-        : (displayName ?? '').isNotEmpty
-            ? displayName ?? 'Unknown'
-            : 'Unknown';
   }
 }

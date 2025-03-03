@@ -3,6 +3,8 @@ import 'package:dio/dio.dart';
 import '/utils/constants.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
+import 'repository/repository.dart';
+import 'repository/repository_impl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final getIt = GetIt.instance;
@@ -36,4 +38,11 @@ Future<void> diSetup() async {
   dependenciesInj();
 }
 
-void dependenciesInj() {}
+void dependenciesInj() {
+  getIt.registerLazySingleton<Repository>(
+    () => RepositoryImpl(
+      getIt.get(),
+      token: getIt.get(),
+    ),
+  );
+}
