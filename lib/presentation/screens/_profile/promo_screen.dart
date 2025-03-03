@@ -1,6 +1,6 @@
+import '/utils/app_colors.dart';
+import '/utils/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:x_ride_user/utils/app_colors.dart';
-import 'package:x_ride_user/utils/extensions.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class PromoScreen extends StatefulWidget {

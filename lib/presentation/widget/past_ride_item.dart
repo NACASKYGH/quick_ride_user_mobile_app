@@ -1,12 +1,12 @@
 import '../../routes.dart';
 import 'package:gap/gap.dart';
+import '/utils/extensions.dart';
 import '../../utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:x_ride_user/utils/extensions.dart';
-import 'package:x_ride_user/presentation/widget/image_loader.dart';
+import '/presentation/widget/image_loader.dart';
 
 class PastRideItem extends StatelessWidget {
   const PastRideItem({

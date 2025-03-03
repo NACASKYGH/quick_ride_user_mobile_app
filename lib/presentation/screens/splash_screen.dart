@@ -1,12 +1,12 @@
 import '../../di.dart';
-import '../../routes.dart';
-import '/utils/extensions.dart';
 import '../../utils/constants.dart';
+import '../../utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import '../notifiers/auth_notifier.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quick_ride_user/routes.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (showWalkThru) {
         context.goNamed(RouteConsts.walkThru);
       } else {
-        context.goNamed(RouteConsts.phoneScreen);
+        context.goNamed(RouteConsts.index);
       }
     });
   }
@@ -45,21 +45,18 @@ class _SplashScreenState extends State<SplashScreen> {
     authNotifier = context.watch<AuthNotifier>();
 
     return Scaffold(
-      body: Stack(
+      backgroundColor: AppColors.primary,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(
-            child: Image.asset(
-              'assets/png/logo-green.png',
-              height: 200,
-            ),
+          Image.asset(
+            'assets/png/logo.png',
+            height: 200,
           ),
           widget.showLoading
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 80.0, left: 130),
-                  child: SpinKitThreeBounce(
-                    size: 24,
-                    color: context.colors.primary,
-                  ),
+              ? SpinKitThreeBounce(
+                  size: 26,
+                  color: AppColors.white,
                 )
               : const SizedBox.shrink(),
         ],

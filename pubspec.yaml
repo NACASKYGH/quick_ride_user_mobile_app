@@ -1,4 +1,4 @@
-name: x_ride_user
+name: quick_ride_user
 description: "A new Flutter project."
 
 publish_to: 'none'
@@ -56,6 +56,10 @@ dependencies:
   flutter_native_contact_picker: ^0.0.10
 
 
+  # ///
+  date_picker_plus: ^4.1.0
+
+
 
 
 dependency_overrides: 
@@ -86,7 +90,7 @@ flutter:
     - assets/svg/
     - assets/png/
     - assets/jpg/
-    - assets/json/
+    # - assets/json/
     - assets/translations/
 
   fonts:

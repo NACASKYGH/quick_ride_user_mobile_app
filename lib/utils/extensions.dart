@@ -36,8 +36,8 @@ extension StringX on String {
           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
       .hasMatch(this);
 
-  DateTime get toDateTime {
-    return DateTime.parse(this);
+  DateTime? get toDateTime {
+    return DateTime.tryParse(this);
   }
 
   TimeOfDay get stringDateToTimeOfDay {
@@ -71,6 +71,11 @@ extension DateTimeX on DateTime {
   /// 2023-04-02
   String get dateFormat2 {
     return DateFormat('y-MM-dd').format(toTimeZone);
+  }
+
+  /// 18-Feb-2025
+  String get ddMMMy {
+    return DateFormat('dd-MMM-y').format(toTimeZone);
   }
 
   /// June 2023

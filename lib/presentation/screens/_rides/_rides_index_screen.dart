@@ -1,11 +1,11 @@
+import '/utils/extensions.dart';
 import './past_rides_screen.dart';
 import 'upcoming_rides_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:x_ride_user/utils/extensions.dart';
+import '/presentation/notifiers/ui_notifier.dart';
+import '/presentation/widget/circular_icon_btn.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:x_ride_user/presentation/notifiers/ui_notifier.dart';
-import 'package:x_ride_user/presentation/widget/circular_icon_btn.dart';
 
 class RidesIndexScreen extends StatefulWidget {
   const RidesIndexScreen({super.key});

@@ -1,6 +1,6 @@
+import '/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:x_ride_user/utils/app_colors.dart';
 
 String get emptyAssetImage => 'assets/png/empty.png';
 

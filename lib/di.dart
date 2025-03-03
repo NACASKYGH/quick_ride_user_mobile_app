@@ -29,7 +29,7 @@ Future<void> diSetup() async {
   getIt.registerSingleton<Logger>(Logger());
 
   getIt.registerLazySingleton<Dio>(() {
-    var baseUrl = 'https://fitbeingbackend-production-309a.up.railway.app/';
+    var baseUrl = 'http://209.236.119.239:8092/API';
     return Dio(BaseOptions(baseUrl: baseUrl));
   });
 

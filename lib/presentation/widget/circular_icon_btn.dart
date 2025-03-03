@@ -1,6 +1,6 @@
+import '/utils/extensions.dart';
 import '../../utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:x_ride_user/utils/extensions.dart';
 
 class CircularIconBtn extends StatelessWidget {
   const CircularIconBtn({

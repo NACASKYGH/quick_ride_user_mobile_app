@@ -1,11 +1,11 @@
+import '/di.dart';
+import '/routes.dart';
 import 'package:gap/gap.dart';
-import 'package:x_ride_user/di.dart';
+import '/utils/extensions.dart';
 import '../../widget/app_button.dart';
 import 'package:flutter/material.dart';
-import 'package:x_ride_user/routes.dart';
 import 'package:go_router/go_router.dart';
 import 'package:random_avatar/random_avatar.dart';
-import 'package:x_ride_user/utils/extensions.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_native_contact_picker/model/contact.dart';
 import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart';

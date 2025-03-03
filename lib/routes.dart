@@ -1,21 +1,20 @@
 import 'di.dart';
 import 'package:go_router/go_router.dart';
-import './presentation/screens/index_screen.dart';
-import './presentation/screens/splash_screen.dart';
-import './presentation/screens/onboarding_screen.dart';
+import 'presentation/screens/index_screen.dart';
+import 'presentation/screens/splash_screen.dart';
+import 'presentation/screens/auth/otp_screen.dart';
+import 'presentation/screens/onboarding_screen.dart';
+import 'presentation/screens/auth/sign_up_name.dart';
 import 'presentation/screens/_profile/promo_screen.dart';
-import './presentation/screens/_profile/edit_profile_screen.dart';
-import 'package:x_ride_user/presentation/screens/auth/otp_screen.dart';
-import 'package:x_ride_user/presentation/screens/auth/sign_up_name.dart';
-import 'package:x_ride_user/presentation/screens/_profile/referral_screen.dart';
-import 'package:x_ride_user/presentation/screens/auth/phone_number_screen.dart';
-import 'package:x_ride_user/presentation/screens/_rides/ride_detail_screen.dart';
-import 'package:x_ride_user/presentation/screens/_profile/save_places_screen.dart';
-import 'package:x_ride_user/presentation/screens/_profile/add_location_screen.dart';
-import 'package:x_ride_user/presentation/screens/_home/open_street_pick_location.dart';
-import 'package:x_ride_user/presentation/screens/_profile/emergency_contact_screen.dart';
-import 'package:x_ride_user/presentation/screens/_profile/emergency_contact_manager.dart';
-import 'package:x_ride_user/presentation/screens/_profile/save_place_add_name_screen.dart';
+import 'presentation/screens/_profile/referral_screen.dart';
+import 'presentation/screens/auth/phone_number_screen.dart';
+import 'presentation/screens/_rides/ride_detail_screen.dart';
+import 'presentation/screens/_profile/save_places_screen.dart';
+import 'presentation/screens/_profile/edit_profile_screen.dart';
+import 'presentation/screens/_profile/add_location_screen.dart';
+import 'presentation/screens/_profile/emergency_contact_screen.dart';
+import 'presentation/screens/_profile/emergency_contact_manager.dart';
+import 'presentation/screens/_profile/save_place_add_name_screen.dart';
 
 class AppRouter {
   static GoRouter router = GoRouter(
@@ -61,13 +60,6 @@ class AppRouter {
         name: RouteConsts.index,
         builder: (context, state) {
           return const IndexScreen();
-        },
-      ),
-      GoRoute(
-        path: '/pick-location',
-        name: RouteConsts.pickLocation,
-        builder: (context, state) {
-          return const OpenStreetPickLocation();
         },
       ),
       GoRoute(

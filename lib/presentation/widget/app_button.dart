@@ -86,7 +86,7 @@ class AppButton extends StatelessWidget {
                           ]
                         : isGradient
                             ? [
-                                const Color.fromARGB(255, 135, 252, 139),
+                                const Color.fromARGB(255, 50, 116, 183),
                                 AppColors.primary,
                                 AppColors.primary,
                                 // const Color.fromARGB(255, 98, 194, 101),

@@ -1,10 +1,10 @@
 import 'package:gap/gap.dart';
+import '/utils/app_colors.dart';
+import '/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:x_ride_user/utils/app_colors.dart';
-import 'package:x_ride_user/utils/extensions.dart';
+import '/presentation/widget/app_button.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:x_ride_user/presentation/widget/app_button.dart';
 
 class ReferralScreen extends StatefulWidget {
   const ReferralScreen({super.key});

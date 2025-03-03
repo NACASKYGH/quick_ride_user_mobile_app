@@ -1,13 +1,13 @@
+import '/routes.dart';
 import '../../../di.dart';
 import 'package:gap/gap.dart';
+import '/utils/extensions.dart';
 import 'package:pinput/pinput.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/app_colors.dart';
-import 'package:x_ride_user/routes.dart';
 import 'package:go_router/go_router.dart';
-import 'package:x_ride_user/utils/extensions.dart';
+import '/presentation/widget/app_button.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:x_ride_user/presentation/widget/app_button.dart';
 
 class OTPScreen extends StatefulWidget {
   const OTPScreen({super.key});

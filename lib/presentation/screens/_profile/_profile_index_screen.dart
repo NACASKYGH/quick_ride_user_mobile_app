@@ -1,15 +1,15 @@
+import '/routes.dart';
 import 'package:gap/gap.dart';
+import '/utils/app_colors.dart';
+import '/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:x_ride_user/routes.dart';
 import 'package:go_router/go_router.dart';
 import '../../widget/circular_icon_btn.dart';
-import 'package:x_ride_user/utils/app_colors.dart';
-import 'package:x_ride_user/utils/extensions.dart';
+import '/presentation/notifiers/ui_notifier.dart';
 import '../../widget/profile_image_with_rating.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_platform_alert/flutter_platform_alert.dart';
-import 'package:x_ride_user/presentation/notifiers/ui_notifier.dart';
 
 class ProfileIndexScreen extends StatefulWidget {
   const ProfileIndexScreen({super.key});

@@ -1,8 +1,8 @@
 import 'package:gap/gap.dart';
+import '/utils/app_colors.dart';
+import '/utils/extensions.dart';
 import '../../utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:x_ride_user/utils/app_colors.dart';
-import 'package:x_ride_user/utils/extensions.dart';
 import 'package:timeline_tile_plus/timeline_tile_plus.dart';
 
 class UpcomingRideItem extends StatelessWidget {

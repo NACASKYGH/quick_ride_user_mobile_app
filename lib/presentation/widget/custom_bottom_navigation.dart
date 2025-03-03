@@ -1,10 +1,10 @@
+import '/utils/extensions.dart';
 import '../../utils/app_colors.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:x_ride_user/utils/extensions.dart';
+import '/presentation/notifiers/ui_notifier.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:x_ride_user/presentation/notifiers/ui_notifier.dart';
 
 class CustomBottomNavigation extends StatefulWidget {
   const CustomBottomNavigation({

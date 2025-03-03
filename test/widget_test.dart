@@ -1,5 +1,5 @@
-import 'package:x_ride_user/app.dart';
 import 'package:flutter/material.dart';
+import 'package:quick_ride_user/app.dart';
 import 'package:flutter_test/flutter_test.dart';
 // This is a basic Flutter widget test.
 //

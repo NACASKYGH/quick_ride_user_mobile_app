@@ -1,10 +1,10 @@
 import 'package:gap/gap.dart';
+import '/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../widget/app_text_field.dart';
-import 'package:x_ride_user/utils/extensions.dart';
+import '/presentation/widget/app_button.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:x_ride_user/presentation/widget/app_button.dart';
 
 class SavePlaceAddNameScreen extends StatefulWidget {
   const SavePlaceAddNameScreen({super.key});

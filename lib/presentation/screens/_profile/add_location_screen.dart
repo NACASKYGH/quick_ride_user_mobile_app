@@ -1,5 +1,6 @@
 import '../../../di.dart';
 import '../../../routes.dart';
+import '/utils/extensions.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/app_colors.dart';
@@ -7,7 +8,6 @@ import '../../../entity/osm_entity.dart';
 import 'package:go_router/go_router.dart';
 import '../../widget/app_text_field.dart';
 import '../../widget/circular_icon_btn.dart';
-import 'package:x_ride_user/utils/extensions.dart';
 
 class AddLocationScreen extends StatefulWidget {
   const AddLocationScreen({

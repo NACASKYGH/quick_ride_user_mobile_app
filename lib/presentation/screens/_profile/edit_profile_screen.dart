@@ -1,16 +1,16 @@
 import 'dart:io';
 import 'package:gap/gap.dart';
+import '/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/app_colors.dart';
 import '../../widget/image_loader.dart';
 import 'package:go_router/go_router.dart';
 import '../../widget/app_text_field.dart';
+import '/presentation/widget/app_button.dart';
 import 'package:random_avatar/random_avatar.dart';
-import 'package:x_ride_user/utils/extensions.dart';
 import 'package:hl_image_picker/hl_image_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:x_ride_user/presentation/widget/app_button.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});

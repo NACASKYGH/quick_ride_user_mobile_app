@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  static const Color primary = Color(0xFF1CAC78); //Crayola green
+  static const Color primary = Color(0xFF05386B); //Crayola green
   static const Color transparent = Colors.transparent;
   static const Color secondary = Color(0xFFD9D9D9);
   static const Color darkBg = Color(0xFF161616);

@@ -1,4 +1,6 @@
 import 'package:gap/gap.dart';
+import '/utils/app_colors.dart';
+import '/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import '../../../utils/constants.dart';
@@ -7,11 +9,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
 import '../../widget/circular_icon_btn.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:x_ride_user/utils/app_colors.dart';
-import 'package:x_ride_user/utils/extensions.dart';
+import '/presentation/widget/image_loader.dart';
+import '/presentation/notifiers/ui_notifier.dart';
 import 'package:timeline_tile_plus/timeline_tile_plus.dart';
-import 'package:x_ride_user/presentation/widget/image_loader.dart';
-import 'package:x_ride_user/presentation/notifiers/ui_notifier.dart';
 
 class RideDetailScreen extends StatefulWidget {
   const RideDetailScreen({super.key});

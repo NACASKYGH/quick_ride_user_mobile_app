@@ -1,8 +1,8 @@
 import 'image_loader.dart';
 import 'package:gap/gap.dart';
+import '/utils/extensions.dart';
+import '/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:x_ride_user/utils/extensions.dart';
-import 'package:x_ride_user/utils/app_colors.dart';
 
 class ProfileImageWithRating extends StatelessWidget {
   const ProfileImageWithRating({super.key});
