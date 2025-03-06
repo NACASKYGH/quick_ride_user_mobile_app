@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'presentation/notifiers/ui_notifier.dart';
 import 'presentation/notifiers/auth_notifier.dart';
-import '/presentation/notifiers/map_notifier.dart';
+import 'presentation/notifiers/buses_notifier.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -27,7 +27,7 @@ void main() async {
         providers: [
           ChangeNotifierProvider(create: (_) => AuthNotifier()),
           ChangeNotifierProvider(create: (_) => UiNotifier()),
-          ChangeNotifierProvider(create: (_) => MapNotifier()),
+          ChangeNotifierProvider(create: (_) => BusesNotifier()),
         ],
         child: const App(),
       ),

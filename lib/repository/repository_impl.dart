@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:quick_ride_user/di.dart';
+import 'package:quick_ride_user/utils/extensions.dart';
 import 'package:quick_ride_user/repository/repository.dart';
 import 'package:quick_ride_user/entity/bus_info_entity.dart';
 
@@ -20,32 +21,27 @@ class RepositoryImpl implements Repository {
   }) async {
     try {
       final result = (await _dioInstance.post(
-        AppUrl.getListBusAll,
+        '/Data/API_GetListBusAllWebMobAppWild',
         data: {
-          'SourceID': fromID,
-          'DestinationID': toID,
-          'TransportID': companyId,
-          'TravelDate': travelDate,
+          'SourceName': 'Acc',
+          'DestinationName': 'Ku',
+          'TravelDate': date,
         },
         options: Options(
           headers: {
-            'APITocken': await _dynamicToken.call(),
-            'AppType': 'POS',
+            'APITocken': '9D85A0FB-73E1-413C-BC2C-C95DDCD9CD89',
+            'AppType': 'MOBAND',
             'Content-Type': 'application/json',
           },
         ),
       ))
           .data;
 
-      if (result['success'] == true) {
-        return (result['SearchDetail'] as Iterable)
-            .map((e) => BusInfoEntity.fromJson(e))
-            .toList();
-      } else {
-        throw result['Message'];
-      }
+      return (result as Iterable)
+          .map((e) => BusInfoEntity.fromJson(e))
+          .toList();
     } on DioException catch (e) {
-      throw e.formartedError;
+      throw e.formattedError;
     } catch (e) {
       throw e.toString();
     }

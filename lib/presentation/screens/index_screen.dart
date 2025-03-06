@@ -1,8 +1,6 @@
 import '_home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '_rides/_rides_index_screen.dart';
-import '_profile/_profile_index_screen.dart';
 import '../widget/custom_bottom_navigation.dart';
 import '/presentation/notifiers/ui_notifier.dart';
 
@@ -25,8 +23,8 @@ class _IndexScreenState extends State<IndexScreen> {
         index: uiNotifier.indexTabIndex,
         children: [
           const HomeScreen(),
-          const RidesIndexScreen(),
-          const ProfileIndexScreen(),
+          Container(),
+          Container(),
         ],
       ),
       bottomNavigationBar: CustomBottomNavigation(

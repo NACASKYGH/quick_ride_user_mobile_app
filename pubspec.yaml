@@ -90,7 +90,7 @@ flutter:
     - assets/svg/
     - assets/png/
     - assets/jpg/
-    # - assets/json/
+    - assets/json/
     - assets/translations/
 
   fonts:

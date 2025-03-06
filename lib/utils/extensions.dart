@@ -1,12 +1,12 @@
-import 'dart:math' show pow;
-import 'package:flutter/gestures.dart';
+import 'dart:io';
+import 'dart:async';
+import 'theme_data.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:timeago/timeago.dart' as timeago;
+import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
-
 
 extension BuildContextX on BuildContext {
   ColorScheme get colors => Theme.of(this).colorScheme;
@@ -36,13 +36,21 @@ extension StringX on String {
           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
       .hasMatch(this);
 
+  bool get isPhone {
+    String phone = replaceFirst('0', '');
+    return PhoneNumber.parse('+233$phone').isValid();
+  }
+
+  String get capitalize =>
+      '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
+
   DateTime? get toDateTime {
     return DateTime.tryParse(this);
   }
 
   TimeOfDay get stringDateToTimeOfDay {
     final format = DateFormat.jm(); //"6:00 AM"
-    return TimeOfDay.fromDateTime(format.parse(this));
+    return TimeOfDay.fromDateTime(format.parse(this).toTimeZone);
   }
 
   TimeOfDay get stringToTimeOfDay {
@@ -56,6 +64,50 @@ extension StringX on String {
     TimeOfDay myTime = stringToTimeOfDay;
     return myTime.hour + myTime.minute / 60.0;
   }
+
+  String get toHTTPS {
+    if (startsWith('http://')) {
+      return replaceFirst('http://', 'https://');
+    }
+    return this;
+  }
+
+  String splitMerge(String pattern, {String joiner = ' '}) {
+    return split(pattern).map((e) => e.capitalize).join(joiner);
+  }
+
+  String splitRemoveMerge(String pattern, List<int> indexs,
+      {String joiner = ', '}) {
+    final splitList = split(pattern);
+    return splitList
+        .mapIndexed(
+          (index, e) {
+            //Remove first element
+            if (indexs.contains(index)) return '';
+
+            //Add - {last value} to the end
+            if (index == splitList.length - 1) {
+              return '-${e.trim().capitalize}';
+            }
+
+            return e.trim().capitalize;
+          },
+        )
+        .where((e) => e.trim().isNotEmpty)
+        .join(joiner)
+        .replaceFirst(', -', ' - ');
+  }
+
+  Widget get asTitleWidget {
+    return Text(
+      this,
+      maxLines: 3,
+      overflow: TextOverflow.ellipsis,
+      style: lightTheme.textTheme.headlineSmall?.copyWith(fontSize: 20),
+    );
+  }
+
+  String get filterDailCod => trim().startsWith('+') ? this : '+$this';
 
   bool get isValidPhone {
     return PhoneNumber.parse('+233$this').isValid();
@@ -73,14 +125,60 @@ extension DateTimeX on DateTime {
     return DateFormat('y-MM-dd').format(toTimeZone);
   }
 
+  /// June 2023
+  String get fMonthFYear {
+    return DateFormat('MMMM y').format(toTimeZone);
+  }
+
   /// 18-Feb-2025
   String get ddMMMy {
     return DateFormat('dd-MMM-y').format(toTimeZone);
   }
 
-  /// June 2023
-  String get fMonthFYear {
-    return DateFormat('MMMM y').format(toTimeZone);
+  /// June 1, 2023
+  String get fMonthDayFYear {
+    return DateFormat('MMMM d, y').format(toTimeZone);
+  }
+
+  ///01-Jun-2023
+  String get dateMMMonthYear {
+    return DateFormat('dd-MMM-y').format(toTimeZone);
+  }
+
+  ///Mon 1 Jun. 2023
+  String get dayMonthDayFYear {
+    return DateFormat('EEE. d MMM. y').format(toTimeZone);
+  }
+
+  ///1 Jun. 2023
+  String get monthDayFYear {
+    return DateFormat('dd MMM y').format(toTimeZone);
+  }
+
+  /// 1 Jun. 2023
+  String get dMMMY {
+    return DateFormat('d MMM. y').format(toTimeZone);
+  }
+
+  /// Tue, June 1, 2023
+  String get fullDate1 {
+    return DateFormat('EEE, MMM d, y').format(toTimeZone);
+  }
+
+  /// Tue, June 1
+  String get fullDate2 {
+    return DateFormat('EEE, MMM d').format(toTimeZone);
+  }
+
+  ///  01 June
+  String get dateAndMonth {
+    return DateFormat('d MMM').format(toTimeZone);
+  }
+
+  /// Tue, June 1, 2023 at 12:20 AM
+  String get fullDateAtTime {
+    return '${DateFormat('EEE, MMM d, y').format(toTimeZone)} at '
+        '${DateFormat('h:mm a').format(toTimeZone)}';
   }
 
   /// 3
@@ -98,19 +196,19 @@ extension DateTimeX on DateTime {
     return DateFormat('EEEE').format(toTimeZone);
   }
 
-  String get timeAgo {
-    return timeago.format(this);
+  ///12:20 AM
+  String get getTime {
+    return DateFormat('h:mm a').format(toTimeZone);
   }
 
-  String get timeAgoShort {
-    return timeago.format(this, locale: 'en_short');
+  //2024-02-23 17:00:04
+  String get phpStandardTime {
+    return '$dateFormat2'
+        ' ${DateFormat('h:mm:ss').format(toTimeZone)}';
   }
 
   DateTime get toTimeZone {
     return this;
-    // tz.initializeTimeZones();
-    // tz.Location location = tz.getLocation(timeZoneLocationName);
-    // return tz.TZDateTime.from(this, location);
   }
 
   bool get isToday {
@@ -119,41 +217,65 @@ extension DateTimeX on DateTime {
   }
 }
 
-extension NumX on num {
-  num quotient(num divisor) {
-    if (this < 1) return 0;
-    if (divisor.isInfinite || divisor < 1) return 0;
-    return this / divisor;
-  }
-
-  num get getSleepInHrs => ((this / 60) * 10).truncate() / 10;
-
-  (num, num) get getSleepTime {
-    num hrs = getSleepInHrs.floor();
-    num mins = (this / 60 - hrs) * 60;
-    return (hrs, mins.ceil());
-  }
-
-  double truncateToDecimalPlaces(num fractionalDigits) =>
-      (this * pow(10, fractionalDigits)).truncate() / pow(10, fractionalDigits);
-}
-
 extension IntX on int {
   String get to2val {
+    if (isNegative) {
+      return abs() < 10 ? '-0${abs()}' : toString();
+    }
     return this < 10 ? '0$this' : toString();
   }
 }
 
-extension MapEventX on MapEvent {
-  bool get isZoomEnd {
-    return this is MapEventDoubleTapZoomEnd ||
-        this is PointerPanZoomEndEvent ||
-        this is MapEventDoubleTapZoomEnd;
+extension NumX on num {
+  String discountPrice(num discount) {
+    if (discount <= 0) return asCurrency;
+    num dis = (discount / 100) * this;
+    return (this - dis).asCurrency;
   }
 
-  bool get isZoomStart {
-    return this is MapEventDoubleTapZoomStart ||
-        this is PointerPanZoomStartEvent ||
-        this is MapEventDoubleTapZoomStart;
+  String get asCurrency {
+    var f = NumberFormat('###,###.0#', 'en_US');
+    return f.format(this);
+  }
+}
+
+extension DioExceptionX on DioException {
+  String get formattedError {
+    if (error is SocketException) {
+      return 'Check your internet connection!';
+    } else if (error is TimeoutException) {
+      return 'Check your internet connection!';
+    } else {
+      // return response.toString();
+      String errorMsg = (response?.data['errors'] ??
+              response?.data['message'] ??
+              response?.data ??
+              this)
+          .toString();
+
+      String msg = errorMsg
+          .split(':')
+          .mapIndexed((index, val) {
+            if (index == 0 && val.split(' ').length == 1) return '';
+            return val;
+          })
+          .join(' ')
+          .replaceAll('}', '')
+          .replaceAll('_', ' ');
+
+      return msg;
+    }
+  }
+}
+
+extension MapX on Map<String, dynamic> {
+  Map<String, dynamic> get filterOutNulls {
+    final Map<String, dynamic> filtered = <String, dynamic>{};
+    forEach((String key, dynamic value) {
+      if (value != null) {
+        filtered[key] = value;
+      }
+    });
+    return filtered;
   }
 }
