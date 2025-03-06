@@ -1,7 +1,7 @@
 import '../../../routes.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
-import 'package:quick_ride_user/di.dart';
+import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import '/presentation/widget/app_text_field.dart';
 import 'package:quick_ride_user/utils/app_colors.dart';
@@ -9,6 +9,7 @@ import 'package:quick_ride_user/utils/extensions.dart';
 import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:quick_ride_user/presentation/widget/app_button.dart';
 import 'package:quick_ride_user/presentation/widget/base_screen.dart';
+import 'package:quick_ride_user/presentation/notifiers/buses_notifier.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    BusesNotifier busesNotifier = context.watch<BusesNotifier>();
     return BaseScreen(
       safeArea: SafeArea(
         child: Padding(
@@ -90,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     if (date != null) {
                       dateController.text = date.dateFormat1;
+                      busesNotifier.chosenDateTime = date.dateFormat1;
                       setState(() => travelingDate = date);
                     }
                   },

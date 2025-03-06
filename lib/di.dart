@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import '/utils/constants.dart';
 import 'package:get_it/get_it.dart';
@@ -14,10 +15,13 @@ final prefs = getIt.get<SharedPreferences>();
 
 typedef AuthTokenGetter = FutureOr<String?> Function();
 
-Future<String?> getUserToken() async {
+Future<String?> getDynamicToken() async {
   try {
-    String? token = prefs.getString(PrefKeys.showWalkThru);
-    return (token ?? '').isNotEmpty ? 'Bearer $token' : null;
+    final prefs = await SharedPreferences.getInstance();
+    String? localUserString = prefs.getString(localUser);
+    if (localUserString == null) return null;
+    AppUser appUser = AppUser.fromJson(jsonDecode(localUserString));
+    return appUser.token;
   } catch (e) {
     return null;
   }

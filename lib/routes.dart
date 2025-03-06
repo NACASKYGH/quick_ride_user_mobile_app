@@ -1,10 +1,12 @@
 import 'di.dart';
+import './entity/bus_info_entity.dart';
 import 'package:go_router/go_router.dart';
 import 'presentation/screens/index_screen.dart';
 import 'presentation/screens/splash_screen.dart';
 import 'presentation/screens/auth/otp_screen.dart';
 import 'presentation/screens/onboarding_screen.dart';
 import 'presentation/screens/auth/sign_up_name.dart';
+import 'presentation/screens/_home/seat_sel_screen.dart';
 import 'presentation/screens/auth/phone_number_screen.dart';
 import 'presentation/screens/_home/available_buses_screen.dart';
 
@@ -66,6 +68,15 @@ class AppRouter {
           );
         },
       ),
+      GoRoute(
+        path: '/bus-seat',
+        name: RouteConsts.busSeat,
+        builder: (context, state) {
+          return SeatSelScreen(
+            bus: state.extra as BusInfoEntity,
+          );
+        },
+      ),
     ],
     initialLocation: '/',
     redirect: (context, state) async {
@@ -85,4 +96,5 @@ class RouteConsts {
   static String signUpName = 'sign-up-name';
   static String index = 'index';
   static String availableBuses = 'available-buses';
+  static String busSeat = 'bus-seat';
 }

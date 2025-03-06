@@ -19,7 +19,7 @@ class AppButton extends StatelessWidget {
     this.textStyle,
     this.padding,
     this.trArgs,
-    this.translateText = true,
+    this.translateText = false,
     this.borderColor,
     this.radius = 47,
     this.trailing,

@@ -3,11 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
 String get emptyAssetImage => 'assets/png/empty.png';
-
-//Hive boxes
-String get settingsBoxName => 'app_settings_$kDebugMode';
-
-String get graphHopperApiKey => 'e73070db-21c9-46aa-9b0c-efb5c564706d';
+String get localUser => 'local-user';
 
 class PrefKeys {
   static String get showWalkThru => 'show-walk-through-screen';

@@ -1,4 +1,5 @@
 import 'package:gap/gap.dart';
+import '../../../routes.dart';
 import '/utils/app_colors.dart';
 import '/utils/extensions.dart';
 import '../../../utils/constants.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import '../../widget/image_loader.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 import '../../notifiers/buses_notifier.dart';
 import '../../widget/error_state_widget.dart';
 import '../../../entity/bus_info_entity.dart';
@@ -36,7 +38,6 @@ class _AvailableBusesScreenState extends State<AvailableBusesScreen> {
       busesNotifier.getBuses(
         to: widget.to,
         from: widget.from,
-        date: widget.date,
       );
     });
   }
@@ -74,7 +75,6 @@ class _AvailableBusesScreenState extends State<AvailableBusesScreen> {
                               busesNotifier.getBuses(
                                 to: widget.to,
                                 from: widget.from,
-                                date: widget.date,
                               );
                             }),
                       )
@@ -126,10 +126,10 @@ class BusesItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         child: InkWell(
           onTap: () {
-            // context.pushNamed(
-            //   RouteConsts.busSeat,
-            //   extra: busInfoEntity,
-            // );
+            context.pushNamed(
+              RouteConsts.busSeat,
+              extra: busInfoEntity,
+            );
           },
           borderRadius: BorderRadius.circular(8),
           child: Container(
