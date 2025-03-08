@@ -16,12 +16,10 @@ import '../../../entity/bus_info_entity.dart';
 import '/presentation/notifiers/auth_notifier.dart';
 
 class AvailableBusesScreen extends StatefulWidget {
-  const AvailableBusesScreen(
-      {super.key, required this.to, required this.from, required this.date});
+  const AvailableBusesScreen({super.key, required this.to, required this.from});
 
   final String to;
   final String from;
-  final String date;
 
   @override
   State<AvailableBusesScreen> createState() => _AvailableBusesScreenState();

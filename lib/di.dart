@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import '/utils/constants.dart';
+import './entity/app_user.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'repository/repository.dart';
@@ -15,7 +16,7 @@ final prefs = getIt.get<SharedPreferences>();
 
 typedef AuthTokenGetter = FutureOr<String?> Function();
 
-Future<String?> getDynamicToken() async {
+Future<String?> getUserToken() async {
   try {
     final prefs = await SharedPreferences.getInstance();
     String? localUserString = prefs.getString(localUser);

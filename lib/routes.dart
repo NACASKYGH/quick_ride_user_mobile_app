@@ -1,4 +1,3 @@
-import 'di.dart';
 import './entity/bus_info_entity.dart';
 import 'package:go_router/go_router.dart';
 import 'presentation/screens/index_screen.dart';
@@ -13,6 +12,7 @@ import 'presentation/screens/_home/available_buses_screen.dart';
 class AppRouter {
   static GoRouter router = GoRouter(
     debugLogDiagnostics: true,
+    initialLocation: '/',
     routes: [
       GoRoute(
         path: '/',
@@ -64,7 +64,6 @@ class AppRouter {
           return AvailableBusesScreen(
             from: extras.$1,
             to: extras.$2,
-            date: extras.$3,
           );
         },
       ),
@@ -78,13 +77,6 @@ class AppRouter {
         },
       ),
     ],
-    initialLocation: '/',
-    redirect: (context, state) async {
-      String? token = await (getIt<AuthTokenGetter>())();
-      return (token ?? '').isNotEmpty && state.uri == Uri.parse('/')
-          ? '/index'
-          : state.path;
-    },
   );
 }
 

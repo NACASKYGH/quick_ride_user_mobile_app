@@ -79,6 +79,7 @@ class BusesNotifier extends ChangeNotifier {
     } catch (e) {
       isLoadingSeats = false;
       notifyListeners();
+      logger.e(e);
       return e.toString();
     }
   }

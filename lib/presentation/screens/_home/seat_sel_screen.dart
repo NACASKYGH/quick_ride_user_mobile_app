@@ -9,10 +9,12 @@ import '../../widget/image_loader.dart';
 import '../../../utils/app_colors.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
+import 'package:quick_ride_user/routes.dart';
 import '../../notifiers/buses_notifier.dart';
 import '../../../entity/bus_info_entity.dart';
 import 'package:quick_ride_user/utils/extensions.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:quick_ride_user/presentation/notifiers/auth_notifier.dart';
 
 class SeatSelScreen extends StatefulWidget {
   const SeatSelScreen({
@@ -41,21 +43,6 @@ class _SeatSelScreenState extends State<SeatSelScreen> {
   @override
   Widget build(BuildContext context) {
     busesNotifier = context.watch<BusesNotifier>();
-
-    /// Convert Date
-    final DateFormat formatter = DateFormat('h:mma');
-    final DateTime targetTime =
-        formatter.tryParse(widget.bus.departTime ?? '') ?? DateTime.now();
-
-    final DateFormat dateFormatter = DateFormat('dd-MMM-yyyy');
-    final DateTime targetDate =
-        dateFormatter.parse(busesNotifier.chosenDateTime);
-
-    final DateTime now = DateTime.now();
-    bool isTimePast = now.isAfter(targetDate) &&
-        (now.hour > targetTime.hour ||
-            (now.hour == targetTime.hour && now.minute > targetTime.minute));
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -89,7 +76,7 @@ class _SeatSelScreenState extends State<SeatSelScreen> {
                     ImageLoader(
                       imageUrl: widget.bus.avatar ?? emptyAssetImage,
                       isAsset: widget.bus.avatar == null,
-                      width: 80,
+                      width: 76,
                       height: 30,
                       fit: BoxFit.contain,
                     ),
@@ -98,7 +85,7 @@ class _SeatSelScreenState extends State<SeatSelScreen> {
                       child: Text(
                         '${widget.bus.fromLocation} -> ${widget.bus.toLocation}',
                         style: context.textTheme.headlineSmall?.copyWith(
-                          fontSize: 14,
+                          fontSize: 13,
                         ),
                       ),
                     ),
@@ -159,61 +146,43 @@ class _SeatSelScreenState extends State<SeatSelScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      isTimePast
-                          ? Container(
-                              width: context.width,
-                              padding: const EdgeInsets.all(6),
-                              margin: const EdgeInsets.only(bottom: 5),
-                              decoration: BoxDecoration(
-                                color: AppColors.red,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Text(
-                                'Increase departure time to book a seat',
-                                textAlign: TextAlign.center,
-                                style: context.textTheme.labelSmall?.copyWith(
-                                  color: AppColors.whiteText,
-                                ),
-                              ),
-                            )
-                          : Expanded(
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  children: [
-                                    ...busesNotifier.selectedSeats.map((e) {
-                                      return Container(
-                                        alignment: Alignment.center,
-                                        height: 24,
-                                        width: 24,
-                                        margin: const EdgeInsets.all(2),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: AppColors.primary,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: AppColors.darkBg
-                                                  .withValues(alpha: .3),
-                                              blurRadius: 5,
-                                              spreadRadius: 0,
-                                            )
-                                          ],
-                                        ),
-                                        child: Text(
-                                          (e.position ?? '')
-                                              .replaceFirst('E', ''),
-                                          textAlign: TextAlign.center,
-                                          style: context.textTheme.labelSmall
-                                              ?.copyWith(
-                                            color: AppColors.whiteText,
-                                          ),
-                                        ),
-                                      );
-                                    }),
-                                  ],
-                                ),
-                              ),
-                            ),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              ...busesNotifier.selectedSeats.map((e) {
+                                return Container(
+                                  alignment: Alignment.center,
+                                  height: 24,
+                                  width: 24,
+                                  margin: const EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: AppColors.primary,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: AppColors.darkBg
+                                            .withValues(alpha: .3),
+                                        blurRadius: 5,
+                                        spreadRadius: 0,
+                                      )
+                                    ],
+                                  ),
+                                  child: Text(
+                                    (e.position ?? '').replaceFirst('E', ''),
+                                    textAlign: TextAlign.center,
+                                    style:
+                                        context.textTheme.labelSmall?.copyWith(
+                                      color: AppColors.whiteText,
+                                    ),
+                                  ),
+                                );
+                              }),
+                            ],
+                          ),
+                        ),
+                      ),
                       Row(
                         children: [
                           Expanded(
@@ -226,14 +195,19 @@ class _SeatSelScreenState extends State<SeatSelScreen> {
                           ),
                           AppButton(
                             title: 'Next',
-                            isDisabled: isTimePast ||
-                                busesNotifier.selectedSeats.isEmpty,
+                            isDisabled: busesNotifier.selectedSeats.isEmpty,
                             width: 90,
                             height: 26,
                             radius: 5,
                             // bgColor: AppColors.whiteText,
                             // textColor: AppColors.primary,
-                            onTap: () {},
+                            onTap: () {
+                              if (context.read<AuthNotifier>().appUser ==
+                                  null) {
+                                context.pushNamed(RouteConsts.phoneScreen);
+                                return;
+                              }
+                            },
                           ),
                         ],
                       )
