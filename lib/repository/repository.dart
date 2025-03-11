@@ -14,4 +14,8 @@ abstract class Repository {
     required num tripId,
     required String travelDate,
   });
+
+  Future<bool> checkIfExistingUser({
+    required String phone,
+  });
 }

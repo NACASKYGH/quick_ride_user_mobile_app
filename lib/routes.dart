@@ -39,7 +39,9 @@ class AppRouter {
         path: '/otp-screen',
         name: RouteConsts.otpScreen,
         builder: (context, state) {
-          return const OTPScreen();
+          return OTPScreen(
+            phoneNumber: state.extra as String,
+          );
         },
       ),
       GoRoute(

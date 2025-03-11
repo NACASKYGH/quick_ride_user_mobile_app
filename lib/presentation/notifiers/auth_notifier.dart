@@ -75,6 +75,28 @@ class AuthNotifier extends ChangeNotifier {
   //   }
   // }
 
+  Future<bool?> checkPhone({required String phone}) async {
+    if (_isLoading) return null;
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      bool response = await _repository.checkIfExistingUser(
+        phone: phone,
+      );
+
+      _isLoading = false;
+      _errorMsg = null;
+      notifyListeners();
+      return response;
+    } catch (e) {
+      _isLoading = false;
+      _errorMsg = e.toString();
+      notifyListeners();
+      return null;
+    }
+  }
+
   Future<void> signOut() async {
     _isLoading = false;
     _errorMsg = null;

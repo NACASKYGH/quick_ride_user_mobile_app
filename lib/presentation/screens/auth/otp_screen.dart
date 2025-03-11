@@ -4,13 +4,21 @@ import 'package:gap/gap.dart';
 import '/utils/extensions.dart';
 import 'package:pinput/pinput.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../utils/app_colors.dart';
 import 'package:go_router/go_router.dart';
+import '../../notifiers/auth_notifier.dart';
 import '/presentation/widget/app_button.dart';
+import 'package:quick_ride_user/utils/utilities.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class OTPScreen extends StatefulWidget {
-  const OTPScreen({super.key});
+  const OTPScreen({
+    super.key,
+    required this.phoneNumber,
+  });
+
+  final String phoneNumber;
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
@@ -24,6 +32,8 @@ class _OTPScreenState extends State<OTPScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authNotifier = context.watch<AuthNotifier>();
+
     final defaultPinTheme = PinTheme(
       width: 56,
       height: 56,
@@ -58,14 +68,14 @@ class _OTPScreenState extends State<OTPScreen> {
                 ),
                 const Gap(8),
                 Text(
-                  'otp.description'.tr(args: ['0208457888']),
+                  'otp.description'.tr(args: [widget.phoneNumber]),
                   style: context.textTheme.labelSmall?.copyWith(
                     fontSize: 14,
                   ),
                 ),
                 const Gap(32),
                 Pinput(
-                  length: 4,
+                  length: 6,
                   onCompleted: (pin) => logger.d(pin),
                   validator: (s) {
                     return s == '2222' ? null : 'otp.incorrectOTP'.tr();
@@ -89,10 +99,19 @@ class _OTPScreenState extends State<OTPScreen> {
                   children: [
                     AppButton(
                       isNegative: true,
+                      translateText: true,
                       title: 'otp.resend',
                       width: 150,
-                      onTap: () {
-                        if (!formKey.currentState!.validate()) return;
+                      onTap: () async {
+                        bool? resp = await authNotifier.checkPhone(
+                          phone: widget.phoneNumber,
+                        );
+                        if (resp == null || !context.mounted) return;
+                        if (resp) {
+                          //Goto password screen
+                        } else {
+                          // Utils
+                        }
                       },
                       textStyle: context.textTheme.headlineSmall?.copyWith(
                           //
@@ -109,6 +128,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     Spacer(),
                     AppButton(
                       title: 'otp.login',
+                      translateText: true,
                       width: 100,
                       onTap: () {
                         if (!formKey.currentState!.validate()) return;

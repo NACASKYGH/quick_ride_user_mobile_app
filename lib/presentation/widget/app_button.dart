@@ -104,7 +104,7 @@ class AppButton extends StatelessWidget {
               alignment: Alignment.center,
               child: isLoading
                   ? const SpinKitThreeInOut(
-                      color: AppColors.blackText,
+                      color: AppColors.whiteText,
                       size: 20.0,
                     )
                   : Row(

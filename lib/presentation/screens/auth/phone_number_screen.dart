@@ -2,11 +2,14 @@ import '/routes.dart';
 import 'package:gap/gap.dart';
 import '/utils/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../utils/app_colors.dart';
+import 'package:quick_ride_user/di.dart';
 import 'package:go_router/go_router.dart';
 import '/presentation/widget/app_button.dart';
 import '/presentation/widget/app_text_field.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:quick_ride_user/presentation/notifiers/auth_notifier.dart';
 
 class PhoneNumberScreen extends StatefulWidget {
   const PhoneNumberScreen({super.key});
@@ -23,6 +26,8 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AuthNotifier authNotifier = context.watch<AuthNotifier>();
+
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -90,6 +95,9 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                     if (!value.substring(1).isValidPhone) {
                       return 'phoneNumber.invalidPhone'.tr();
                     }
+                    if ((authNotifier.errorMsg ?? '').isNotEmpty) {
+                      return authNotifier.errorMsg;
+                    }
                     setState(() => isPhoneError = false);
                     return null;
                   },
@@ -101,12 +109,27 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                   children: [
                     Spacer(),
                     AppButton(
-                      isDisabled: phoneController.text.isEmpty,
+                      isDisabled: phoneController.text.isEmpty || isPhoneError,
+                      translateText: true,
                       title: 'shared.next',
+                      isLoading: authNotifier.isLoading,
+                      isGradient: true,
                       width: 100,
-                      onTap: () {
+                      onTap: () async {
                         if (!formKey.currentState!.validate()) return;
-                        context.pushNamed(RouteConsts.otpScreen);
+                        logger.d(phoneController.text);
+                        bool? resp = await authNotifier.checkPhone(
+                          phone: phoneController.text,
+                        );
+                        if (resp == null || !context.mounted) return;
+                        if (resp) {
+                          //. Goto password screen
+                        } else {
+                          context.pushNamed(
+                            RouteConsts.otpScreen,
+                            extra: phoneController.text,
+                          );
+                        }
                       },
                       trailing: Padding(
                         padding: const EdgeInsets.only(left: 8.0),
@@ -115,7 +138,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                           color: AppColors.whiteText,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
                 const Gap(24),

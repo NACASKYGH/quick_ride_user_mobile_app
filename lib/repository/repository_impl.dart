@@ -88,4 +88,38 @@ class RepositoryImpl implements Repository {
       throw e.toString();
     }
   }
+
+  ///
+  @override
+  Future<bool> checkIfExistingUser({
+    required String phone,
+  }) async {
+    try {
+      final result = (await _dioInstance.post(
+        '/Data/API_CheckMobileNo',
+        data: {
+          'MobileNo': phone,
+        },
+        options: Options(
+          headers: {
+            'APITocken': '9D85A0FB-73E1-413C-BC2C-C95DDCD9CD89',
+            'AppType': 'MOBAND',
+            'Content-Type': 'application/json',
+          },
+        ),
+      ))
+          .data;
+      logger.d(result);
+
+      if (result['success'] == true) {
+        return result['MobileLoginInformations'][0]['Status'] == '0';
+      } else {
+        throw result['Message'];
+      }
+    } on DioException catch (e) {
+      throw e.formattedError;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
 }
