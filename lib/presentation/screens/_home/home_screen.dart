@@ -9,6 +9,7 @@ import 'package:quick_ride_user/utils/extensions.dart';
 import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:quick_ride_user/presentation/widget/app_button.dart';
 import 'package:quick_ride_user/presentation/widget/base_screen.dart';
+import 'package:quick_ride_user/presentation/notifiers/auth_notifier.dart';
 import 'package:quick_ride_user/presentation/notifiers/buses_notifier.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -33,7 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AuthNotifier authNotifier = context.watch<AuthNotifier>();
     BusesNotifier busesNotifier = context.watch<BusesNotifier>();
+
     return BaseScreen(
       safeArea: SafeArea(
         child: Padding(
@@ -43,6 +46,18 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                if (authNotifier.appUser == null)
+                  Row(
+                    children: [
+                      const Spacer(),
+                      AppButton(
+                        width: 120,
+                        title: 'Login',
+                        isNegative: true,
+                        onTap: () => context.pushNamed(RouteConsts.phoneScreen),
+                      ),
+                    ],
+                  ),
                 const Gap(70),
                 AppTextField(
                   label: 'Where From',

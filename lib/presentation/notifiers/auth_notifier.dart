@@ -44,44 +44,45 @@ class AuthNotifier extends ChangeNotifier {
   String? _errorMsg;
   String? get errorMsg => _errorMsg;
 
-  // Future<bool?> login({
-  //   required String phone,
-  //   required String password,
-  // }) async {
-  //   if (_isLoading) return null;
-  //   _isLoading = true;
-  //   notifyListeners();
+  Future<bool?> login({
+    required String phone,
+    required String password,
+  }) async {
+    if (_isLoading) return null;
+    _isLoading = true;
+    _errorMsg = null;
+    notifyListeners();
 
-  //   try {
-  //     AppUser response = await _repository.loginOnServer(
-  //       loginID: loginID,
-  //       password: password,
-  //     );
+    try {
+      AppUser response = await _repository.login(
+        phone: phone,
+        password: password,
+      );
 
-  //     _appUser = response;
-  //     final prefs = await SharedPreferences.getInstance();
-  //     prefs.setString(localUser, jsonEncode(response.toJson()));
-  //     // prefs.setString(userPass, password);
+      _appUser = response;
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString(localUser, jsonEncode(response.toJson()));
+      prefs.setString(userPass, password);
 
-  //     _isLoading = false;
-  //     notifyListeners();
-  //     return true;
-  //   } catch (e) {
-  //     logger.e(e);
-  //     _isLoading = false;
-  //     _errorMsg = e.toString();
-  //     notifyListeners();
-  //     return false;
-  //   }
-  // }
+      _isLoading = false;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      logger.e(e);
+      _isLoading = false;
+      _errorMsg = e.toString();
+      notifyListeners();
+      return false;
+    }
+  }
 
-  Future<bool?> checkPhone({required String phone}) async {
+  Future<String?> checkPhone({required String phone}) async {
     if (_isLoading) return null;
     _isLoading = true;
     notifyListeners();
 
     try {
-      bool response = await _repository.checkIfExistingUser(
+      String response = await _repository.checkIfExistingUser(
         phone: phone,
       );
 

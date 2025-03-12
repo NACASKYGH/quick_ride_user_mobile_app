@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
 String get emptyAssetImage => 'assets/png/empty.png';
-String get localUser => 'local-user';
+String get localUser => 'local-users';
+String get userPass => 'local-user-passkey';
 
 class PrefKeys {
   static String get showWalkThru => 'show-walk-through-screen';

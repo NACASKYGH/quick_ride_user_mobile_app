@@ -1,3 +1,4 @@
+import '../entity/app_user.dart';
 import '../entity/bus_info_entity.dart';
 import '../entity/bus_seat_entity.dart';
 
@@ -15,7 +16,12 @@ abstract class Repository {
     required String travelDate,
   });
 
-  Future<bool> checkIfExistingUser({
+  Future<String> checkIfExistingUser({
     required String phone,
+  });
+
+  Future<AppUser> login({
+    required String phone,
+    required String password,
   });
 }

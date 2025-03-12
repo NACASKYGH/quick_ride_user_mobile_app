@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import '../entity/bus_seat_entity.dart';
 import 'package:quick_ride_user/di.dart';
+import 'package:quick_ride_user/entity/app_user.dart';
 import 'package:quick_ride_user/utils/extensions.dart';
 import 'package:quick_ride_user/repository/repository.dart';
 import 'package:quick_ride_user/entity/bus_info_entity.dart';
@@ -91,7 +92,7 @@ class RepositoryImpl implements Repository {
 
   ///
   @override
-  Future<bool> checkIfExistingUser({
+  Future<String> checkIfExistingUser({
     required String phone,
   }) async {
     try {
@@ -112,7 +113,44 @@ class RepositoryImpl implements Repository {
       logger.d(result);
 
       if (result['success'] == true) {
-        return result['MobileLoginInformations'][0]['Status'] == '0';
+        return result['MobileLoginInformations'][0]['Msg'];
+      } else {
+        throw result['Message'];
+      }
+    } on DioException catch (e) {
+      throw e.formattedError;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  ///
+  @override
+  Future<AppUser> login({
+    required String phone,
+    required String password,
+  }) async {
+    try {
+      final result = (await _dioInstance.post(
+        '/Data2/API_LoginWithPassword',
+        data: {
+          'MobileNo': phone,
+          'Password': password,
+          'AppType': 'MOBAND',
+        },
+        options: Options(
+          headers: {
+            'APITocken': '9D85A0FB-73E1-413C-BC2C-C95DDCD9CD89',
+            'AppType': 'MOBAND',
+            'Content-Type': 'application/json',
+          },
+        ),
+      ))
+          .data;
+      logger.d(result);
+
+      if (result['success'] == true) {
+        return AppUser.fromJson(result['UserLoginInformations'][0]);
       } else {
         throw result['Message'];
       }

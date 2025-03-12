@@ -39,8 +39,10 @@ class AppRouter {
         path: '/otp-screen',
         name: RouteConsts.otpScreen,
         builder: (context, state) {
+          final extra = state.extra as (String, String);
           return OTPScreen(
-            phoneNumber: state.extra as String,
+            phoneNumber: extra.$1,
+            otpCode: extra.$2,
           );
         },
       ),

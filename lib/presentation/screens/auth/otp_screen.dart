@@ -9,16 +9,17 @@ import '../../../utils/app_colors.dart';
 import 'package:go_router/go_router.dart';
 import '../../notifiers/auth_notifier.dart';
 import '/presentation/widget/app_button.dart';
-import 'package:quick_ride_user/utils/utilities.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class OTPScreen extends StatefulWidget {
   const OTPScreen({
     super.key,
     required this.phoneNumber,
+    required this.otpCode,
   });
 
   final String phoneNumber;
+  final String otpCode;
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
@@ -29,6 +30,7 @@ class _OTPScreenState extends State<OTPScreen> {
   final otpController = TextEditingController();
 
   bool isPhoneError = false;
+  late String otpCode = widget.otpCode;
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +80,7 @@ class _OTPScreenState extends State<OTPScreen> {
                   length: 6,
                   onCompleted: (pin) => logger.d(pin),
                   validator: (s) {
-                    return s == '2222' ? null : 'otp.incorrectOTP'.tr();
+                    return s == otpCode ? null : 'otp.incorrectOTP'.tr();
                   },
                   separatorBuilder: (index) {
                     return Spacer();
@@ -103,19 +105,18 @@ class _OTPScreenState extends State<OTPScreen> {
                       title: 'otp.resend',
                       width: 150,
                       onTap: () async {
-                        bool? resp = await authNotifier.checkPhone(
+                        String? resp = await authNotifier.checkPhone(
                           phone: widget.phoneNumber,
                         );
                         if (resp == null || !context.mounted) return;
-                        if (resp) {
+                        if (resp.isEmpty) {
                           //Goto password screen
+                          // Do nothing
                         } else {
-                          // Utils
+                          setState(() => otpCode = resp);
                         }
                       },
-                      textStyle: context.textTheme.headlineSmall?.copyWith(
-                          //
-                          ),
+                      textStyle: context.textTheme.headlineSmall,
                       leading: Padding(
                         padding: const EdgeInsets.only(right: 4.0),
                         child: Icon(
