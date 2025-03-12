@@ -160,6 +160,7 @@ class RepositoryImpl implements Repository {
     }
   }
 
+  ///
   @override
   Future<AppUser> signup({required Map<String, dynamic> map}) async {
     try {
@@ -178,6 +179,48 @@ class RepositoryImpl implements Repository {
 
       if (result['success'] == true) {
         return AppUser.fromJson(result['UserLoginInformations'][0]);
+      } else {
+        throw result['Message'];
+      }
+    } on DioException catch (e) {
+      throw e.formattedError;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  ///
+  @override
+  Future<AppUser> getUser({
+    required String id,
+  }) async {
+    try {
+      final result = (await _dioInstance.post(
+        '/Passenger/API_GetPassenger',
+        data: {
+          'PassID': id,
+        },
+        options: Options(
+          headers: {
+            'APITocken': (await _getToken())?.token,
+            'AppType': 'MOBAND',
+            'Content-Type': 'application/json',
+          },
+        ),
+      ))
+          .data;
+
+      if (result['success'] == true) {
+        AppUser appuser = (await _getToken()) ?? AppUser();
+        final map = result['UserLoginInformations'][0];
+        return appuser.copyWith(
+          name: map['Name'],
+          email: map['EmailID'],
+          phone: map['MobileNo'],
+          gender: map['Gender'],
+          dateOfBirth: map['DOB'],
+          avatar: map['PhotoPic'],
+        );
       } else {
         throw result['Message'];
       }

@@ -29,6 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       await authNotifier.getLocalUser();
+      authNotifier.getUser();
 
       // await Future.delayed(const Duration(seconds: 3));
 

@@ -48,8 +48,14 @@ extension StringX on String {
     return DateTime.tryParse(this);
   }
 
+  DateTime? get toDateTime2 {
+    final format = DateFormat('MM/dd/y h:m:s a');
+    return format.parse(this);
+  }
+
   TimeOfDay get stringDateToTimeOfDay {
     final format = DateFormat.jm(); //"6:00 AM"
+
     return TimeOfDay.fromDateTime(format.parse(this).toTimeZone);
   }
 

@@ -28,4 +28,8 @@ abstract class Repository {
   Future<AppUser> signup({
     required Map<String, dynamic> map,
   });
+
+  Future<AppUser> getUser({
+    required String id,
+  });
 }

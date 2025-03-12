@@ -14,15 +14,15 @@ final getIt = GetIt.instance;
 final logger = getIt.get<Logger>();
 final prefs = getIt.get<SharedPreferences>();
 
-typedef AuthTokenGetter = FutureOr<String?> Function();
+typedef AuthTokenGetter = FutureOr<AppUser?> Function();
 
-Future<String?> getUserToken() async {
+Future<AppUser?> getUserToken() async {
   try {
     final prefs = await SharedPreferences.getInstance();
     String? localUserString = prefs.getString(localUser);
     if (localUserString == null) return null;
     AppUser appUser = AppUser.fromJson(jsonDecode(localUserString));
-    return appUser.token;
+    return appUser;
   } catch (e) {
     return null;
   }

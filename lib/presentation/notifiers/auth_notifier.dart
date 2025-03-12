@@ -122,6 +122,24 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
+  Future<void> getUser() async {
+    if (_appUser == null) return;
+
+    try {
+      AppUser response = await _repository.getUser(
+        id: _appUser!.id!,
+      );
+
+      _appUser = response;
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString(localUser, jsonEncode(response.toJson()));
+
+      notifyListeners();
+    } catch (e) {
+      logger.e(e);
+    }
+  }
+
   Future<void> signOut() async {
     _isLoading = false;
     _errorMsg = null;

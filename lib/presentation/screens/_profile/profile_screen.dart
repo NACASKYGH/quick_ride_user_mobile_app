@@ -3,9 +3,7 @@ import '../../../../routes.dart';
 import '../shared/app_webview.dart';
 import '../../widget/app_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
-import 'package:quick_ride_user/di.dart';
 import '../../widget/app_drop_down.dart';
 import '../../widget/app_text_field.dart';
 import 'package:go_router/go_router.dart';
@@ -29,24 +27,14 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  DateTime dateOfBirth = DateTime.now();
+  late DateTime dateOfBirth =
+      authNotifier.appUser?.dateOfBirth?.toDateTime2 ?? DateTime.now();
 
   String? gender;
   final _fNameController = TextEditingController();
   final _emailController = TextEditingController();
   final dateController = TextEditingController();
   late AuthNotifier authNotifier;
-
-  @override
-  void initState() {
-    super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      logger.d(authNotifier.appUser?.dateOfBirth);
-      final dob = authNotifier.appUser?.dateOfBirth?.toDateTime;
-      if (dob != null) dateOfBirth = dob;
-      setState(() {});
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       SizedBox(
                         width: 96,
                         child: RandomAvatar(
-                          'saytoonz',
+                          authNotifier.appUser?.id ?? 'saytoonz',
                           height: 96,
                           width: 96,
                         ),
@@ -122,7 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return null;
+                        return 'Email is required.';
                       }
                       if (!value.isEmail) {
                         return 'Invalid email address';
@@ -135,7 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Expanded(
                         child: AppDropDown(
-                          initialValue: authNotifier.appUser?.gender,
+                          initialValue: authNotifier.appUser?.gender ?? 'Male',
                           borderColor: AppColors.grey.withValues(alpha: .7),
                           hintText: 'settings.selectGender'.tr(),
                           dropdownList: [
@@ -156,7 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             final date = await showDatePickerDialog(
                               context: context,
                               initialDate: dateOfBirth,
-                              minDate: DateTime.now(),
+                              minDate: DateTime.parse('1900-01-01'),
                               maxDate:
                                   DateTime.now().add(const Duration(days: 31)),
                               selectedDate: dateOfBirth,
@@ -205,7 +193,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       AppButton(
                         // isDisabled:
                         // phoneController.text.isEmpty || isPhoneError,
-                        translateText: true,
                         title: 'Update',
                         isLoading: authNotifier.isLoading,
                         isGradient: true,
