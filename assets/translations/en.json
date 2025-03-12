@@ -66,6 +66,26 @@
         "emergencyContactsDesc": "Keep your friends and family informed, by sharing your trip status.",
         "emergencyContactsManager": "Manage Sharing Settings",
         "emergencyContactsManagerDesc":"Select when to share your ride status with {}."
+    },
+    "settings": {
+        "save": "Save",
+        "choose": "Choose...",
+        "selectGender": "Select gender",
+        "firstName":"Name in full",
+        "gender": "Gender",
+        "male": "Male",
+        "female": "Female",
+        "aboutUs":"About Us",
+        "rateUs": "Rate us",
+        "changePass": "Change Password",
+        "logout": "Log out",
+        "deleteAccount":"Delete my account",
+        "oldPassword": "Enter the old Password",
+        "newPassword": "Enter the new Password",
+        "repeatPassword": "Repeat the new Password",
+        "change": "Change",
+        "fieldIsRequired": "Field is required.",
+        "forgetPassword": "Forget password"
     }
 }
 

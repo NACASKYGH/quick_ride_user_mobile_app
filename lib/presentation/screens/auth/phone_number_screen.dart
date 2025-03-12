@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/app_colors.dart';
-import 'package:quick_ride_user/di.dart';
 import 'package:go_router/go_router.dart';
 import '/presentation/widget/app_button.dart';
 import '/presentation/widget/app_text_field.dart';

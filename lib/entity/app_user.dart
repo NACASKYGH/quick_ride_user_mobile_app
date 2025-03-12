@@ -9,10 +9,13 @@ part 'app_user.g.dart';
 class AppUser with _$AppUser {
   const AppUser._();
   const factory AppUser({
-    @JsonKey(name: 'PassID') String? id,
     @JsonKey(name: 'TokenNo') String? token,
+    @JsonKey(name: 'PassID') String? id,
     @JsonKey(name: 'Name') String? name,
+    @JsonKey(name: 'EmailID') String? email,
     @JsonKey(name: 'PhotoPic') String? avatar,
+    @JsonKey(name: 'Gender') String? gender,
+    @JsonKey(name: 'DOB') String? dateOfBirth,
   }) = _AppUser;
 
   factory AppUser.fromJson(Map<String, dynamic> json) =>

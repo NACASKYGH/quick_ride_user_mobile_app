@@ -1,6 +1,7 @@
 import '_home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import './_profile/profile_screen.dart';
 import '../widget/custom_bottom_navigation.dart';
 import '/presentation/notifiers/ui_notifier.dart';
 
@@ -24,7 +25,7 @@ class _IndexScreenState extends State<IndexScreen> {
         children: [
           const HomeScreen(),
           Container(),
-          Container(),
+          const ProfileScreen(),
         ],
       ),
       bottomNavigationBar: CustomBottomNavigation(
