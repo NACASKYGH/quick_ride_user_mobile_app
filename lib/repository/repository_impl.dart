@@ -274,4 +274,40 @@ class RepositoryImpl implements Repository {
       throw e.toString();
     }
   }
+
+  @override
+  Future<bool> changePass(
+      {required String oldPass, required String newPass}) async {
+    AppUser? appuser = (await _getToken());
+    if (appuser == null) throw 'Login required';
+
+    try {
+      final result = (await _dioInstance.post(
+        '/Passenger/API_ChangePassword',
+        data: {
+          'ID': appuser.id,
+          'OldPassword': oldPass,
+          'NewPassword': newPass,
+        },
+        options: Options(
+          headers: {
+            'APITocken': appuser.token,
+            'AppType': 'MOBAND',
+            'Content-Type': 'application/json',
+          },
+        ),
+      ))
+          .data;
+
+      if (result['success'] == true) {
+        return true;
+      } else {
+        throw result['Message'];
+      }
+    } on DioException catch (e) {
+      throw e.formattedError;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
 }

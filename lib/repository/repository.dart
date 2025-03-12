@@ -39,4 +39,8 @@ abstract class Repository {
     required String gender,
     required String date,
   });
+  Future<bool> changePass({
+    required String oldPass,
+    required String newPass,
+  });
 }

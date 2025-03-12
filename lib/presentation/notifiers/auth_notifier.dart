@@ -164,6 +164,20 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
+  Future<bool> updatePassword({
+    required String oldPass,
+    required String newPass,
+  }) async {
+    try {
+      return await _repository.changePass(
+        oldPass: oldPass,
+        newPass: newPass,
+      );
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   Future<void> signOut() async {
     _isLoading = false;
     _errorMsg = null;
