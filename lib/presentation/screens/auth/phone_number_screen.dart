@@ -12,8 +12,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:quick_ride_user/presentation/notifiers/auth_notifier.dart';
 
 class PhoneNumberScreen extends StatefulWidget {
-  const PhoneNumberScreen({super.key});
-
+  const PhoneNumberScreen({
+    super.key,
+    required this.phoneNumber,
+  });
+  final String phoneNumber;
   @override
   State<PhoneNumberScreen> createState() => _PhoneNumberScreenState();
 }
@@ -64,6 +67,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                   const Gap(32),
                   AppTextField(
                     hintText: '0200000000',
+                    initialValue: widget.phoneNumber,
                     controller: phoneController,
                     keyboardType: TextInputType.phone,
                     borderColor: AppColors.transparent,
@@ -121,10 +125,12 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                       keyboardType: TextInputType.text,
                       borderColor: AppColors.grey,
                       obscureText: true,
-                      errorStyle: TextStyle(color: AppColors.transparent),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Password is required';
+                          return 'Password is required.';
+                        }
+                        if (value.length < 6) {
+                          return 'Password should be 6 or more characters.';
                         }
                         return null;
                       },
@@ -196,7 +202,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                           if (resp.isEmpty) {
                             setState(() => showPassword = true);
                           } else {
-                            context.pushNamed(
+                            context.pushReplacementNamed(
                               RouteConsts.otpScreen,
                               extra: (phoneController.text, resp),
                             );

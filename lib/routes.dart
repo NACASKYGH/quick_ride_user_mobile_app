@@ -32,7 +32,9 @@ class AppRouter {
         path: '/phone-screen',
         name: RouteConsts.phoneScreen,
         builder: (context, state) {
-          return const PhoneNumberScreen();
+          return PhoneNumberScreen(
+            phoneNumber: state.extra as String? ?? '',
+          );
         },
       ),
       GoRoute(
@@ -50,7 +52,12 @@ class AppRouter {
         path: '/sign-up-name',
         name: RouteConsts.signUpName,
         builder: (context, state) {
-          return const SignUpName();
+          final extra = state.extra as (String, String);
+
+          return SignUpName(
+            phoneNumber: extra.$1,
+            otpCode: extra.$2,
+          );
         },
       ),
       GoRoute(

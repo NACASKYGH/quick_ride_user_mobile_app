@@ -12,13 +12,6 @@ class AuthNotifier extends ChangeNotifier {
   AppUser? _appUser;
   AppUser? get appUser => _appUser;
 
-  String _locationID = '10';
-  String get locationID => _locationID;
-  set locationID(String value) {
-    _locationID = value;
-    notifyListeners();
-  }
-
   Future<AppUser?> getLocalUser() async {
     try {
       final prefs = await SharedPreferences.getInstance();
