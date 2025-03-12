@@ -6,6 +6,7 @@ import 'presentation/screens/auth/otp_screen.dart';
 import 'presentation/screens/onboarding_screen.dart';
 import 'presentation/screens/auth/sign_up_name.dart';
 import 'presentation/screens/_home/seat_sel_screen.dart';
+import 'presentation/screens/_profile/change_password.dart';
 import 'presentation/screens/auth/phone_number_screen.dart';
 import 'presentation/screens/_home/available_buses_screen.dart';
 
@@ -87,6 +88,13 @@ class AppRouter {
           );
         },
       ),
+      GoRoute(
+        path: '/change-pass',
+        name: RouteConsts.changePassword,
+        builder: (context, state) {
+          return const ChangePassword();
+        },
+      ),
     ],
   );
 }
@@ -100,4 +108,5 @@ class RouteConsts {
   static String index = 'index';
   static String availableBuses = 'available-buses';
   static String busSeat = 'bus-seat';
+  static String changePassword = 'change-password';
 }

@@ -140,6 +140,30 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
+  Future<void> updateUser({
+    required String name,
+    required String email,
+    required String gender,
+    required String date,
+  }) async {
+    try {
+      AppUser response = await _repository.updateUser(
+        name: name,
+        email: email,
+        gender: gender,
+        date: date,
+      );
+
+      _appUser = response;
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString(localUser, jsonEncode(response.toJson()));
+
+      notifyListeners();
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   Future<void> signOut() async {
     _isLoading = false;
     _errorMsg = null;

@@ -4,11 +4,13 @@ import '../shared/app_webview.dart';
 import '../../widget/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quick_ride_user/di.dart';
 import '../../widget/app_drop_down.dart';
 import '../../widget/app_text_field.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../utils/app_colors.dart';
 import 'package:random_avatar/random_avatar.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:quick_ride_user/utils/extensions.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:date_picker_plus/date_picker_plus.dart';
@@ -35,6 +37,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final _emailController = TextEditingController();
   final dateController = TextEditingController();
   late AuthNotifier authNotifier;
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -191,38 +195,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Spacer(),
                       AppButton(
-                        // isDisabled:
-                        // phoneController.text.isEmpty || isPhoneError,
                         title: 'Update',
-                        isLoading: authNotifier.isLoading,
+                        isLoading: isLoading,
                         isGradient: true,
                         width: 100,
                         height: 36,
                         onTap: () async {
                           if (!_formKey.currentState!.validate()) return;
-                          // if (showPassword) {
-                          //   bool? resp = await authNotifier.login(
-                          //     phone: phoneController.text,
-                          //     password: passwordController.text,
-                          //   );
-                          //   if (resp == true && context.mounted) {
-                          //     showPassword = false;
-                          //     context.pop();
-                          //   }
-                          //   return;
-                          // }
-                          // String? resp = await authNotifier.checkPhone(
-                          //   phone: phoneController.text,
-                          // );
-                          // if (resp == null || !context.mounted) return;
-                          // if (resp.isEmpty) {
-                          //   setState(() => showPassword = true);
-                          // } else {
-                          //   context.pushReplacementNamed(
-                          //     RouteConsts.otpScreen,
-                          //     extra: (phoneController.text, resp),
-                          //   );
-                          // }
+                          if (gender == null) {
+                            toast('Gender is required.');
+                            return;
+                          }
+                          setState(() => isLoading = true);
+
+                          try {
+                            await authNotifier.updateUser(
+                              name: _fNameController.text,
+                              email: _emailController.text,
+                              gender: gender!,
+                              date: dateOfBirth.phpStandardTime,
+                            );
+                          } catch (e) {
+                            logger.e(e);
+                            toast(e.toString());
+                          }
+                          setState(() => isLoading = false);
                         },
                       ),
                     ],
@@ -286,8 +283,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         SettingsListItem(
                           title: 'settings.changePass'.tr(),
                           icon: Icons.info_outline_rounded,
-                          // onTap: () =>
-                          //     context.pushNamed(RouteConsts.changePassword),
+                          onTap: () =>
+                              context.pushNamed(RouteConsts.changePassword),
                         ),
                         Divider(
                           height: 1,

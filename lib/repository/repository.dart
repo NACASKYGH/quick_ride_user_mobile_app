@@ -32,4 +32,11 @@ abstract class Repository {
   Future<AppUser> getUser({
     required String id,
   });
+
+  Future<AppUser> updateUser({
+    required String name,
+    required String email,
+    required String gender,
+    required String date,
+  });
 }

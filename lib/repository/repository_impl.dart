@@ -194,6 +194,8 @@ class RepositoryImpl implements Repository {
   Future<AppUser> getUser({
     required String id,
   }) async {
+    AppUser? appuser = (await _getToken());
+    if (appuser == null) throw 'Login required';
     try {
       final result = (await _dioInstance.post(
         '/Passenger/API_GetPassenger',
@@ -202,7 +204,7 @@ class RepositoryImpl implements Repository {
         },
         options: Options(
           headers: {
-            'APITocken': (await _getToken())?.token,
+            'APITocken': appuser.token,
             'AppType': 'MOBAND',
             'Content-Type': 'application/json',
           },
@@ -211,7 +213,6 @@ class RepositoryImpl implements Repository {
           .data;
 
       if (result['success'] == true) {
-        AppUser appuser = (await _getToken()) ?? AppUser();
         final map = result['UserLoginInformations'][0];
         return appuser.copyWith(
           name: map['Name'],
@@ -221,6 +222,49 @@ class RepositoryImpl implements Repository {
           dateOfBirth: map['DOB'],
           avatar: map['PhotoPic'],
         );
+      } else {
+        throw result['Message'];
+      }
+    } on DioException catch (e) {
+      throw e.formattedError;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<AppUser> updateUser({
+    required String name,
+    required String email,
+    required String gender,
+    required String date,
+  }) async {
+    AppUser? appuser = (await _getToken());
+    if (appuser == null) throw 'Login required';
+
+    try {
+      final result = (await _dioInstance.post(
+        '/Passenger/API_UpdateProfile',
+        data: {
+          'ID': appuser.id,
+          'Name': name,
+          'DOB': date,
+          'Gender': gender,
+          'EmailID': email,
+          'MobileNo': '',
+        },
+        options: Options(
+          headers: {
+            'APITocken': appuser.token,
+            'AppType': 'MOBAND',
+            'Content-Type': 'application/json',
+          },
+        ),
+      ))
+          .data;
+
+      if (result['success'] == true) {
+        return await getUser(id: appuser.id!);
       } else {
         throw result['Message'];
       }
