@@ -1,9 +1,9 @@
 import '/routes.dart';
-import '../../../di.dart';
 import 'package:gap/gap.dart';
 import '/utils/extensions.dart';
 import 'package:pinput/pinput.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/app_colors.dart';
 import 'package:go_router/go_router.dart';
@@ -32,9 +32,18 @@ class _OTPScreenState extends State<OTPScreen> {
   bool isPhoneError = false;
   late String otpCode = widget.otpCode;
 
+  late AuthNotifier authNotifier;
+
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance
+        .addPostFrameCallback((_) => authNotifier.errorMsg = null);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final authNotifier = context.watch<AuthNotifier>();
+    authNotifier = context.watch<AuthNotifier>();
 
     final defaultPinTheme = PinTheme(
       width: 56,
@@ -53,6 +62,7 @@ class _OTPScreenState extends State<OTPScreen> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
+        authNotifier.errorMsg = null;
         context.pushReplacementNamed(
           RouteConsts.phoneScreen,
           extra: widget.phoneNumber,
@@ -86,7 +96,6 @@ class _OTPScreenState extends State<OTPScreen> {
                   const Gap(32),
                   Pinput(
                     length: 6,
-                    onCompleted: (pin) => logger.d(pin),
                     validator: (s) {
                       return s == otpCode ? null : 'otp.incorrectOTP'.tr();
                     },
@@ -137,7 +146,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       ),
                       Spacer(),
                       AppButton(
-                        title: 'otp.login',
+                        title: 'shared.next',
                         translateText: true,
                         width: 100,
                         onTap: () {

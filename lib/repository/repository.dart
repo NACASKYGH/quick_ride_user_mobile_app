@@ -24,4 +24,8 @@ abstract class Repository {
     required String phone,
     required String password,
   });
+
+  Future<AppUser> signup({
+    required Map<String, dynamic> map,
+  });
 }

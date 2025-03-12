@@ -36,6 +36,32 @@ class AuthNotifier extends ChangeNotifier {
 
   String? _errorMsg;
   String? get errorMsg => _errorMsg;
+  set errorMsg(String? value) {
+    _errorMsg = value;
+    notifyListeners();
+  }
+
+  Future<String?> checkPhone({required String phone}) async {
+    if (_isLoading) return null;
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      String response = await _repository.checkIfExistingUser(
+        phone: phone,
+      );
+
+      _isLoading = false;
+      _errorMsg = null;
+      notifyListeners();
+      return response;
+    } catch (e) {
+      _isLoading = false;
+      _errorMsg = e.toString();
+      notifyListeners();
+      return null;
+    }
+  }
 
   Future<bool?> login({
     required String phone,
@@ -69,25 +95,30 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<String?> checkPhone({required String phone}) async {
+  Future<bool?> signUp({
+    required Map<String, dynamic> map,
+  }) async {
     if (_isLoading) return null;
     _isLoading = true;
+    _errorMsg = null;
     notifyListeners();
 
     try {
-      String response = await _repository.checkIfExistingUser(
-        phone: phone,
-      );
+      AppUser response = await _repository.signup(map: map);
+
+      _appUser = response;
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString(localUser, jsonEncode(response.toJson()));
 
       _isLoading = false;
-      _errorMsg = null;
       notifyListeners();
-      return response;
+      return true;
     } catch (e) {
+      logger.e(e);
       _isLoading = false;
       _errorMsg = e.toString();
       notifyListeners();
-      return null;
+      return false;
     }
   }
 

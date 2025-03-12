@@ -147,7 +147,34 @@ class RepositoryImpl implements Repository {
         ),
       ))
           .data;
-      logger.d(result);
+
+      if (result['success'] == true) {
+        return AppUser.fromJson(result['UserLoginInformations'][0]);
+      } else {
+        throw result['Message'];
+      }
+    } on DioException catch (e) {
+      throw e.formattedError;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<AppUser> signup({required Map<String, dynamic> map}) async {
+    try {
+      final result = (await _dioInstance.post(
+        '/Data/API_AddNewUser',
+        data: map,
+        options: Options(
+          headers: {
+            'APITocken': '9D85A0FB-73E1-413C-BC2C-C95DDCD9CD89',
+            'AppType': 'MOBAND',
+            'Content-Type': 'application/json',
+          },
+        ),
+      ))
+          .data;
 
       if (result['success'] == true) {
         return AppUser.fromJson(result['UserLoginInformations'][0]);

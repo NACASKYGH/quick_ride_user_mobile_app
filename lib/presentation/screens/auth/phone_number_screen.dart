@@ -2,6 +2,7 @@ import '/routes.dart';
 import 'package:gap/gap.dart';
 import '/utils/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/app_colors.dart';
 import 'package:quick_ride_user/di.dart';
@@ -29,13 +30,23 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
   bool isPhoneError = false;
   bool showPassword = false;
 
+  late AuthNotifier authNotifier;
+
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance
+        .addPostFrameCallback((_) => authNotifier.errorMsg = null);
+  }
+
   @override
   Widget build(BuildContext context) {
-    AuthNotifier authNotifier = context.watch<AuthNotifier>();
+    authNotifier = context.watch<AuthNotifier>();
 
     return PopScope(
       canPop: !showPassword,
       onPopInvokedWithResult: (didPop, result) {
+        authNotifier.errorMsg = null;
         if (showPassword) setState(() => showPassword = false);
       },
       child: Scaffold(
@@ -151,21 +162,15 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                       margin: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 20),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 12),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              authNotifier.errorMsg ?? '',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 3,
-                              style: context.textTheme.labelSmall?.copyWith(
-                                color: AppColors.red,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                        ],
+                          horizontal: 16, vertical: 8),
+                      child: Text(
+                        authNotifier.errorMsg ?? '',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                        style: context.textTheme.labelSmall?.copyWith(
+                          color: AppColors.red,
+                          fontSize: 13,
+                        ),
                       ),
                     ),
                   Row(
@@ -190,9 +195,6 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                               showPassword = false;
                               context.pop();
                             }
-
-                            logger.f(phoneController.text);
-                            logger.f(passwordController.text);
                             return;
                           }
                           String? resp = await authNotifier.checkPhone(

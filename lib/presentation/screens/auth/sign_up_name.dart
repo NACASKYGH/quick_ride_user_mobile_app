@@ -1,8 +1,11 @@
 import 'package:gap/gap.dart';
 import '/utils/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:provider/provider.dart';
 import '../../../utils/app_colors.dart';
-import 'package:quick_ride_user/di.dart';
+import 'package:go_router/go_router.dart';
+import '../../notifiers/auth_notifier.dart';
 import '/presentation/widget/app_button.dart';
 import '/presentation/widget/app_text_field.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -30,11 +33,23 @@ class _SignUpNameState extends State<SignUpName> {
   bool isNameError = false;
   bool showPassword = false;
 
+  late AuthNotifier authNotifier;
+
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance
+        .addPostFrameCallback((_) => authNotifier.errorMsg = null);
+  }
+
   @override
   Widget build(BuildContext context) {
+    authNotifier = context.watch<AuthNotifier>();
+
     return PopScope(
       canPop: !showPassword,
       onPopInvokedWithResult: (didPop, result) {
+        authNotifier.errorMsg = null;
         if (showPassword) setState(() => showPassword = false);
       },
       child: Scaffold(
@@ -47,21 +62,21 @@ class _SignUpNameState extends State<SignUpName> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Gap(14),
+                  const Gap(12),
                   Text(
                     'signUpName.title'.tr(),
                     style: context.textTheme.headlineLarge?.copyWith(
                       fontSize: 28,
                     ),
                   ),
-                  const Gap(8),
+                  const Gap(6),
                   Text(
-                    'signUpName.description'.tr(),
+                    'Add your name and create a password to secure your account',
                     style: context.textTheme.labelSmall?.copyWith(
                       fontSize: 14,
                     ),
                   ),
-                  const Gap(32),
+                  const Gap(24),
                   AppTextField(
                     hintText: 'e.g. John Doe',
                     controller: nameController,
@@ -97,7 +112,7 @@ class _SignUpNameState extends State<SignUpName> {
                   ),
 
                   if (showPassword) ...[
-                    const Gap(32),
+                    const Gap(26),
                     AppTextField(
                       hintText: '******',
                       label: 'Password',
@@ -140,6 +155,30 @@ class _SignUpNameState extends State<SignUpName> {
 
                   ///
                   Spacer(),
+                  if ((authNotifier.errorMsg ?? '').isNotEmpty)
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: AppColors.red,
+                          width: .5,
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: Text(
+                        authNotifier.errorMsg ?? '',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                        style: context.textTheme.labelSmall?.copyWith(
+                          color: AppColors.red,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
+
                   Row(
                     children: [
                       Spacer(),
@@ -148,8 +187,10 @@ class _SignUpNameState extends State<SignUpName> {
                         title:
                             showPassword ? 'signUpName.signup' : 'shared.next',
                         translateText: true,
+                        isLoading: authNotifier.isLoading,
+                        isGradient: true,
                         width: 100,
-                        onTap: () {
+                        onTap: () async {
                           if (!formKey.currentState!.validate()) return;
                           if (!showPassword) {
                             setState(() => showPassword = true);
@@ -163,7 +204,10 @@ class _SignUpNameState extends State<SignUpName> {
                             'OTP': widget.otpCode,
                           };
 
-                          logger.d(map);
+                          bool? resp = await authNotifier.signUp(map: map);
+                          if (resp == true && context.mounted) {
+                            context.pop();
+                          }
 
                           // context.pushReplacementNamed(RouteConsts.index);
                           // context.pushReplacementNamed(RouteConsts.splash);
