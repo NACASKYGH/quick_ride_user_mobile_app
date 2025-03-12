@@ -182,7 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             }
                           },
                           child: AppTextField(
-                            hintText: 'Traveling Date?',
+                            hintText: 'Date of Birth',
                             controller: dateController,
                             initialValue: dateOfBirth.dateFormat1,
                             disabled: true,
@@ -212,7 +212,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         width: 100,
                         height: 36,
                         onTap: () async {
-                          // if (!formKey.currentState!.validate()) return;
+                          if (!_formKey.currentState!.validate()) return;
                           // if (showPassword) {
                           //   bool? resp = await authNotifier.login(
                           //     phone: phoneController.text,
