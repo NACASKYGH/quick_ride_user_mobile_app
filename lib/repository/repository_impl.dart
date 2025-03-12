@@ -251,7 +251,7 @@ class RepositoryImpl implements Repository {
           'DOB': date,
           'Gender': gender,
           'EmailID': email,
-          'MobileNo': '',
+          'MobileNo': appuser.phone,
         },
         options: Options(
           headers: {

@@ -82,6 +82,7 @@ class AuthNotifier extends ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString(localUser, jsonEncode(response.toJson()));
       prefs.setString(userPass, password);
+      getUser();
 
       _isLoading = false;
       notifyListeners();
@@ -109,6 +110,7 @@ class AuthNotifier extends ChangeNotifier {
       _appUser = response;
       final prefs = await SharedPreferences.getInstance();
       prefs.setString(localUser, jsonEncode(response.toJson()));
+      getUser();
 
       _isLoading = false;
       notifyListeners();
@@ -182,7 +184,8 @@ class AuthNotifier extends ChangeNotifier {
     _isLoading = false;
     _errorMsg = null;
     _appUser = null;
-    final prefs = await SharedPreferences.getInstance();
+    bool showWalkThru = prefs.getBool(PrefKeys.showWalkThru) ?? true;
     await prefs.clear();
+    prefs.setBool(PrefKeys.showWalkThru, showWalkThru);
   }
 }

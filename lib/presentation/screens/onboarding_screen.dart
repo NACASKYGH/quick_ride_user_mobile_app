@@ -106,7 +106,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   const Gap(58),
                   AppButton(
                     isGradient: true,
-                    title: 'onboarding.btnText',
+                    title: 'Get Started',
                     radius: 8,
                     height: 50,
                     textStyle: context.textTheme.headlineMedium?.copyWith(

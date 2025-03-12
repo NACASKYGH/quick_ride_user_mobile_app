@@ -2,6 +2,7 @@ import 'package:gap/gap.dart';
 import '../../../../routes.dart';
 import '../shared/app_webview.dart';
 import '../../widget/app_button.dart';
+import '../../../utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_ride_user/di.dart';
@@ -17,6 +18,7 @@ import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_platform_alert/flutter_platform_alert.dart';
 import 'package:quick_ride_user/presentation/widget/base_screen.dart';
+import 'package:quick_ride_user/presentation/notifiers/ui_notifier.dart';
 import 'package:quick_ride_user/presentation/notifiers/auth_notifier.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -259,7 +261,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: 'settings.rateUs'.tr(),
                           icon: Icons.star_border_purple500_rounded,
                           onTap: () {
-                            launchUrlString('https://nightmarketgh.com/');
+                            launchUrlString(playstoreLink);
                           },
                         ),
                       ],
@@ -304,8 +306,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             );
                             if (result == CustomButton.positiveButton &&
                                 context.mounted) {
-                              // pushNotificationNotifier.clearToken();
-
+                              authNotifier.signOut();
+                              context.read<UiNotifier>().indexTabIndex = 0;
                               context.goNamed(RouteConsts.splash);
                             }
                           },
@@ -328,6 +330,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             );
                             if (result == CustomButton.positiveButton &&
                                 context.mounted) {
+                              authNotifier.signOut();
+                              context.read<UiNotifier>().indexTabIndex = 0;
                               context.goNamed(RouteConsts.splash);
                             }
                           },

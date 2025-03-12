@@ -30,11 +30,9 @@ class _SplashScreenState extends State<SplashScreen> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       await authNotifier.getLocalUser();
       authNotifier.getUser();
-
-      // await Future.delayed(const Duration(seconds: 3));
+      if (!mounted) return;
 
       bool showWalkThru = prefs.getBool(PrefKeys.showWalkThru) ?? true;
-      if (!mounted) return;
       if (showWalkThru) {
         context.goNamed(RouteConsts.walkThru);
       } else {
