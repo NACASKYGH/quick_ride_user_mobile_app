@@ -310,4 +310,30 @@ class RepositoryImpl implements Repository {
       throw e.toString();
     }
   }
+
+  @override
+  Future<String> getNameFromPhone({required String phone}) async {
+    try {
+      final result = (await _dioInstance.get(
+        'https://api.data.tapngogh.com/customer/kyc?phoneNumber=$phone',
+        options: Options(
+          headers: {
+            'Authorization': '9605239da9ca606e463cfe7d17249de0f6dd1ae4',
+            'Content-Type': 'application/json',
+          },
+        ),
+      ))
+          .data;
+
+      if (result['status'] == 200) {
+        return result['payload']['name'];
+      } else {
+        throw 'An error occurred.';
+      }
+    } on DioException catch (e) {
+      throw e.formattedError;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
 }

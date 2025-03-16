@@ -35,6 +35,7 @@ class _SeatSelScreenState extends State<SeatSelScreen> {
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      busesNotifier.clearSelectedSeats();
       busesNotifier.activeBusNumber = widget.bus.busNo ?? '';
       await busesNotifier.getBusSeats(bus: widget.bus);
     });
@@ -207,6 +208,11 @@ class _SeatSelScreenState extends State<SeatSelScreen> {
                                 context.pushNamed(RouteConsts.phoneScreen);
                                 return;
                               }
+
+                              context.pushNamed(
+                                RouteConsts.enterDetails,
+                                extra: widget.bus,
+                              );
                             },
                           ),
                         ],

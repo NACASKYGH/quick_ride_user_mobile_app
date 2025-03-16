@@ -43,4 +43,7 @@ abstract class Repository {
     required String oldPass,
     required String newPass,
   });
+  Future<String> getNameFromPhone({
+    required String phone,
+  });
 }

@@ -118,4 +118,13 @@ class BusesNotifier extends ChangeNotifier {
     _busesInfo = [];
     notifyListeners();
   }
+
+  Future<String?> getNameFromPhone({required String phone}) async {
+    try {
+      final resp = await _repository.getNameFromPhone(phone: phone);
+      return resp;
+    } catch (e) {
+      return null;
+    }
+  }
 }

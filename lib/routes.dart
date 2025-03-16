@@ -9,6 +9,7 @@ import 'presentation/screens/_home/seat_sel_screen.dart';
 import 'presentation/screens/_profile/change_password.dart';
 import 'presentation/screens/auth/phone_number_screen.dart';
 import 'presentation/screens/_home/available_buses_screen.dart';
+import 'package:quick_ride_user/presentation/screens/_home/enter_details_screen.dart';
 
 class AppRouter {
   static GoRouter router = GoRouter(
@@ -89,6 +90,15 @@ class AppRouter {
         },
       ),
       GoRoute(
+        path: '/enter-details',
+        name: RouteConsts.enterDetails,
+        builder: (context, state) {
+          return EnterDetailsScreen(
+            bus: state.extra as BusInfoEntity,
+          );
+        },
+      ),
+      GoRoute(
         path: '/change-pass',
         name: RouteConsts.changePassword,
         builder: (context, state) {
@@ -109,4 +119,5 @@ class RouteConsts {
   static String availableBuses = 'available-buses';
   static String busSeat = 'bus-seat';
   static String changePassword = 'change-password';
+  static String enterDetails = 'enter-details';
 }
