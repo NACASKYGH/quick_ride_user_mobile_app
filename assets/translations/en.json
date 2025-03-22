@@ -31,7 +31,7 @@
     },
     "index": {
         "home": "Home",
-        "rides": "Rides",
+        "trips": "Trips",
         "profile":"Profiles"
     },
     "home": {

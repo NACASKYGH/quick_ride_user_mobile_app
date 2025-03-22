@@ -65,7 +65,7 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
                   ),
                   _BottomNavItem(
                     asset: 'assets/svg/nav-explore',
-                    label: 'index.rides'.tr(),
+                    label: 'index.trips'.tr(),
                     isActive: uiNotifier.indexTabIndex == 1,
                     onTap: () => !isLoggedIn
                         ? context.pushNamed(RouteConsts.phoneScreen)

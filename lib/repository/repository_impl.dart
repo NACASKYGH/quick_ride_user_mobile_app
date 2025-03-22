@@ -3,6 +3,7 @@ import '../entity/bus_seat_entity.dart';
 import 'package:quick_ride_user/di.dart';
 import 'package:quick_ride_user/entity/app_user.dart';
 import 'package:quick_ride_user/utils/extensions.dart';
+import 'package:quick_ride_user/entity/ticket_entity.dart';
 import 'package:quick_ride_user/repository/repository.dart';
 import 'package:quick_ride_user/entity/bus_info_entity.dart';
 
@@ -329,6 +330,42 @@ class RepositoryImpl implements Repository {
         return result['payload']['name'];
       } else {
         throw 'An error occurred.';
+      }
+    } on DioException catch (e) {
+      throw e.formattedError;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<List<TicketEntity>> getTicketBookings() async {
+    AppUser? appuser = (await _getToken());
+    if (appuser == null) throw 'Login required';
+    try {
+      final result = (await _dioInstance.post(
+        '/Passenger/API_GetPassengerBookingHistory',
+        data: {
+          'UserID': '1'
+
+          // 'UserID': appuser.id,
+        },
+        options: Options(
+          headers: {
+            'APITocken': appuser.token,
+            'AppType': 'MOBAND',
+            'Content-Type': 'application/json',
+          },
+        ),
+      ))
+          .data;
+
+      if (result['success'] == true) {
+        return (result['TravelHistory'] as Iterable)
+            .map((e) => TicketEntity.fromJson(e))
+            .toList();
+      } else {
+        throw result['Message'];
       }
     } on DioException catch (e) {
       throw e.formattedError;

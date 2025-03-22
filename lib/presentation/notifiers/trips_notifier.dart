@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+import 'package:quick_ride_user/di.dart';
+import 'package:quick_ride_user/entity/ticket_entity.dart';
+import 'package:quick_ride_user/repository/repository.dart';
+
+class TripsNotifier extends ChangeNotifier {
+  Repository get _repository => getIt<Repository>();
+
+  List<TicketEntity> _bookingsList = [];
+  List<TicketEntity> get bookingsList => _bookingsList;
+
+  bool isLoading = false;
+  String? _getBookingsErrorMsg;
+  String? get getBookingsErrorMsg => _getBookingsErrorMsg;
+
+  void getTicketBookings() async {
+    if (isLoading) return;
+    isLoading = true;
+    _getBookingsErrorMsg = null;
+    notifyListeners();
+
+    try {
+      final resp = await _repository.getTicketBookings();
+      _bookingsList.clear();
+      _bookingsList = [];
+      _bookingsList = resp;
+      isLoading = false;
+      _getBookingsErrorMsg = null;
+      notifyListeners();
+    } catch (e) {
+      _getBookingsErrorMsg = e.toString();
+      _bookingsList.clear();
+      _bookingsList = [];
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+}
