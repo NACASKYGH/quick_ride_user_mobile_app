@@ -34,16 +34,6 @@ class _BookingsScreenState extends State<BookingsScreen> {
     tripsNotifier = context.watch<TripsNotifier>();
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        scrolledUnderElevation: 0,
-        elevation: 0,
-        // title: Text(
-        //   'Available Buses',
-        //   style: context.textTheme.headlineSmall,
-        // ),
-      ),
       body: BaseScreen(
         safeArea: SafeArea(
           child: Column(
@@ -67,7 +57,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
                             title: 'Loading available buses...',
                           )
                         : ListView.builder(
-                            padding: const EdgeInsets.only(top: 8, bottom: 32),
+                            padding: const EdgeInsets.only(bottom: 32),
                             itemCount: tripsNotifier.bookingsList.length,
                             itemBuilder: (context, index) {
                               return TicketItem(
@@ -95,7 +85,7 @@ class TicketItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0, left: 16, right: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Material(
         color: context.isDarkMode ? AppColors.grey800 : AppColors.lightBg,
         borderRadius: BorderRadius.circular(8),
@@ -119,13 +109,40 @@ class TicketItem extends StatelessWidget {
                     fontSize: 13,
                   ),
                 ),
-                Text(
-                  '${ticketEntity.fromStation} -> ${ticketEntity.toStation}',
-                  style: context.textTheme.headlineSmall?.copyWith(
-                    fontSize: 13,
-                  ),
+                const Gap(12),
+                RichText(
+                  textAlign: TextAlign.end,
+                  text: TextSpan(
+                      text: 'Ticket Number:   ',
+                      style: context.textTheme.labelSmall?.copyWith(
+                        fontSize: 9,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: ticketEntity.ticketNo,
+                          style: context.textTheme.headlineSmall?.copyWith(
+                            fontSize: 13,
+                          ),
+                        ),
+                      ]),
                 ),
-                const Gap(6),
+                RichText(
+                  textAlign: TextAlign.end,
+                  text: TextSpan(
+                      text: 'Name on ticket:  ',
+                      style: context.textTheme.labelSmall?.copyWith(
+                        fontSize: 9,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: ticketEntity.travelerName,
+                          style: context.textTheme.headlineSmall?.copyWith(
+                            fontSize: 13,
+                          ),
+                        ),
+                      ]),
+                ),
+                const Gap(14),
                 Row(
                   children: [
                     Expanded(
@@ -135,14 +152,14 @@ class TicketItem extends StatelessWidget {
                           RichText(
                             textAlign: TextAlign.start,
                             text: TextSpan(
-                                text: 'Report Tim\n',
+                                text: 'Booking Date\n',
                                 style: context.textTheme.labelSmall?.copyWith(
                                   fontSize: 9,
                                 ),
                                 children: [
                                   TextSpan(
-                                    text:
-                                        // reportingTime?.format(context) ??
+                                    text: ticketEntity.entryDate
+                                            ?.splitMerge(' ', joiner: '\n') ??
                                         'N/A',
                                     style: context.textTheme.headlineSmall
                                         ?.copyWith(
@@ -159,16 +176,16 @@ class TicketItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           RichText(
-                            textAlign: TextAlign.start,
+                            textAlign: TextAlign.end,
                             text: TextSpan(
-                                text: 'Depart Time\n',
+                                text: 'Trip Depart Date\n',
                                 style: context.textTheme.labelSmall?.copyWith(
                                   fontSize: 9,
                                 ),
                                 children: [
                                   TextSpan(
-                                    text:
-                                        // departingTime?.format(context) ??
+                                    text: ticketEntity.tripDate
+                                            ?.splitMerge(' ', joiner: '\n') ??
                                         'N/A',
                                     style: context.textTheme.headlineSmall
                                         ?.copyWith(
