@@ -5,9 +5,11 @@ import '../../widget/page_loader.dart';
 import '../../../utils/app_colors.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
+import 'package:quick_ride_user/di.dart';
 import '../../../entity/ticket_entity.dart';
 import '../../widget/error_state_widget.dart';
 import 'package:quick_ride_user/utils/extensions.dart';
+import 'package:flutter_platform_alert/flutter_platform_alert.dart';
 import 'package:quick_ride_user/presentation/notifiers/trips_notifier.dart';
 
 class BookingsScreen extends StatefulWidget {
@@ -90,7 +92,24 @@ class TicketItem extends StatelessWidget {
         color: context.isDarkMode ? AppColors.grey800 : AppColors.lightBg,
         borderRadius: BorderRadius.circular(8),
         child: InkWell(
-          onTap: () {},
+          onTap: () async {
+            final result = await FlutterPlatformAlert.showCustomAlert(
+              windowTitle: 'Action',
+              text: '',
+              positiveButtonTitle: 'View Ticket',
+              neutralButtonTitle: 'Delete',
+              negativeButtonTitle: 'Cancel',
+              options: PlatformAlertOptions(
+                ios: IosAlertOptions(
+                  alertStyle: IosAlertStyle.actionSheet,
+                  positiveButtonStyle: IosButtonStyle.normal,
+                  neutralButtonStyle: IosButtonStyle.destructive,
+                  negativeButtonStyle: IosButtonStyle.cancel,
+                ),
+              ),
+            );
+            logger.d(result);
+          },
           borderRadius: BorderRadius.circular(8),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
