@@ -109,6 +109,7 @@ class TicketItem extends StatelessWidget {
               ),
             );
             logger.d(result);
+            if (result == CustomButton.neutralButton) {}
           },
           borderRadius: BorderRadius.circular(8),
           child: Container(
