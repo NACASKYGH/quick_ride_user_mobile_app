@@ -5,7 +5,6 @@ import '../../widget/page_loader.dart';
 import '../../../utils/app_colors.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
-import 'package:quick_ride_user/di.dart';
 import '../../../entity/ticket_entity.dart';
 import '../../widget/error_state_widget.dart';
 import 'package:quick_ride_user/utils/extensions.dart';
