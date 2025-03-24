@@ -94,11 +94,11 @@ class TicketItem extends StatelessWidget {
         child: InkWell(
           onTap: () async {
             final result = await FlutterPlatformAlert.showCustomAlert(
-              windowTitle: 'Action',
+              windowTitle: 'Take Action',
               text: '',
               positiveButtonTitle: 'View Ticket',
-              neutralButtonTitle: 'Delete',
-              negativeButtonTitle: 'Cancel',
+              neutralButtonTitle: 'Cancel Ticket',
+              negativeButtonTitle: 'Close',
               options: PlatformAlertOptions(
                 ios: IosAlertOptions(
                   alertStyle: IosAlertStyle.actionSheet,
@@ -108,8 +108,25 @@ class TicketItem extends StatelessWidget {
                 ),
               ),
             );
-            logger.d(result);
-            if (result == CustomButton.neutralButton) {}
+
+            if (result == CustomButton.neutralButton) {
+              //
+              final result = await FlutterPlatformAlert.showAlert(
+                windowTitle: 'Confirmation Required',
+                text: 'Do you really want to cancel this ticket?',
+                alertStyle: AlertButtonStyle.yesNo,
+              );
+
+              if (result == AlertButton.yesButton) {
+                //
+              }
+
+              ///
+              ///
+              ///
+            } else if (result == CustomButton.positiveButton) {
+              //
+            }
           },
           borderRadius: BorderRadius.circular(8),
           child: Container(
