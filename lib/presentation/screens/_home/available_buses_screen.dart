@@ -11,6 +11,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import '../../notifiers/buses_notifier.dart';
+import '../../widget/empty_state_widget.dart';
 import '../../widget/error_state_widget.dart';
 import '../../../entity/bus_info_entity.dart';
 import '/presentation/notifiers/auth_notifier.dart';
@@ -62,7 +63,8 @@ class _AvailableBusesScreenState extends State<AvailableBusesScreen> {
             children: [
               const Gap(12),
               Expanded(
-                child: (busesNotifier.getBusesErrorMsg ?? '').isNotEmpty
+                child: (busesNotifier.getBusesErrorMsg ?? '').isNotEmpty &&
+                        !(busesNotifier.getBusesErrorMsg ?? '').isNotFound
                     ? Padding(
                         padding: const EdgeInsets.only(bottom: 70.0),
                         child: ErrorStateWidget(
@@ -80,15 +82,25 @@ class _AvailableBusesScreenState extends State<AvailableBusesScreen> {
                         ? const PageLoader(
                             title: 'Loading available buses...',
                           )
-                        : ListView.builder(
-                            padding: const EdgeInsets.only(top: 8, bottom: 32),
-                            itemCount: busesNotifier.busesInfo.length,
-                            itemBuilder: (context, index) {
-                              return BusesItem(
-                                busInfoEntity: busesNotifier.busesInfo[index],
-                              );
-                            },
-                          ),
+                        : busesNotifier.busesInfo.isEmpty ||
+                                (busesNotifier.getBusesErrorMsg ?? '')
+                                    .isNotFound
+                            ? EmptyStateWidget(
+                                title: 'No record Found',
+                                desc: 'You do not have any booked ticket.',
+                                padding: const EdgeInsets.only(bottom: 120),
+                              )
+                            : ListView.builder(
+                                padding:
+                                    const EdgeInsets.only(top: 8, bottom: 32),
+                                itemCount: busesNotifier.busesInfo.length,
+                                itemBuilder: (context, index) {
+                                  return BusesItem(
+                                    busInfoEntity:
+                                        busesNotifier.busesInfo[index],
+                                  );
+                                },
+                              ),
               ),
             ],
           ),
