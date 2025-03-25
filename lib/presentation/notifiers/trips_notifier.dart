@@ -13,8 +13,10 @@ class TripsNotifier extends ChangeNotifier {
   String? _getBookingsErrorMsg;
   String? get getBookingsErrorMsg => _getBookingsErrorMsg;
 
-  void getTicketBookings() async {
+  void getTicketBookings({bool clear = false}) async {
     if (isLoading) return;
+    if (clear) _bookingsList.clear();
+
     isLoading = true;
     _getBookingsErrorMsg = null;
     notifyListeners();
@@ -33,6 +35,14 @@ class TripsNotifier extends ChangeNotifier {
       _bookingsList = [];
       isLoading = false;
       notifyListeners();
+    }
+  }
+
+  Future<bool> cancelTicket({required String ticketNumber}) async {
+    try {
+      return await _repository.cancelTicket(ticketNumber: ticketNumber);
+    } catch (e) {
+      rethrow;
     }
   }
 }

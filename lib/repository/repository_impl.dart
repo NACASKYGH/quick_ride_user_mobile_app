@@ -373,4 +373,36 @@ class RepositoryImpl implements Repository {
       throw e.toString();
     }
   }
+
+  @override
+  Future<bool> cancelTicket({required String ticketNumber}) async {
+    AppUser? appuser = (await _getToken());
+    if (appuser == null) throw 'Login required';
+    try {
+      final result = (await _dioInstance.post(
+        '/Passenger/API_TicketCancel',
+        data: {'TicketID': ticketNumber},
+        options: Options(
+          headers: {
+            'APITocken': appuser.token,
+            'AppType': 'MOB',
+            'Content-Type': 'application/json',
+          },
+        ),
+      ))
+          .data;
+
+      logger.d(result);
+
+      if (result['success'] == true) {
+        return true;
+      } else {
+        throw result['Message'];
+      }
+    } on DioException catch (e) {
+      throw e.formattedError;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
 }

@@ -49,4 +49,5 @@ abstract class Repository {
   });
 
   Future<List<TicketEntity>> getTicketBookings();
+  Future<bool> cancelTicket({required String ticketNumber});
 }

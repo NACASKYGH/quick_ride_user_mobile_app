@@ -37,6 +37,7 @@ dependencies:
   freezed_annotation: ^2.4.4
   json_annotation: ^4.9.0
   flutter_native_contact_picker: ^0.0.10
+  future_progress_dialog: ^0.2.0
 
 
   # ///

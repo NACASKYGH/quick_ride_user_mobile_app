@@ -5,9 +5,11 @@ import '../../widget/page_loader.dart';
 import '../../../utils/app_colors.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
+import 'package:quick_ride_user/di.dart';
 import '../../../entity/ticket_entity.dart';
 import '../../widget/error_state_widget.dart';
 import 'package:quick_ride_user/utils/extensions.dart';
+import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:flutter_platform_alert/flutter_platform_alert.dart';
 import 'package:quick_ride_user/presentation/notifiers/trips_notifier.dart';
 
@@ -85,6 +87,8 @@ class TicketItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TripsNotifier tripsNotifier = context.watch<TripsNotifier>();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Material(
@@ -116,8 +120,22 @@ class TicketItem extends StatelessWidget {
                 alertStyle: AlertButtonStyle.yesNo,
               );
 
+              if (!context.mounted) return;
+
               if (result == AlertButton.yesButton) {
-                //
+                try {
+                  bool resp = await showDialog(
+                    context: context,
+                    builder: (context) => FutureProgressDialog(
+                      tripsNotifier.cancelTicket(
+                        ticketNumber: ticketEntity.ticketNo!,
+                      ),
+                    ),
+                  );
+                  if (resp) tripsNotifier.getTicketBookings();
+                } catch (e) {
+                  logger.d(e);
+                }
               }
 
               ///
