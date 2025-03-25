@@ -128,9 +128,7 @@ class AuthNotifier extends ChangeNotifier {
     if (_appUser == null) return;
 
     try {
-      AppUser response = await _repository.getUser(
-        id: _appUser!.id!,
-      );
+      AppUser response = await _repository.getUser();
 
       _appUser = response;
       final prefs = await SharedPreferences.getInstance();

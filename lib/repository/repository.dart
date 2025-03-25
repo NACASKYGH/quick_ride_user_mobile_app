@@ -30,9 +30,7 @@ abstract class Repository {
     required Map<String, dynamic> map,
   });
 
-  Future<AppUser> getUser({
-    required String id,
-  });
+  Future<AppUser> getUser();
 
   Future<AppUser> updateUser({
     required String name,
@@ -50,4 +48,7 @@ abstract class Repository {
 
   Future<List<TicketEntity>> getTicketBookings();
   Future<bool> cancelTicket({required String ticketNumber});
+  Future<List<TicketEntity>> getCancelledTicket(
+      // {required DateTime dateFrom, required DateTime dateTo}
+      );
 }

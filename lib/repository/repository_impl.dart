@@ -192,16 +192,14 @@ class RepositoryImpl implements Repository {
 
   ///
   @override
-  Future<AppUser> getUser({
-    required String id,
-  }) async {
+  Future<AppUser> getUser() async {
     AppUser? appuser = (await _getToken());
     if (appuser == null) throw 'Login required';
     try {
       final result = (await _dioInstance.post(
         '/Passenger/API_GetPassenger',
         data: {
-          'PassID': id,
+          'PassID': appuser.id,
         },
         options: Options(
           headers: {
@@ -265,7 +263,7 @@ class RepositoryImpl implements Repository {
           .data;
 
       if (result['success'] == true) {
-        return await getUser(id: appuser.id!);
+        return await getUser();
       } else {
         throw result['Message'];
       }
@@ -346,9 +344,7 @@ class RepositoryImpl implements Repository {
       final result = (await _dioInstance.post(
         '/Passenger/API_GetPassengerBookingHistory',
         data: {
-          'UserID': '1'
-
-          // 'UserID': appuser.id,
+          'UserID': appuser.id,
         },
         options: Options(
           headers: {
@@ -396,6 +392,44 @@ class RepositoryImpl implements Repository {
 
       if (result['success'] == true) {
         return true;
+      } else {
+        throw result['Message'];
+      }
+    } on DioException catch (e) {
+      throw e.formattedError;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<List<TicketEntity>> getCancelledTicket(
+      // {required DateTime dateFrom, required DateTime dateTo}
+      ) async {
+    AppUser? appuser = (await _getToken());
+    if (appuser == null) throw 'Login required';
+    try {
+      final result = (await _dioInstance.post(
+        '/Passenger/API_GetPassengerCancelgHistory',
+        data: {
+          'UserID': appuser.id,
+          'DateFrom': DateTime.parse('2024-02-23 17:00:04').dateMMMonthYear,
+          'DateTo': DateTime.now().dateMMMonthYear,
+        },
+        options: Options(
+          headers: {
+            'APITocken': appuser.token,
+            'AppType': 'MOB',
+            'Content-Type': 'application/json',
+          },
+        ),
+      ))
+          .data;
+
+      if (result['success'] == true) {
+        return (result['CancelHistory'] as Iterable)
+            .map((e) => TicketEntity.fromJson(e))
+            .toList();
       } else {
         throw result['Message'];
       }

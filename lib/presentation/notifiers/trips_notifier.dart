@@ -45,4 +45,36 @@ class TripsNotifier extends ChangeNotifier {
       rethrow;
     }
   }
+
+  bool isCancelLoading = false;
+  String? _getCancelsErrorMsg;
+  String? get getCancelsErrorMsg => _getCancelsErrorMsg;
+
+  List<TicketEntity> _cancelledList = [];
+  List<TicketEntity> get cancelledList => _cancelledList;
+
+  void getCancelTicket({bool clear = false}) async {
+    if (isCancelLoading) return;
+    if (clear) _cancelledList.clear();
+
+    isCancelLoading = true;
+    _getCancelsErrorMsg = null;
+    notifyListeners();
+
+    try {
+      final resp = await _repository.getTicketBookings();
+      _cancelledList.clear();
+      _cancelledList = [];
+      _cancelledList = resp;
+      isCancelLoading = false;
+      _getCancelsErrorMsg = null;
+      notifyListeners();
+    } catch (e) {
+      _getCancelsErrorMsg = e.toString();
+      _cancelledList.clear();
+      _cancelledList = [];
+      isCancelLoading = false;
+      notifyListeners();
+    }
+  }
 }

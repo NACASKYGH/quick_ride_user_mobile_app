@@ -23,10 +23,7 @@ class BusesNotifier extends ChangeNotifier {
   String? _getBusesErrorMsg;
   String? get getBusesErrorMsg => _getBusesErrorMsg;
 
-  void getBuses({
-    required String from,
-    required String to,
-  }) async {
+  void getBuses({required String from, required String to}) async {
     if (isLoading) return;
 
     isLoading = true;

@@ -1,4 +1,5 @@
 import 'bookings_screen.dart';
+import 'cancelled_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:quick_ride_user/utils/extensions.dart';
 
@@ -39,7 +40,7 @@ class _TripScreenState extends State<TripScreen>
         controller: tabController,
         children: [
           const BookingsScreen(),
-          Container(),
+          const CancelledScreen(),
         ],
       ),
     );
