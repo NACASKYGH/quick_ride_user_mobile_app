@@ -1,6 +1,5 @@
 import '../../utils/app_colors.dart';
 import '../../utils/extensions.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 
 class EmptyStateWidget extends StatelessWidget {
@@ -26,13 +25,10 @@ class EmptyStateWidget extends StatelessWidget {
           children: [
             Visibility(
               visible: showGreyLogo,
-              child: SvgPicture.asset(
-                'assets/svg/logo-mark.svg',
-                width: 48,
-                colorFilter: const ColorFilter.mode(
-                  AppColors.grey300,
-                  BlendMode.srcIn,
-                ),
+              child: Image.asset(
+                'assets/png/full-transparent-white-logo.png',
+                width: 120,
+                color: AppColors.grey300,
               ),
             ),
             Visibility(

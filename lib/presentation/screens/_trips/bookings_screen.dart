@@ -7,6 +7,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_ride_user/di.dart';
 import '../../../entity/ticket_entity.dart';
+import '../../widget/empty_state_widget.dart';
 import '../../widget/error_state_widget.dart';
 import 'package:quick_ride_user/utils/extensions.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
@@ -43,7 +44,8 @@ class _BookingsScreenState extends State<BookingsScreen> {
             children: [
               const Gap(12),
               Expanded(
-                child: (tripsNotifier.getBookingsErrorMsg ?? '').isNotEmpty
+                child: (tripsNotifier.getBookingsErrorMsg ?? '').isNotEmpty &&
+                        !(tripsNotifier.getBookingsErrorMsg ?? '').isNotFound
                     ? Padding(
                         padding: const EdgeInsets.only(bottom: 70.0),
                         child: ErrorStateWidget(
@@ -59,15 +61,24 @@ class _BookingsScreenState extends State<BookingsScreen> {
                         ? const PageLoader(
                             title: 'Loading available buses...',
                           )
-                        : ListView.builder(
-                            padding: const EdgeInsets.only(bottom: 32),
-                            itemCount: tripsNotifier.bookingsList.length,
-                            itemBuilder: (context, index) {
-                              return TicketItem(
-                                ticketEntity: tripsNotifier.bookingsList[index],
-                              );
-                            },
-                          ),
+                        : tripsNotifier.cancelledList.isEmpty ||
+                                (tripsNotifier.getBookingsErrorMsg ?? '')
+                                    .isNotFound
+                            ? EmptyStateWidget(
+                                title: 'No record Found',
+                                desc: 'You do not have any booked ticket.',
+                                padding: const EdgeInsets.only(bottom: 120),
+                              )
+                            : ListView.builder(
+                                padding: const EdgeInsets.only(bottom: 32),
+                                itemCount: tripsNotifier.bookingsList.length,
+                                itemBuilder: (context, index) {
+                                  return TicketItem(
+                                    ticketEntity:
+                                        tripsNotifier.bookingsList[index],
+                                  );
+                                },
+                              ),
               ),
             ],
           ),

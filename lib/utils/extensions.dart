@@ -118,6 +118,10 @@ extension StringX on String {
   bool get isValidPhone {
     return PhoneNumber.parse('+233$this').isValid();
   }
+
+  bool get isNotFound {
+    return toLowerCase().contains('no') && toLowerCase().contains('record');
+  }
 }
 
 extension DateTimeX on DateTime {

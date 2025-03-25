@@ -41,7 +41,8 @@ class _CancelledScreenState extends State<CancelledScreen> {
             children: [
               const Gap(12),
               Expanded(
-                child: (tripsNotifier.getCancelsErrorMsg ?? '').isNotEmpty
+                child: (tripsNotifier.getCancelsErrorMsg ?? '').isNotEmpty &&
+                        !(tripsNotifier.getCancelsErrorMsg ?? '').isNotFound
                     ? Padding(
                         padding: const EdgeInsets.only(bottom: 70.0),
                         child: ErrorStateWidget(
@@ -57,8 +58,14 @@ class _CancelledScreenState extends State<CancelledScreen> {
                         ? const PageLoader(
                             title: 'Loading available buses...',
                           )
-                        : tripsNotifier.cancelledList.isEmpty
-                            ? EmptyStateWidget()
+                        : tripsNotifier.cancelledList.isEmpty ||
+                                (tripsNotifier.getCancelsErrorMsg ?? '')
+                                    .isNotFound
+                            ? EmptyStateWidget(
+                                title: 'No record Found',
+                                desc: 'You do not have any cancelled ticket.',
+                                padding: const EdgeInsets.only(bottom: 120),
+                              )
                             : ListView.builder(
                                 padding: const EdgeInsets.only(bottom: 32),
                                 itemCount: tripsNotifier.cancelledList.length,
