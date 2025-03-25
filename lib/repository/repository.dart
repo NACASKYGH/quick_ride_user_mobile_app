@@ -1,6 +1,7 @@
 import '../entity/app_user.dart';
 import '../entity/bus_info_entity.dart';
 import '../entity/bus_seat_entity.dart';
+import '../entity/cancelled_ticket_entity.dart';
 import 'package:quick_ride_user/entity/ticket_entity.dart';
 
 abstract class Repository {
@@ -48,7 +49,7 @@ abstract class Repository {
 
   Future<List<TicketEntity>> getTicketBookings();
   Future<bool> cancelTicket({required String ticketNumber});
-  Future<List<TicketEntity>> getCancelledTicket(
+  Future<List<CancelledTicketEntity>> getCancelledTicket(
       // {required DateTime dateFrom, required DateTime dateTo}
       );
 }

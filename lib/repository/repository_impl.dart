@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import '../entity/bus_seat_entity.dart';
 import 'package:quick_ride_user/di.dart';
+import '../entity/cancelled_ticket_entity.dart';
 import 'package:quick_ride_user/entity/app_user.dart';
 import 'package:quick_ride_user/utils/extensions.dart';
 import 'package:quick_ride_user/entity/ticket_entity.dart';
@@ -403,7 +404,7 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<List<TicketEntity>> getCancelledTicket(
+  Future<List<CancelledTicketEntity>> getCancelledTicket(
       // {required DateTime dateFrom, required DateTime dateTo}
       ) async {
     AppUser? appuser = (await _getToken());
@@ -413,7 +414,7 @@ class RepositoryImpl implements Repository {
         '/Passenger/API_GetPassengerCancelgHistory',
         data: {
           'UserID': appuser.id,
-          'DateFrom': DateTime.parse('2024-02-23 17:00:04').dateMMMonthYear,
+          'DateFrom': DateTime.parse('2020-02-23 17:00:04').dateMMMonthYear,
           'DateTo': DateTime.now().dateMMMonthYear,
         },
         options: Options(
@@ -428,7 +429,7 @@ class RepositoryImpl implements Repository {
 
       if (result['success'] == true) {
         return (result['CancelHistory'] as Iterable)
-            .map((e) => TicketEntity.fromJson(e))
+            .map((e) => CancelledTicketEntity.fromJson(e))
             .toList();
       } else {
         throw result['Message'];

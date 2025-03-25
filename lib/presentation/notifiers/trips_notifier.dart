@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quick_ride_user/di.dart';
+import '../../entity/cancelled_ticket_entity.dart';
 import 'package:quick_ride_user/entity/ticket_entity.dart';
 import 'package:quick_ride_user/repository/repository.dart';
 
@@ -50,8 +51,8 @@ class TripsNotifier extends ChangeNotifier {
   String? _getCancelsErrorMsg;
   String? get getCancelsErrorMsg => _getCancelsErrorMsg;
 
-  List<TicketEntity> _cancelledList = [];
-  List<TicketEntity> get cancelledList => _cancelledList;
+  List<CancelledTicketEntity> _cancelledList = [];
+  List<CancelledTicketEntity> get cancelledList => _cancelledList;
 
   void getCancelTicket({bool clear = false}) async {
     if (isCancelLoading) return;
@@ -62,7 +63,7 @@ class TripsNotifier extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final resp = await _repository.getTicketBookings();
+      final resp = await _repository.getCancelledTicket();
       _cancelledList.clear();
       _cancelledList = [];
       _cancelledList = resp;

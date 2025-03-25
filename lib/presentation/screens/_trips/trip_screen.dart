@@ -38,6 +38,7 @@ class _TripScreenState extends State<TripScreen>
       ),
       body: TabBarView(
         controller: tabController,
+        physics: NeverScrollableScrollPhysics(),
         children: [
           const BookingsScreen(),
           const CancelledScreen(),
