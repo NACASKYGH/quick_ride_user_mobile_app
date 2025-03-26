@@ -31,4 +31,5 @@ class AppColors {
   static const Color grey800 = Color(0xFF323232);
 
   static const Color lightBlue = Color(0xFF0E8BE5);
+  static const Color yellow = Color.fromARGB(255, 250, 182, 24);
 }

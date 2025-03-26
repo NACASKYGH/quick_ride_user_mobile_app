@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:async';
-import 'theme_data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -50,6 +49,11 @@ extension StringX on String {
 
   DateTime? get toDateTime2 {
     final format = DateFormat('MM/dd/y h:m:s a');
+    return format.parse(this);
+  }
+
+  DateTime? get toDateTime3 {
+    final format = DateFormat('dd-MMM-y h:m');
     return format.parse(this);
   }
 
@@ -104,16 +108,7 @@ extension StringX on String {
         .replaceFirst(', -', ' - ');
   }
 
-  Widget get asTitleWidget {
-    return Text(
-      this,
-      maxLines: 3,
-      overflow: TextOverflow.ellipsis,
-      style: lightTheme.textTheme.headlineSmall?.copyWith(fontSize: 20),
-    );
-  }
-
-  String get filterDailCod => trim().startsWith('+') ? this : '+$this';
+  String get filterDialCode => trim().startsWith('+') ? this : '+$this';
 
   bool get isValidPhone {
     return PhoneNumber.parse('+233$this').isValid();

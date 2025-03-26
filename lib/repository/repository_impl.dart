@@ -345,7 +345,7 @@ class RepositoryImpl implements Repository {
       final result = (await _dioInstance.post(
         '/Passenger/API_GetPassengerBookingHistory',
         data: {
-          'UserID': appuser.id,
+          'UserID': '1', //  appuser.id,
         },
         options: Options(
           headers: {
@@ -413,7 +413,7 @@ class RepositoryImpl implements Repository {
       final result = (await _dioInstance.post(
         '/Passenger/API_GetPassengerCancelgHistory',
         data: {
-          'UserID': appuser.id,
+          'UserID': '1', // appuser.id,
           'DateFrom': DateTime.parse('2020-02-23 17:00:04').dateMMMonthYear,
           'DateTo': DateTime.now().dateMMMonthYear,
         },

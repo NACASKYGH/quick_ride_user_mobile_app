@@ -111,64 +111,131 @@ class CancelledTicketItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              RichText(
-                textAlign: TextAlign.end,
-                text: TextSpan(
-                    text: 'Name on ticket:  ',
-                    style: context.textTheme.labelSmall?.copyWith(
-                      fontSize: 9,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: ticketEntity.canName,
-                        style: context.textTheme.headlineSmall?.copyWith(
-                          fontSize: 13,
-                        ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: RichText(
+                        textAlign: TextAlign.start,
+                        text: TextSpan(
+                            text: 'Can. Name\n',
+                            style: context.textTheme.labelSmall?.copyWith(
+                              fontSize: 9,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: ticketEntity.canName,
+                                style:
+                                    context.textTheme.headlineSmall?.copyWith(
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ]),
                       ),
-                    ]),
-              ),
-              const Gap(12),
-              Row(
-                children: [
-                  Expanded(
-                    child: RichText(
-                      textAlign: TextAlign.start,
-                      text: TextSpan(
-                          text: 'Ticket ID:\n',
+                    ),
+                    const Gap(12),
+                    Expanded(
+                      child: RichText(
+                        textAlign: TextAlign.end,
+                        text: TextSpan(
+                          text: 'Cancel Date\n',
                           style: context.textTheme.labelSmall?.copyWith(
                             fontSize: 9,
                           ),
                           children: [
                             TextSpan(
-                              text: ticketEntity.ticketNo,
+                              text: ticketEntity
+                                  .cancelDate?.toDateTime3?.dayMonthDayFYear,
                               style: context.textTheme.headlineSmall?.copyWith(
                                 fontSize: 13,
                               ),
                             ),
-                          ]),
-                    ),
-                  ),
-                  const Gap(12),
-                  Expanded(
-                    child: RichText(
-                      textAlign: TextAlign.end,
-                      text: TextSpan(
-                        text: 'Cancellation Code:\n',
-                        style: context.textTheme.labelSmall?.copyWith(
-                          fontSize: 9,
+                          ],
                         ),
-                        children: [
-                          TextSpan(
-                            text: ticketEntity.cancelCode,
-                            style: context.textTheme.headlineSmall?.copyWith(
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+              ),
+              const Gap(12),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: RichText(
+                        textAlign: TextAlign.start,
+                        text: TextSpan(
+                            text: 'Ticket ID:\n',
+                            style: context.textTheme.labelSmall?.copyWith(
+                              fontSize: 9,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: ticketEntity.ticketNo,
+                                style:
+                                    context.textTheme.headlineSmall?.copyWith(
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ]),
+                      ),
+                    ),
+                    const Gap(12),
+                    Expanded(
+                      child: RichText(
+                        textAlign: TextAlign.end,
+                        text: TextSpan(
+                          text: 'Cancellation Code:\n',
+                          style: context.textTheme.labelSmall?.copyWith(
+                            fontSize: 9,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: ticketEntity.cancelCode,
+                              style: context.textTheme.headlineSmall?.copyWith(
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Gap(12),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: RichText(
+                        textAlign: TextAlign.start,
+                        text: TextSpan(
+                            text: 'Payment Status:\n',
+                            style: context.textTheme.labelSmall?.copyWith(
+                              fontSize: 9,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: ticketEntity.paymentStatus,
+                                style:
+                                    context.textTheme.headlineSmall?.copyWith(
+                                  fontSize: 13,
+                                  color: ticketEntity.paymentStatus
+                                              ?.toLowerCase() ==
+                                          'pending'
+                                      ? AppColors.yellow
+                                      : AppColors.lightBlue,
+                                ),
+                              ),
+                            ]),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const Gap(14),
               Row(
