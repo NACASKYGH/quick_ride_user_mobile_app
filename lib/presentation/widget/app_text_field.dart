@@ -1,3 +1,4 @@
+import 'package:gap/gap.dart';
 import '/utils/extensions.dart';
 import '/utils/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -105,15 +106,14 @@ class _AppTextFieldState extends State<AppTextField> {
         if (widget.label != null) ...[
           Text(
             widget.label ?? '',
-            style: widget.labelStyle ??
+            style:
+                widget.labelStyle ??
                 context.textTheme.labelMedium?.copyWith(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
           ),
-          SizedBox(
-            height: widget.labelSpace,
-          ),
+          Gap(widget.labelSpace),
         ],
         Container(
           decoration: BoxDecoration(
@@ -129,7 +129,8 @@ class _AppTextFieldState extends State<AppTextField> {
             minLines: widget.minLines,
             maxLines: widget.maxLines,
             onTap: widget.onTap,
-            style: widget.textStyle ??
+            style:
+                widget.textStyle ??
                 context.textTheme.headlineMedium?.copyWith(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -147,13 +148,12 @@ class _AppTextFieldState extends State<AppTextField> {
               errorBorder: basedBorder,
               focusedErrorBorder: basedBorder,
               errorStyle: widget.errorStyle,
-              contentPadding: widget.contentPadding ??
-                  const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 0,
-                  ),
+              contentPadding:
+                  widget.contentPadding ??
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
               hintText: widget.hintText,
-              hintStyle: widget.hintStyle ??
+              hintStyle:
+                  widget.hintStyle ??
                   context.textTheme.headlineMedium?.copyWith(
                     overflow: TextOverflow.ellipsis,
                     fontSize: 14,

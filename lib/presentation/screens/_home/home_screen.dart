@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import '/presentation/widget/app_text_field.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:quick_ride_user/utils/app_colors.dart';
 import 'package:quick_ride_user/utils/extensions.dart';
 import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:quick_ride_user/presentation/widget/app_button.dart';
 import 'package:quick_ride_user/presentation/widget/base_screen.dart';
+import 'package:quick_ride_user/presentation/widget/image_loader.dart';
 import 'package:quick_ride_user/presentation/notifiers/auth_notifier.dart';
 import 'package:quick_ride_user/presentation/notifiers/buses_notifier.dart';
 
@@ -45,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
             key: formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (authNotifier.appUser == null)
                   Row(
@@ -99,10 +102,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       enabledCellsTextStyle: context.textTheme.labelMedium,
                       currentDateTextStyle: context.textTheme.labelMedium,
                       selectedCellTextStyle: context.textTheme.labelMedium,
-                      disabledCellsTextStyle:
-                          context.textTheme.labelMedium?.copyWith(
-                        color: AppColors.grey1.withValues(alpha: .8),
-                      ),
+                      disabledCellsTextStyle: context.textTheme.labelMedium
+                          ?.copyWith(
+                            color: AppColors.grey1.withValues(alpha: .8),
+                          ),
                     );
 
                     if (date != null) {
@@ -136,11 +139,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       isGradient: true,
                       onTap: () {
                         if (!formKey.currentState!.validate()) return;
-                        context.pushNamed(RouteConsts.availableBuses, extra: (
-                          fromController.text,
-                          toController.text,
-                          travelingDate.ddMMMy
-                        ));
+                        context.pushNamed(
+                          RouteConsts.availableBuses,
+                          extra: (
+                            fromController.text,
+                            toController.text,
+                            travelingDate.ddMMMy,
+                          ),
+                        );
 
                         // fromController.clear();
                         // toController.clear();
@@ -148,6 +154,42 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
+
+                ////
+                ///
+                ///
+                ///
+                ///
+                const Spacer(),
+                const Spacer(),
+                Text(
+                  'Our Partners',
+                  style: context.textTheme.headlineLarge?.copyWith(
+                    fontSize: 16,
+                  ),
+                ),
+                const Gap(12),
+                CarouselSlider(
+                  options: CarouselOptions(
+                    height: 70,
+                    viewportFraction: 0.8,
+                    autoPlay: true,
+                    enlargeCenterPage: true,
+                  ),
+                  items:
+                      ['NRSA', '0', '2', '6', '4'].map((i) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return ImageLoader(
+                              imageUrl: 'assets/png/$i.png',
+                              isAsset: true,
+                              fit: BoxFit.contain,
+                            );
+                          },
+                        );
+                      }).toList(),
+                ),
+                Spacer(),
               ],
             ),
           ),
