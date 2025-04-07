@@ -66,9 +66,20 @@ dev_dependencies:
 
 flutter_launcher_icons:
   android: "launcher_icon"
-  ios: true
-  image_path: "assets/icon/icon.jpg"
   min_sdk_android: 21
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/icons/512x512_bg.png"
+
+flutter_native_splash:
+  color: "#05386B"
+  color_dark: "#05386B"
+  image: assets/icons/logo.png
+  fullscreen: true
+  android: true
+  android_gravity: center
+  ios: false
+  ios_content_mode: center
 
 
 flutter:
@@ -79,6 +90,7 @@ flutter:
     - assets/jpg/
     - assets/json/
     - assets/translations/
+    - assets/icons/
 
   fonts:
     - family: Poppins
