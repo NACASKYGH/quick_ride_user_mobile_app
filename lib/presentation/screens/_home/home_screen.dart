@@ -1,8 +1,10 @@
 import '../../../routes.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import '../../notifiers/trips_notifier.dart';
 import '/presentation/widget/app_text_field.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:quick_ride_user/utils/app_colors.dart';
@@ -29,13 +31,19 @@ class _HomeScreenState extends State<HomeScreen> {
   final toController = TextEditingController();
   final dateController = TextEditingController();
 
+  late TripsNotifier tripsNotifier;
+
   @override
   void initState() {
     super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      tripsNotifier.getTicketBookings(clear: true);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    tripsNotifier = context.watch<TripsNotifier>();
     AuthNotifier authNotifier = context.watch<AuthNotifier>();
     BusesNotifier busesNotifier = context.watch<BusesNotifier>();
 
