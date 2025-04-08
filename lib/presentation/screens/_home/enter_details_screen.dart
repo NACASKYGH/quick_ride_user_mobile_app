@@ -358,7 +358,10 @@ class _EnterDetailsScreenState extends State<EnterDetailsScreen> {
                       'FreeBillIDNo': '',
                       'PayMode': 'ONLINE',
                       'CurrencyID': '4',
-                      // 'Fare': totalTripFare,
+                      'Fare': 1
+                      // (busesNotifier.selectedSeats.length *
+                      // num.parse(widget.bus.lorryFare ?? '0'))
+                      .toStringAsFixed(2),
                       'MobileNo': contactController.text,
                       'PassengerList': [
                         ...busesNotifier.selectedSeats.mapIndexed(

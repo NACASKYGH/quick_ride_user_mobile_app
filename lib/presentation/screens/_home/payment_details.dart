@@ -458,23 +458,19 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                   title: 'Book Now',
                   isDisabled: !isChecked,
                   onTap: () async {
-                    final map =
-                        widget.payload..addAll({
-                          'Fare': (totalSeatsCost + charges).toStringAsFixed(2),
-                        });
-
-                    logger.d(map);
+                    logger.d(widget.payload);
 
                     try {
                       final resp = await showDialog(
                         context: context,
                         builder: (context) {
                           return FutureProgressDialog(
-                            getIt<Repository>().bookBusTicket(map: map),
+                            getIt<Repository>().bookBusTicket(
+                              map: widget.payload,
+                            ),
                           );
                         },
                       );
-                      logger.d(resp);
                       if (resp.success && (resp.url ?? '').isNotEmpty) {
                         if (!context.mounted) return;
                         bool? isRedirected = await Navigator.push(
