@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../../utils/app_colors.dart';
 import 'package:quick_ride_user/di.dart';
 import 'package:go_router/go_router.dart';
+import '../../notifiers/auth_notifier.dart';
 import '../../../repository/repository.dart';
 import '../../notifiers/buses_notifier.dart';
 import '../../notifiers/trips_notifier.dart';
@@ -47,6 +48,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
   Widget build(BuildContext context) {
     final busesNotifier = context.watch<BusesNotifier>();
     final tripsNotifier = context.watch<TripsNotifier>();
+    final authNotifier = context.watch<AuthNotifier>();
 
     TimeOfDay? departingTime =
         widget.bus.departTime
@@ -473,6 +475,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                       );
                       if (resp.success && (resp.url ?? '').isNotEmpty) {
                         if (!context.mounted) return;
+                        authNotifier.getUserAutoFills();
                         bool? isRedirected = await Navigator.push(
                           context,
                           MaterialPageRoute(
