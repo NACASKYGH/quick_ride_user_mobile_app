@@ -6,7 +6,8 @@
         "boundingbox",
         "licence",
         "pinput",
-        "svgrepo"
+        "svgrepo",
+        "Tocken"
     ],
     "files.exclude": {
         "**/.git": true,
