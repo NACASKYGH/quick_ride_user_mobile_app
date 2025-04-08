@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import '../entity/bus_seat_entity.dart';
 import 'package:quick_ride_user/di.dart';
+import '../entity/book_bus_ticket_entity.dart';
 import '../entity/cancelled_ticket_entity.dart';
 import 'package:quick_ride_user/entity/app_user.dart';
 import 'package:quick_ride_user/utils/extensions.dart';
@@ -12,10 +13,8 @@ class RepositoryImpl implements Repository {
   final AuthTokenGetter _getToken;
   final Dio _dioInstance;
 
-  RepositoryImpl(
-    this._dioInstance, {
-    required AuthTokenGetter token,
-  }) : _getToken = token;
+  RepositoryImpl(this._dioInstance, {required AuthTokenGetter token})
+    : _getToken = token;
 
   @override
   Future<List<BusInfoEntity>> searchTravelResult({
@@ -24,22 +23,22 @@ class RepositoryImpl implements Repository {
     required String date,
   }) async {
     try {
-      final result = (await _dioInstance.post(
-        '/Data/API_GetListBusAllWebMobAppWild',
-        data: {
-          'SourceName': 'Acc',
-          'DestinationName': 'Ku',
-          'TravelDate': date,
-        },
-        options: Options(
-          headers: {
-            'APITocken': '9D85A0FB-73E1-413C-BC2C-C95DDCD9CD89',
-            'AppType': 'MOBAND',
-            'Content-Type': 'application/json',
-          },
-        ),
-      ))
-          .data;
+      final result =
+          (await _dioInstance.post(
+            '/Data/API_GetListBusAllWebMobAppWild',
+            data: {
+              'SourceName': 'Acc',
+              'DestinationName': 'Ku',
+              'TravelDate': date,
+            },
+            options: Options(
+              headers: {
+                'APITocken': '9D85A0FB-73E1-413C-BC2C-C95DDCD9CD89',
+                'AppType': 'MOBAND',
+                'Content-Type': 'application/json',
+              },
+            ),
+          )).data;
 
       return (result as Iterable)
           .map((e) => BusInfoEntity.fromJson(e))
@@ -60,23 +59,23 @@ class RepositoryImpl implements Repository {
     required String travelDate,
   }) async {
     try {
-      final result = (await _dioInstance.post(
-        '/Data2/API_SeatArragement',
-        data: {
-          'SourceID': fromId,
-          'DestinationID': toId,
-          'TripID': tripId,
-          'TravelDate': travelDate,
-        },
-        options: Options(
-          headers: {
-            'APITocken': '9D85A0FB-73E1-413C-BC2C-C95DDCD9CD89',
-            'AppType': 'MOBAND',
-            'Content-Type': 'application/json',
-          },
-        ),
-      ))
-          .data;
+      final result =
+          (await _dioInstance.post(
+            '/Data2/API_SeatArragement',
+            data: {
+              'SourceID': fromId,
+              'DestinationID': toId,
+              'TripID': tripId,
+              'TravelDate': travelDate,
+            },
+            options: Options(
+              headers: {
+                'APITocken': '9D85A0FB-73E1-413C-BC2C-C95DDCD9CD89',
+                'AppType': 'MOBAND',
+                'Content-Type': 'application/json',
+              },
+            ),
+          )).data;
 
       if (result['success'] == true) {
         return (result['SeatArragement'] as Iterable)
@@ -94,24 +93,20 @@ class RepositoryImpl implements Repository {
 
   ///
   @override
-  Future<String> checkIfExistingUser({
-    required String phone,
-  }) async {
+  Future<String> checkIfExistingUser({required String phone}) async {
     try {
-      final result = (await _dioInstance.post(
-        '/Data/API_CheckMobileNo',
-        data: {
-          'MobileNo': phone,
-        },
-        options: Options(
-          headers: {
-            'APITocken': '9D85A0FB-73E1-413C-BC2C-C95DDCD9CD89',
-            'AppType': 'MOBAND',
-            'Content-Type': 'application/json',
-          },
-        ),
-      ))
-          .data;
+      final result =
+          (await _dioInstance.post(
+            '/Data/API_CheckMobileNo',
+            data: {'MobileNo': phone},
+            options: Options(
+              headers: {
+                'APITocken': '9D85A0FB-73E1-413C-BC2C-C95DDCD9CD89',
+                'AppType': 'MOBAND',
+                'Content-Type': 'application/json',
+              },
+            ),
+          )).data;
       logger.d(result);
 
       if (result['success'] == true) {
@@ -133,22 +128,22 @@ class RepositoryImpl implements Repository {
     required String password,
   }) async {
     try {
-      final result = (await _dioInstance.post(
-        '/Data2/API_LoginWithPassword',
-        data: {
-          'MobileNo': phone,
-          'Password': password,
-          'AppType': 'MOBAND',
-        },
-        options: Options(
-          headers: {
-            'APITocken': '9D85A0FB-73E1-413C-BC2C-C95DDCD9CD89',
-            'AppType': 'MOBAND',
-            'Content-Type': 'application/json',
-          },
-        ),
-      ))
-          .data;
+      final result =
+          (await _dioInstance.post(
+            '/Data2/API_LoginWithPassword',
+            data: {
+              'MobileNo': phone,
+              'Password': password,
+              'AppType': 'MOBAND',
+            },
+            options: Options(
+              headers: {
+                'APITocken': '9D85A0FB-73E1-413C-BC2C-C95DDCD9CD89',
+                'AppType': 'MOBAND',
+                'Content-Type': 'application/json',
+              },
+            ),
+          )).data;
 
       if (result['success'] == true) {
         return AppUser.fromJson(result['UserLoginInformations'][0]);
@@ -166,18 +161,18 @@ class RepositoryImpl implements Repository {
   @override
   Future<AppUser> signup({required Map<String, dynamic> map}) async {
     try {
-      final result = (await _dioInstance.post(
-        '/Data/API_AddNewUser',
-        data: map,
-        options: Options(
-          headers: {
-            'APITocken': '9D85A0FB-73E1-413C-BC2C-C95DDCD9CD89',
-            'AppType': 'MOBAND',
-            'Content-Type': 'application/json',
-          },
-        ),
-      ))
-          .data;
+      final result =
+          (await _dioInstance.post(
+            '/Data/API_AddNewUser',
+            data: map,
+            options: Options(
+              headers: {
+                'APITocken': '9D85A0FB-73E1-413C-BC2C-C95DDCD9CD89',
+                'AppType': 'MOBAND',
+                'Content-Type': 'application/json',
+              },
+            ),
+          )).data;
 
       if (result['success'] == true) {
         return AppUser.fromJson(result['UserLoginInformations'][0]);
@@ -197,20 +192,18 @@ class RepositoryImpl implements Repository {
     AppUser? appuser = (await _getToken());
     if (appuser == null) throw 'Login required';
     try {
-      final result = (await _dioInstance.post(
-        '/Passenger/API_GetPassenger',
-        data: {
-          'PassID': appuser.id,
-        },
-        options: Options(
-          headers: {
-            'APITocken': appuser.token,
-            'AppType': 'MOBAND',
-            'Content-Type': 'application/json',
-          },
-        ),
-      ))
-          .data;
+      final result =
+          (await _dioInstance.post(
+            '/Passenger/API_GetPassenger',
+            data: {'PassID': appuser.id},
+            options: Options(
+              headers: {
+                'APITocken': appuser.token,
+                'AppType': 'MOBAND',
+                'Content-Type': 'application/json',
+              },
+            ),
+          )).data;
 
       if (result['success'] == true) {
         final map = result['UserLoginInformations'][0];
@@ -243,25 +236,25 @@ class RepositoryImpl implements Repository {
     if (appuser == null) throw 'Login required';
 
     try {
-      final result = (await _dioInstance.post(
-        '/Passenger/API_UpdateProfile',
-        data: {
-          'ID': appuser.id,
-          'Name': name,
-          'DOB': date,
-          'Gender': gender,
-          'EmailID': email,
-          'MobileNo': appuser.phone,
-        },
-        options: Options(
-          headers: {
-            'APITocken': appuser.token,
-            'AppType': 'MOBAND',
-            'Content-Type': 'application/json',
-          },
-        ),
-      ))
-          .data;
+      final result =
+          (await _dioInstance.post(
+            '/Passenger/API_UpdateProfile',
+            data: {
+              'ID': appuser.id,
+              'Name': name,
+              'DOB': date,
+              'Gender': gender,
+              'EmailID': email,
+              'MobileNo': appuser.phone,
+            },
+            options: Options(
+              headers: {
+                'APITocken': appuser.token,
+                'AppType': 'MOBAND',
+                'Content-Type': 'application/json',
+              },
+            ),
+          )).data;
 
       if (result['success'] == true) {
         return await getUser();
@@ -276,28 +269,30 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<bool> changePass(
-      {required String oldPass, required String newPass}) async {
+  Future<bool> changePass({
+    required String oldPass,
+    required String newPass,
+  }) async {
     AppUser? appuser = (await _getToken());
     if (appuser == null) throw 'Login required';
 
     try {
-      final result = (await _dioInstance.post(
-        '/Passenger/API_ChangePassword',
-        data: {
-          'ID': appuser.id,
-          'OldPassword': oldPass,
-          'NewPassword': newPass,
-        },
-        options: Options(
-          headers: {
-            'APITocken': appuser.token,
-            'AppType': 'MOBAND',
-            'Content-Type': 'application/json',
-          },
-        ),
-      ))
-          .data;
+      final result =
+          (await _dioInstance.post(
+            '/Passenger/API_ChangePassword',
+            data: {
+              'ID': appuser.id,
+              'OldPassword': oldPass,
+              'NewPassword': newPass,
+            },
+            options: Options(
+              headers: {
+                'APITocken': appuser.token,
+                'AppType': 'MOBAND',
+                'Content-Type': 'application/json',
+              },
+            ),
+          )).data;
 
       if (result['success'] == true) {
         return true;
@@ -314,16 +309,16 @@ class RepositoryImpl implements Repository {
   @override
   Future<String> getNameFromPhone({required String phone}) async {
     try {
-      final result = (await _dioInstance.get(
-        'https://api.data.tapngogh.com/customer/kyc?phoneNumber=$phone',
-        options: Options(
-          headers: {
-            'Authorization': '9605239da9ca606e463cfe7d17249de0f6dd1ae4',
-            'Content-Type': 'application/json',
-          },
-        ),
-      ))
-          .data;
+      final result =
+          (await _dioInstance.get(
+            'https://api.data.tapngogh.com/customer/kyc?phoneNumber=$phone',
+            options: Options(
+              headers: {
+                'Authorization': '9605239da9ca606e463cfe7d17249de0f6dd1ae4',
+                'Content-Type': 'application/json',
+              },
+            ),
+          )).data;
 
       if (result['status'] == 200) {
         return result['payload']['name'];
@@ -342,20 +337,18 @@ class RepositoryImpl implements Repository {
     AppUser? appuser = (await _getToken());
     if (appuser == null) throw 'Login required';
     try {
-      final result = (await _dioInstance.post(
-        '/Passenger/API_GetPassengerBookingHistory',
-        data: {
-          'UserID': '1', //  appuser.id,
-        },
-        options: Options(
-          headers: {
-            'APITocken': appuser.token,
-            'AppType': 'MOBAND',
-            'Content-Type': 'application/json',
-          },
-        ),
-      ))
-          .data;
+      final result =
+          (await _dioInstance.post(
+            '/Passenger/API_GetPassengerBookingHistory',
+            data: {'UserID': appuser.id},
+            options: Options(
+              headers: {
+                'APITocken': appuser.token,
+                'AppType': 'MOBAND',
+                'Content-Type': 'application/json',
+              },
+            ),
+          )).data;
 
       if (result['success'] == true) {
         return (result['TravelHistory'] as Iterable)
@@ -376,18 +369,18 @@ class RepositoryImpl implements Repository {
     AppUser? appuser = (await _getToken());
     if (appuser == null) throw 'Login required';
     try {
-      final result = (await _dioInstance.post(
-        '/Passenger/API_TicketCancel',
-        data: {'TicketID': ticketNumber},
-        options: Options(
-          headers: {
-            'APITocken': appuser.token,
-            'AppType': 'MOB',
-            'Content-Type': 'application/json',
-          },
-        ),
-      ))
-          .data;
+      final result =
+          (await _dioInstance.post(
+            '/Passenger/API_TicketCancel',
+            data: {'TicketID': ticketNumber},
+            options: Options(
+              headers: {
+                'APITocken': appuser.token,
+                'AppType': 'MOB',
+                'Content-Type': 'application/json',
+              },
+            ),
+          )).data;
 
       logger.d(result);
 
@@ -405,27 +398,27 @@ class RepositoryImpl implements Repository {
 
   @override
   Future<List<CancelledTicketEntity>> getCancelledTicket(
-      // {required DateTime dateFrom, required DateTime dateTo}
-      ) async {
+    // {required DateTime dateFrom, required DateTime dateTo}
+  ) async {
     AppUser? appuser = (await _getToken());
     if (appuser == null) throw 'Login required';
     try {
-      final result = (await _dioInstance.post(
-        '/Passenger/API_GetPassengerCancelgHistory',
-        data: {
-          'UserID': '1', // appuser.id,
-          'DateFrom': DateTime.parse('2020-02-23 17:00:04').dateMMMonthYear,
-          'DateTo': DateTime.now().dateMMMonthYear,
-        },
-        options: Options(
-          headers: {
-            'APITocken': appuser.token,
-            'AppType': 'MOB',
-            'Content-Type': 'application/json',
-          },
-        ),
-      ))
-          .data;
+      final result =
+          (await _dioInstance.post(
+            '/Passenger/API_GetPassengerCancelgHistory',
+            data: {
+              'UserID': appuser.id,
+              'DateFrom': DateTime.parse('2020-02-23 17:00:04').dateMMMonthYear,
+              'DateTo': DateTime.now().dateMMMonthYear,
+            },
+            options: Options(
+              headers: {
+                'APITocken': appuser.token,
+                'AppType': 'MOB',
+                'Content-Type': 'application/json',
+              },
+            ),
+          )).data;
 
       if (result['success'] == true) {
         return (result['CancelHistory'] as Iterable)
@@ -435,6 +428,38 @@ class RepositoryImpl implements Repository {
         throw result['Message'];
       }
     } on DioException catch (e) {
+      throw e.formattedError;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<BookBusTicketEntity> bookBusTicket({
+    required Map<String, dynamic> map,
+  }) async {
+    AppUser? appuser = (await _getToken());
+    if (appuser == null) throw 'Login required';
+    try {
+      final result =
+          (await _dioInstance.post(
+            '/Passenger/API_TicketBookingNew',
+            // 'http://67.222.135.24:8024/API/Passenger/API_TicketBookingNew',
+            data: map,
+            options: Options(
+              headers: {
+                'APITocken': appuser.token,
+                'AppType': 'MOB',
+                'Content-Type': 'application/json',
+              },
+            ),
+          )).data;
+
+      logger.d(result);
+
+      return BookBusTicketEntity.fromJson(result);
+    } on DioException catch (e) {
+      logger.d(e);
       throw e.formattedError;
     } catch (e) {
       throw e.toString();

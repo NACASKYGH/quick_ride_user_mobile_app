@@ -1,6 +1,7 @@
 import '../entity/app_user.dart';
 import '../entity/bus_info_entity.dart';
 import '../entity/bus_seat_entity.dart';
+import '../entity/book_bus_ticket_entity.dart';
 import '../entity/cancelled_ticket_entity.dart';
 import 'package:quick_ride_user/entity/ticket_entity.dart';
 
@@ -18,18 +19,11 @@ abstract class Repository {
     required String travelDate,
   });
 
-  Future<String> checkIfExistingUser({
-    required String phone,
-  });
+  Future<String> checkIfExistingUser({required String phone});
 
-  Future<AppUser> login({
-    required String phone,
-    required String password,
-  });
+  Future<AppUser> login({required String phone, required String password});
 
-  Future<AppUser> signup({
-    required Map<String, dynamic> map,
-  });
+  Future<AppUser> signup({required Map<String, dynamic> map});
 
   Future<AppUser> getUser();
 
@@ -39,17 +33,13 @@ abstract class Repository {
     required String gender,
     required String date,
   });
-  Future<bool> changePass({
-    required String oldPass,
-    required String newPass,
-  });
-  Future<String> getNameFromPhone({
-    required String phone,
-  });
+  Future<bool> changePass({required String oldPass, required String newPass});
+  Future<String> getNameFromPhone({required String phone});
 
   Future<List<TicketEntity>> getTicketBookings();
   Future<bool> cancelTicket({required String ticketNumber});
-  Future<List<CancelledTicketEntity>> getCancelledTicket(
-      // {required DateTime dateFrom, required DateTime dateTo}
-      );
+  Future<List<CancelledTicketEntity>> getCancelledTicket();
+  Future<BookBusTicketEntity> bookBusTicket({
+    required Map<String, dynamic> map,
+  });
 }
