@@ -460,8 +460,6 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                   title: 'Book Now',
                   isDisabled: !isChecked,
                   onTap: () async {
-                    logger.d(widget.payload);
-
                     try {
                       final resp = await showDialog(
                         context: context,

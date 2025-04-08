@@ -141,8 +141,6 @@ class AuthNotifier extends ChangeNotifier {
     try {
       AppUser response = await _repository.getUserAutoFills();
 
-      logger.d(response);
-
       _appUser = response;
       final prefs = await SharedPreferences.getInstance();
       prefs.setString(localUser, jsonEncode(response.toJson()));

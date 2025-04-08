@@ -252,7 +252,7 @@ class RepositoryImpl implements Repository {
           gender: appuser.gender ?? map['Gender'],
           dateOfBirth: appuser.dateOfBirth ?? map['DOB'],
           kinName: map['Kname'],
-          kinNumbers: map['Kmob'],
+          kinNumber: map['Kmob'],
         );
       } else {
         throw result['Message'];

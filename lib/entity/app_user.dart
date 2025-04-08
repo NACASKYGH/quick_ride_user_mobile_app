@@ -18,7 +18,7 @@ class AppUser with _$AppUser {
     @JsonKey(name: 'DOB') String? dateOfBirth,
     @JsonKey(name: 'MobileNo') String? phone,
     @JsonKey(name: 'Kname') String? kinName,
-    @JsonKey(name: 'Kmob') String? kinNumbers,
+    @JsonKey(name: 'Kmob') String? kinNumber,
     @JsonKey(name: 'Age') String? age,
     @JsonKey(name: 'IDType') @Default('0') String? idType,
     @JsonKey(name: 'IDNo') @Default('') String? idNumber,
