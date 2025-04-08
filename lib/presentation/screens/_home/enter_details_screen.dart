@@ -125,6 +125,7 @@ class _EnterDetailsScreenState extends State<EnterDetailsScreen> {
                                   hintText: 'Phone number',
                                   keyboardType: TextInputType.phone,
                                   controller: kinPhoneController,
+                                  initialValue: authNotifier.appUser?.kinNumber,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Kin\'s contact is required';
@@ -136,13 +137,17 @@ class _EnterDetailsScreenState extends State<EnterDetailsScreen> {
                                     }
 
                                     if (value.isNotEmpty &&
-                                        value.trim().length < 10) {
+                                        value.trim().length < 10 &&
+                                        value !=
+                                            authNotifier.appUser?.kinNumber) {
                                       return 'Invalid phone number!';
                                     }
                                     return null;
                                   },
                                   onChanged: (value) async {
-                                    if (value.isPhone) {
+                                    if (value.isPhone &&
+                                        value !=
+                                            authNotifier.appUser?.kinNumber) {
                                       String? name = await busesNotifier
                                           .getNameFromPhone(phone: value);
                                       kinNameController.text = name ?? '';
@@ -158,6 +163,7 @@ class _EnterDetailsScreenState extends State<EnterDetailsScreen> {
                                   labelStyle: context.textTheme.labelMedium,
                                   label: 'Kin\'s Name',
                                   hintText: 'Name',
+                                  initialValue: authNotifier.appUser?.kinName,
                                   keyboardType: TextInputType.text,
                                   controller: kinNameController,
                                   validator: (value) {
@@ -263,12 +269,15 @@ class _EnterDetailsScreenState extends State<EnterDetailsScreen> {
                                               initialValue:
                                                   index == 0
                                                       ? authNotifier
-                                                          .appUser
-                                                          ?.dateOfBirth
-                                                          ?.toDateTime2
-                                                          ?.getAge
-                                                          .years
-                                                          .toString()
+                                                              .appUser
+                                                              ?.age ??
+                                                          authNotifier
+                                                              .appUser
+                                                              ?.dateOfBirth
+                                                              ?.toDateTime2
+                                                              ?.getAge
+                                                              .years
+                                                              .toString()
                                                       : ageControllers[index]
                                                           .text,
                                               controller: ageControllers[index],
@@ -358,10 +367,9 @@ class _EnterDetailsScreenState extends State<EnterDetailsScreen> {
                       'FreeBillIDNo': '',
                       'PayMode': 'ONLINE',
                       'CurrencyID': '4',
-                      'Fare': 1
-                      // (busesNotifier.selectedSeats.length *
-                      // num.parse(widget.bus.lorryFare ?? '0'))
-                      .toStringAsFixed(2),
+                      'Fare': (busesNotifier.selectedSeats.length *
+                              num.parse(widget.bus.lorryFare ?? '0'))
+                          .toStringAsFixed(2),
                       'MobileNo': contactController.text,
                       'PassengerList': [
                         ...busesNotifier.selectedSeats.mapIndexed(
@@ -373,8 +381,8 @@ class _EnterDetailsScreenState extends State<EnterDetailsScreen> {
                                 .selectedSeats[index]
                                 .seatNumber
                                 ?.replaceFirst('E', ''),
-                            'TIDType': '0',
-                            'TIDNo': '',
+                            'TIDType': authNotifier.appUser?.idType ?? '0',
+                            'TIDNo': authNotifier.appUser?.idNumber ?? '',
                             'TDOB':
                                 DateTime.now()
                                     .subtract(
