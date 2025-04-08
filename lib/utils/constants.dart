@@ -7,12 +7,11 @@ String get localUser => 'local-users';
 String get userPass => 'local-user-passkey';
 
 String get playstoreLink => 'https://play.google.com/store/apps/details?id';
+String get termsAndConditions => 'https://quickridegh.com/TermsConditions.aspx';
 
 class PrefKeys {
   static String get showWalkThru => 'show-walk-through-screen_';
   static String get userLoggedInToken => 'token_$kDebugMode';
 }
 
-Widget get divider => Divider(
-      color: AppColors.grey.withValues(alpha: .2),
-    );
+Widget get divider => Divider(color: AppColors.grey.withValues(alpha: .2));

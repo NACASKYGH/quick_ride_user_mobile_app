@@ -1,9 +1,9 @@
 import 'package:gap/gap.dart';
+import 'payment_details.dart';
 import '../../widget/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/app_colors.dart';
-import 'package:quick_ride_user/di.dart';
 import '../../widget/app_drop_down.dart';
 import '../../widget/app_text_field.dart';
 import 'package:collection/collection.dart';
@@ -17,10 +17,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:quick_ride_user/presentation/widget/base_screen.dart';
 
 class EnterDetailsScreen extends StatefulWidget {
-  const EnterDetailsScreen({
-    super.key,
-    required this.bus,
-  });
+  const EnterDetailsScreen({super.key, required this.bus});
 
   final BusInfoEntity bus;
 
@@ -29,33 +26,29 @@ class EnterDetailsScreen extends StatefulWidget {
 }
 
 class _EnterDetailsScreenState extends State<EnterDetailsScreen> {
+  late List<TextEditingController> ageControllers = List.generate(
+    busesNotifier.selectedSeats.length,
+    (i) => TextEditingController(),
+  );
+
+  late AuthNotifier authNotifier;
+  late BusesNotifier busesNotifier;
+  final TextEditingController contactController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  late List<String> genders = List.generate(
+    busesNotifier.selectedSeats.length,
+    (i) => authNotifier.appUser?.gender ?? 'Male',
+  );
 
   bool isLoading = false;
-  bool useSingleInfo = false;
-
-  late BusesNotifier busesNotifier;
-  late AuthNotifier authNotifier;
-
-  // late List<Map<String, dynamic>> bookingInfoList = List.generate(
-  //   busesNotifier.selectedSeats.length,
-  //   (i) => {
-  //     'phone': '',
-  //     'name': '',
-  //   },
-  // );
-  late List<TextEditingController> nameControllers = List.generate(
-      busesNotifier.selectedSeats.length, (i) => TextEditingController());
-
-  late List<TextEditingController> ageControllers = List.generate(
-      busesNotifier.selectedSeats.length, (i) => TextEditingController());
-
-  late List<String> genders = List.generate(busesNotifier.selectedSeats.length,
-      (i) => authNotifier.appUser?.gender ?? 'Male');
-
-  final TextEditingController contactController = TextEditingController();
-  final TextEditingController kinPhoneController = TextEditingController();
   final TextEditingController kinNameController = TextEditingController();
+  final TextEditingController kinPhoneController = TextEditingController();
+  late List<TextEditingController> nameControllers = List.generate(
+    busesNotifier.selectedSeats.length,
+    (i) => TextEditingController(),
+  );
+
+  bool useSingleInfo = false;
 
   @override
   Widget build(BuildContext context) {
@@ -189,9 +182,11 @@ class _EnterDetailsScreenState extends State<EnterDetailsScreen> {
                           style: context.textTheme.headlineSmall,
                         ),
                         const Gap(4),
-                        for (int i = 0;
-                            i < busesNotifier.selectedSeats.length;
-                            i++)
+                        for (
+                          int index = 0;
+                          index < busesNotifier.selectedSeats.length;
+                          index++
+                        )
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 12.0),
                             child: Row(
@@ -206,22 +201,23 @@ class _EnterDetailsScreenState extends State<EnterDetailsScreen> {
                                     color: AppColors.primary,
                                     boxShadow: [
                                       BoxShadow(
-                                        color: AppColors.darkBg
-                                            .withValues(alpha: .3),
+                                        color: AppColors.darkBg.withValues(
+                                          alpha: .3,
+                                        ),
                                         blurRadius: 5,
                                         spreadRadius: 0,
-                                      )
+                                      ),
                                     ],
                                   ),
                                   child: Text(
-                                    (busesNotifier.selectedSeats[i].position ??
+                                    (busesNotifier
+                                                .selectedSeats[index]
+                                                .position ??
                                             '')
                                         .replaceFirst('E', ''),
                                     textAlign: TextAlign.center,
-                                    style:
-                                        context.textTheme.labelSmall?.copyWith(
-                                      color: AppColors.whiteText,
-                                    ),
+                                    style: context.textTheme.labelSmall
+                                        ?.copyWith(color: AppColors.whiteText),
                                   ),
                                 ),
                                 const Gap(6),
@@ -235,8 +231,11 @@ class _EnterDetailsScreenState extends State<EnterDetailsScreen> {
                                             context.textTheme.labelMedium,
                                         label: 'Name*',
                                         hintText: 'Name',
-                                        initialValue: nameControllers[i].text,
-                                        controller: nameControllers[i],
+                                        initialValue:
+                                            index == 0
+                                                ? authNotifier.appUser?.name
+                                                : nameControllers[index].text,
+                                        controller: nameControllers[index],
                                         keyboardType: TextInputType.text,
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
@@ -262,8 +261,17 @@ class _EnterDetailsScreenState extends State<EnterDetailsScreen> {
                                               label: 'Age*',
                                               hintText: 'Age (e.g. 30)',
                                               initialValue:
-                                                  ageControllers[i].text,
-                                              controller: ageControllers[i],
+                                                  index == 0
+                                                      ? authNotifier
+                                                          .appUser
+                                                          ?.dateOfBirth
+                                                          ?.toDateTime2
+                                                          ?.getAge
+                                                          .years
+                                                          .toString()
+                                                      : ageControllers[index]
+                                                          .text,
+                                              controller: ageControllers[index],
                                               keyboardType:
                                                   TextInputType.number,
                                               validator: (value) {
@@ -283,9 +291,12 @@ class _EnterDetailsScreenState extends State<EnterDetailsScreen> {
                                               label: 'Gender*',
                                               labelStyle:
                                                   context.textTheme.labelMedium,
-                                              initialValue: authNotifier
-                                                      .appUser?.gender ??
-                                                  'Male',
+                                              initialValue:
+                                                  index == 0
+                                                      ? authNotifier
+                                                          .appUser
+                                                          ?.gender
+                                                      : 'Male',
                                               borderColor: AppColors.grey
                                                   .withValues(alpha: .7),
                                               hintText:
@@ -297,15 +308,16 @@ class _EnterDetailsScreenState extends State<EnterDetailsScreen> {
                                               onChanged: (value) {
                                                 if (value == null) return;
                                                 setState(
-                                                    () => genders[i] = value);
+                                                  () => genders[index] = value,
+                                                );
                                               },
                                             ),
                                           ),
                                         ],
-                                      )
+                                      ),
                                     ],
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -329,73 +341,67 @@ class _EnterDetailsScreenState extends State<EnterDetailsScreen> {
                       return;
                     }
 
-                    List<Map<String, dynamic>> payloads =
-                        busesNotifier.selectedSeats
-                            .mapIndexed((index, element) => {
-                                  'UserID': '${authNotifier.appUser?.id}',
-                                  'BookingLocation': widget.bus.fromLocationId,
-                                  'TripID': widget.bus.tripId,
-                                  'TravelDate': busesNotifier.chosenDateTime,
-                                  'PayMode': 'CASH',
-                                  'FromLocation': widget.bus.fromLocationId,
-                                  'ToLocation': widget.bus.destinationId,
-                                  'Fare': widget.bus.lorryFare,
-                                  'MobileNo': genders[index],
-                                  'KinName': kinNameController.text,
-                                  'KinContact': kinPhoneController.text,
-                                  'MomoServiceProvider': '',
-                                  'MOMONumber': '',
-                                  'PassengerList': [
-                                    {
-                                      'TName': nameControllers[index].text,
-                                      'TGender': 'M',
-                                      'TAge': '00',
-                                      'TSeatNo': busesNotifier
-                                          .selectedSeats[index].seatNumber
-                                          ?.replaceFirst('E', ''),
-                                      'TIDType': '0',
-                                      'TIDNo': '',
-                                      'TDOB': busesNotifier.chosenDateTime,
-                                      'TCountry': '0'
-                                    }
-                                  ],
-                                })
-                            .toList();
+                    Map<String, dynamic> payload = {
+                      'ChanelType': 'MOB',
+                      'BookbyType': 'U',
+                      'UserID': '${authNotifier.appUser?.id}',
+                      'BookingLocation': widget.bus.fromLocationId,
+                      'TripID': widget.bus.tripId,
+                      'TravelDate': busesNotifier.chosenDateTime,
+                      'FromLocation': widget.bus.fromLocationId,
+                      'ToLocation': widget.bus.destinationId,
+                      'KinName': kinNameController.text,
+                      'KinContact': kinPhoneController.text,
+                      'MomoServiceProvider': '',
+                      'MOMONumber': '',
+                      'EmailID': '',
+                      'FreeBillIDNo': '',
+                      'PayMode': 'ONLINE',
+                      'CurrencyID': '4',
+                      // 'Fare': totalTripFare,
+                      'MobileNo': contactController.text,
+                      'PassengerList': [
+                        ...busesNotifier.selectedSeats.mapIndexed(
+                          (index, seat) => {
+                            'TName': nameControllers[index].text,
+                            'TGender': genders[index].toUpperCase(),
+                            'TAge': ageControllers[index].text,
+                            'TSeatNo': busesNotifier
+                                .selectedSeats[index]
+                                .seatNumber
+                                ?.replaceFirst('E', ''),
+                            'TIDType': '0',
+                            'TIDNo': '',
+                            'TDOB':
+                                DateTime.now()
+                                    .subtract(
+                                      Duration(
+                                        days:
+                                            365 *
+                                            (int.tryParse(
+                                                  ageControllers[index].text,
+                                                ) ??
+                                                0),
+                                      ),
+                                    )
+                                    .toString(),
+                            'TCountry': '0',
+                          },
+                        ),
+                      ],
+                    };
 
-                    logger.d(payloads);
                     await appBottomModalSheet(
                       context: context,
-                      child: PaymentDetails(),
+                      isDismissible: false,
+                      expand: true,
+                      child: PaymentDetails(bus: widget.bus, payload: payload),
                     );
                     setState(() => isLoading = false);
                   },
                 ),
               ),
               const Gap(6),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class PaymentDetails extends StatefulWidget {
-  const PaymentDetails({super.key});
-
-  @override
-  State<PaymentDetails> createState() => _PaymentDetailsState();
-}
-
-class _PaymentDetailsState extends State<PaymentDetails> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              ///
             ],
           ),
         ),

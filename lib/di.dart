@@ -45,9 +45,6 @@ Future<void> diSetup() async {
 
 void dependenciesInj() {
   getIt.registerLazySingleton<Repository>(
-    () => RepositoryImpl(
-      getIt.get(),
-      token: getIt.get(),
-    ),
+    () => RepositoryImpl(getIt.get(), token: getIt.get()),
   );
 }
