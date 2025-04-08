@@ -2,9 +2,7 @@ import '/routes.dart';
 import 'package:gap/gap.dart';
 import '/utils/app_colors.dart';
 import '/utils/extensions.dart';
-import '../../utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:quick_ride_user/di.dart';
 import 'package:go_router/go_router.dart';
 import '/presentation/widget/app_button.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -25,10 +23,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         alignment: Alignment.topCenter,
         children: [
           SizedBox(
-            height: context.height - 250,
+            height: context.height - 210,
             child: Image.asset(
-              'assets/jpg/onboarding-1.jpg',
-              height: context.height - 250,
+              'assets/png/onboarding.png',
+              height: context.height - 210,
               width: context.width,
               fit: BoxFit.cover,
             ),
@@ -114,7 +112,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       fontWeight: FontWeight.w500,
                     ),
                     onTap: () {
-                      prefs.setBool(PrefKeys.showWalkThru, false);
+                      // prefs.setBool(PrefKeys.showWalkThru, false);
                       context.pushReplacementNamed(RouteConsts.index);
                     },
                   ),
