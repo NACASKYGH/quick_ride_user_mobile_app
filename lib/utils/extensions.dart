@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:collection/collection.dart';
+import 'package:age_calculator/age_calculator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
@@ -32,8 +33,8 @@ extension GoRouterExt on GoRouter {
 
 extension StringX on String {
   bool get isEmail => RegExp(
-          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-      .hasMatch(this);
+    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+  ).hasMatch(this);
 
   bool get isPhone {
     String phone = replaceFirst('0', '');
@@ -86,23 +87,24 @@ extension StringX on String {
     return split(pattern).map((e) => e.capitalize).join(joiner);
   }
 
-  String splitRemoveMerge(String pattern, List<int> indexs,
-      {String joiner = ', '}) {
+  String splitRemoveMerge(
+    String pattern,
+    List<int> indexs, {
+    String joiner = ', ',
+  }) {
     final splitList = split(pattern);
     return splitList
-        .mapIndexed(
-          (index, e) {
-            //Remove first element
-            if (indexs.contains(index)) return '';
+        .mapIndexed((index, e) {
+          //Remove first element
+          if (indexs.contains(index)) return '';
 
-            //Add - {last value} to the end
-            if (index == splitList.length - 1) {
-              return '-${e.trim().capitalize}';
-            }
+          //Add - {last value} to the end
+          if (index == splitList.length - 1) {
+            return '-${e.trim().capitalize}';
+          }
 
-            return e.trim().capitalize;
-          },
-        )
+          return e.trim().capitalize;
+        })
         .where((e) => e.trim().isNotEmpty)
         .join(joiner)
         .replaceFirst(', -', ' - ');
@@ -220,6 +222,8 @@ extension DateTimeX on DateTime {
     final now = DateTime.now();
     return now.day == day && now.month == month && now.year == year;
   }
+
+  DateDuration get getAge => AgeCalculator.age(this);
 }
 
 extension IntX on int {
@@ -252,11 +256,12 @@ extension DioExceptionX on DioException {
       return 'Check your internet connection!';
     } else {
       // return response.toString();
-      String errorMsg = (response?.data['errors'] ??
-              response?.data['message'] ??
-              response?.data ??
-              this)
-          .toString();
+      String errorMsg =
+          (response?.data['errors'] ??
+                  response?.data['message'] ??
+                  response?.data ??
+                  this)
+              .toString();
 
       String msg = errorMsg
           .split(':')

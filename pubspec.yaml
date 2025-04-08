@@ -41,10 +41,12 @@ dependencies:
   carousel_slider: ^5.0.0
 
 
+
   # ///
   date_picker_plus: ^4.1.0
   lottie: ^3.3.1
   modal_bottom_sheet: ^3.0.0
+  age_calculator: ^1.0.0
 
 
 
