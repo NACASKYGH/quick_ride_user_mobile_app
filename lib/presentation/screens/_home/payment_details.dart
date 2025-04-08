@@ -476,17 +476,18 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                       logger.d(resp);
                       if (resp.success && (resp.url ?? '').isNotEmpty) {
                         if (!context.mounted) return;
-                        bool isRedirected = await Navigator.push(
+                        bool? isRedirected = await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder:
                                 (context) => AppWebview(
                                   title: 'Make Payment',
                                   url: resp.url ?? '',
-                                  // onPop: () => context.pop(),
+                                  onPop: () => context.pop(false),
                                   onUrlChanged: (ctx, url) async {
-                                    if (url.contains('/payments/success/') ||
-                                        url.contains('/payments/failed/')) {
+                                    if (url.contains(
+                                      'MobilePaymentResponse.aspx',
+                                    )) {
                                       await Future.delayed(
                                         const Duration(seconds: 1),
                                       );
@@ -498,7 +499,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                           ),
                         );
 
-                        if (isRedirected) {
+                        if (isRedirected ?? false) {
                           tripsNotifier.getTicketBookings(clear: true);
                           tripsNotifier.getCancelTicket(clear: true);
                           if (!context.mounted) return;
