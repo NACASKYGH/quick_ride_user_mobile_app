@@ -78,6 +78,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
           child: SingleChildScrollView(
             padding: EdgeInsets.symmetric(horizontal: 30),
             controller: _scrollController,
+            physics: ClampingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
 
