@@ -26,6 +26,7 @@ abstract class Repository {
   Future<AppUser> signup({required Map<String, dynamic> map});
 
   Future<AppUser> getUser();
+  Future<AppUser> getUserAutoFills();
 
   Future<AppUser> updateUser({
     required String name,

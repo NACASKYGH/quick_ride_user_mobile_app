@@ -47,9 +47,7 @@ class AuthNotifier extends ChangeNotifier {
     notifyListeners();
 
     try {
-      String response = await _repository.checkIfExistingUser(
-        phone: phone,
-      );
+      String response = await _repository.checkIfExistingUser(phone: phone);
 
       _isLoading = false;
       _errorMsg = null;
@@ -63,10 +61,7 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool?> login({
-    required String phone,
-    required String password,
-  }) async {
+  Future<bool?> login({required String phone, required String password}) async {
     if (_isLoading) return null;
     _isLoading = true;
     _errorMsg = null;
@@ -96,9 +91,7 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool?> signUp({
-    required Map<String, dynamic> map,
-  }) async {
+  Future<bool?> signUp({required Map<String, dynamic> map}) async {
     if (_isLoading) return null;
     _isLoading = true;
     _errorMsg = null;
@@ -129,6 +122,26 @@ class AuthNotifier extends ChangeNotifier {
 
     try {
       AppUser response = await _repository.getUser();
+
+      _appUser = response;
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString(localUser, jsonEncode(response.toJson()));
+
+      getUserAutoFills();
+
+      notifyListeners();
+    } catch (e) {
+      logger.e(e);
+    }
+  }
+
+  Future<void> getUserAutoFills() async {
+    if (_appUser == null) return;
+
+    try {
+      AppUser response = await _repository.getUserAutoFills();
+
+      logger.d(response);
 
       _appUser = response;
       final prefs = await SharedPreferences.getInstance();
@@ -169,10 +182,7 @@ class AuthNotifier extends ChangeNotifier {
     required String newPass,
   }) async {
     try {
-      return await _repository.changePass(
-        oldPass: oldPass,
-        newPass: newPass,
-      );
+      return await _repository.changePass(oldPass: oldPass, newPass: newPass);
     } catch (e) {
       throw e.toString();
     }

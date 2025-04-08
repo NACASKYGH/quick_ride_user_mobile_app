@@ -226,6 +226,45 @@ class RepositoryImpl implements Repository {
   }
 
   @override
+  Future<AppUser> getUserAutoFills() async {
+    AppUser? appuser = (await _getToken());
+    if (appuser == null) throw 'Login required';
+    try {
+      final result =
+          (await _dioInstance.post(
+            '/Passenger/API_AutoFillInformations',
+            data: {'PassID': appuser.id},
+            options: Options(
+              headers: {
+                'APITocken': appuser.token,
+                'AppType': 'MOB',
+                'Content-Type': 'application/json',
+              },
+            ),
+          )).data;
+
+      if (result['success'] == true) {
+        final map = result['UserLoginInformations'][0];
+        return appuser.copyWith(
+          idType: map['IDType'] ?? '0',
+          idNumber: map['IDNo'] ?? '',
+          citizenship: map['Citizenship'] ?? '0',
+          gender: appuser.gender ?? map['Gender'],
+          dateOfBirth: appuser.dateOfBirth ?? map['DOB'],
+          kinName: map['Kname'],
+          kinNumbers: map['Kmob'],
+        );
+      } else {
+        throw result['Message'];
+      }
+    } on DioException catch (e) {
+      throw e.formattedError;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
   Future<AppUser> updateUser({
     required String name,
     required String email,
@@ -454,8 +493,6 @@ class RepositoryImpl implements Repository {
               },
             ),
           )).data;
-
-      logger.d(result);
 
       return BookBusTicketEntity.fromJson(result);
     } on DioException catch (e) {

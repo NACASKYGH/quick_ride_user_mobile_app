@@ -17,6 +17,12 @@ class AppUser with _$AppUser {
     @JsonKey(name: 'Gender') String? gender,
     @JsonKey(name: 'DOB') String? dateOfBirth,
     @JsonKey(name: 'MobileNo') String? phone,
+    @JsonKey(name: 'Kname') String? kinName,
+    @JsonKey(name: 'Kmob') String? kinNumbers,
+    @JsonKey(name: 'Age') String? age,
+    @JsonKey(name: 'IDType') @Default('0') String? idType,
+    @JsonKey(name: 'IDNo') @Default('') String? idNumber,
+    @JsonKey(name: 'Citizenship') @Default('0') String? citizenship,
   }) = _AppUser;
 
   factory AppUser.fromJson(Map<String, dynamic> json) =>
