@@ -25,7 +25,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           SizedBox(
             height: context.height - 210,
             child: Image.asset(
-              'assets/png/onboarding.png',
+              'assets/jpg/onboarding.jpg',
               height: context.height - 210,
               width: context.width,
               fit: BoxFit.cover,
