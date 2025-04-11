@@ -8,7 +8,6 @@ plugins {
 android {
     namespace = "com.nacasky.quick_ride_mobile_app"
     compileSdk = 35
-    // ndkVersion = flutter.ndkVersion
     ndkVersion = "27.0.12077973"
 
     compileOptions {
