@@ -8,7 +8,8 @@ plugins {
 android {
     namespace = "com.nacasky.quick_ride_mobile_app"
     compileSdk = 35
-    ndkVersion = flutter.ndkVersion
+    // ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -21,8 +22,6 @@ android {
 
     defaultConfig {
         applicationId = "com.nacasky.quick_ride_mobile_app"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 23
         targetSdk = 35
         versionCode = flutter.versionCode

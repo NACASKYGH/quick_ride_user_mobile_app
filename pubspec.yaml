@@ -1,7 +1,7 @@
 name: quick_ride_mobile_app
 description: "A new Flutter project."
 
-publish_to: 'none' 
+publish_to: 'none'
 version: 1.0.0+1
 
 environment:
@@ -52,7 +52,7 @@ dependencies:
 
 
 
-dependency_overrides: 
+dependency_overrides:
   flutter_map: ^7.0.2
   collection: ^1.19.0
 
