@@ -1,11 +1,13 @@
+import '/di.dart';
 import 'package:gap/gap.dart';
+import '/utils/utilities.dart';
+import '/utils/extensions.dart';
 import '../shared/app_webview.dart';
 import '../../widget/app_button.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/constants.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/app_colors.dart';
-import 'package:quick_ride_user/di.dart';
 import 'package:go_router/go_router.dart';
 import '../../notifiers/auth_notifier.dart';
 import '../../../repository/repository.dart';
@@ -13,8 +15,6 @@ import '../../notifiers/buses_notifier.dart';
 import '../../notifiers/trips_notifier.dart';
 import '../../../entity/bus_info_entity.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:quick_ride_user/utils/utilities.dart';
-import 'package:quick_ride_user/utils/extensions.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 

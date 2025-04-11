@@ -1,7 +1,9 @@
 import '/routes.dart';
+import '../../di.dart';
 import 'package:gap/gap.dart';
 import '/utils/app_colors.dart';
 import '/utils/extensions.dart';
+import '../../utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '/presentation/widget/app_button.dart';
@@ -112,7 +114,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       fontWeight: FontWeight.w500,
                     ),
                     onTap: () {
-                      // prefs.setBool(PrefKeys.showWalkThru, false);
+                      prefs.setBool(PrefKeys.showWalkThru, false);
                       context.pushReplacementNamed(RouteConsts.index);
                     },
                   ),

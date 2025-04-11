@@ -1,18 +1,18 @@
+import '/di.dart';
 import 'package:gap/gap.dart';
+import '/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import '../../widget/base_screen.dart';
 import '../../widget/page_loader.dart';
 import '../../../utils/app_colors.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
-import 'package:quick_ride_user/di.dart';
 import '../../../entity/ticket_entity.dart';
 import '../../widget/empty_state_widget.dart';
 import '../../widget/error_state_widget.dart';
-import 'package:quick_ride_user/utils/extensions.dart';
+import '/presentation/notifiers/trips_notifier.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:flutter_platform_alert/flutter_platform_alert.dart';
-import 'package:quick_ride_user/presentation/notifiers/trips_notifier.dart';
 
 class BookingsScreen extends StatefulWidget {
   const BookingsScreen({super.key});
@@ -44,41 +44,41 @@ class _BookingsScreenState extends State<BookingsScreen> {
             children: [
               const Gap(12),
               Expanded(
-                child: (tripsNotifier.getBookingsErrorMsg ?? '').isNotEmpty &&
-                        !(tripsNotifier.getBookingsErrorMsg ?? '').isNotFound
-                    ? Padding(
-                        padding: const EdgeInsets.only(bottom: 70.0),
-                        child: ErrorStateWidget(
+                child:
+                    (tripsNotifier.getBookingsErrorMsg ?? '').isNotEmpty &&
+                            !(tripsNotifier.getBookingsErrorMsg ?? '')
+                                .isNotFound
+                        ? Padding(
+                          padding: const EdgeInsets.only(bottom: 70.0),
+                          child: ErrorStateWidget(
                             title: 'Oops!',
-                            desc: tripsNotifier.getBookingsErrorMsg ??
+                            desc:
+                                tripsNotifier.getBookingsErrorMsg ??
                                 'An error occurred.',
                             onRetry: () {
                               tripsNotifier.getTicketBookings();
-                            }),
-                      )
-                    : tripsNotifier.isLoading &&
+                            },
+                          ),
+                        )
+                        : tripsNotifier.isLoading &&
                             tripsNotifier.bookingsList.isEmpty
-                        ? const PageLoader(
-                            title: 'Loading available buses...',
-                          )
+                        ? const PageLoader(title: 'Loading available buses...')
                         : tripsNotifier.cancelledList.isEmpty ||
-                                (tripsNotifier.getBookingsErrorMsg ?? '')
-                                    .isNotFound
-                            ? EmptyStateWidget(
-                                title: 'No record Found',
-                                desc: 'You do not have any booked ticket.',
-                                padding: const EdgeInsets.only(bottom: 120),
-                              )
-                            : ListView.builder(
-                                padding: const EdgeInsets.only(bottom: 32),
-                                itemCount: tripsNotifier.bookingsList.length,
-                                itemBuilder: (context, index) {
-                                  return TicketItem(
-                                    ticketEntity:
-                                        tripsNotifier.bookingsList[index],
-                                  );
-                                },
-                              ),
+                            (tripsNotifier.getBookingsErrorMsg ?? '').isNotFound
+                        ? EmptyStateWidget(
+                          title: 'No record Found',
+                          desc: 'You do not have any booked ticket.',
+                          padding: const EdgeInsets.only(bottom: 120),
+                        )
+                        : ListView.builder(
+                          padding: const EdgeInsets.only(bottom: 32),
+                          itemCount: tripsNotifier.bookingsList.length,
+                          itemBuilder: (context, index) {
+                            return TicketItem(
+                              ticketEntity: tripsNotifier.bookingsList[index],
+                            );
+                          },
+                        ),
               ),
             ],
           ),
@@ -89,10 +89,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
 }
 
 class TicketItem extends StatelessWidget {
-  const TicketItem({
-    super.key,
-    required this.ticketEntity,
-  });
+  const TicketItem({super.key, required this.ticketEntity});
 
   final TicketEntity ticketEntity;
 
@@ -137,11 +134,12 @@ class TicketItem extends StatelessWidget {
                 try {
                   bool resp = await showDialog(
                     context: context,
-                    builder: (context) => FutureProgressDialog(
-                      tripsNotifier.cancelTicket(
-                        ticketNumber: ticketEntity.ticketNo!,
-                      ),
-                    ),
+                    builder:
+                        (context) => FutureProgressDialog(
+                          tripsNotifier.cancelTicket(
+                            ticketNumber: ticketEntity.ticketNo!,
+                          ),
+                        ),
                   );
                   if (resp) tripsNotifier.getTicketBookings();
                 } catch (e) {
@@ -161,9 +159,7 @@ class TicketItem extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: const Color(0xFFF2F2F2),
-              ),
+              border: Border.all(color: const Color(0xFFF2F2F2)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,34 +174,32 @@ class TicketItem extends StatelessWidget {
                 RichText(
                   textAlign: TextAlign.end,
                   text: TextSpan(
-                      text: 'Ticket Number:   ',
-                      style: context.textTheme.labelSmall?.copyWith(
-                        fontSize: 9,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: ticketEntity.ticketNo,
-                          style: context.textTheme.headlineSmall?.copyWith(
-                            fontSize: 13,
-                          ),
+                    text: 'Ticket Number:   ',
+                    style: context.textTheme.labelSmall?.copyWith(fontSize: 9),
+                    children: [
+                      TextSpan(
+                        text: ticketEntity.ticketNo,
+                        style: context.textTheme.headlineSmall?.copyWith(
+                          fontSize: 13,
                         ),
-                      ]),
+                      ),
+                    ],
+                  ),
                 ),
                 RichText(
                   textAlign: TextAlign.end,
                   text: TextSpan(
-                      text: 'Name on ticket:  ',
-                      style: context.textTheme.labelSmall?.copyWith(
-                        fontSize: 9,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: ticketEntity.travelerName,
-                          style: context.textTheme.headlineSmall?.copyWith(
-                            fontSize: 13,
-                          ),
+                    text: 'Name on ticket:  ',
+                    style: context.textTheme.labelSmall?.copyWith(fontSize: 9),
+                    children: [
+                      TextSpan(
+                        text: ticketEntity.travelerName,
+                        style: context.textTheme.headlineSmall?.copyWith(
+                          fontSize: 13,
                         ),
-                      ]),
+                      ),
+                    ],
+                  ),
                 ),
                 const Gap(14),
                 Row(
@@ -217,21 +211,23 @@ class TicketItem extends StatelessWidget {
                           RichText(
                             textAlign: TextAlign.start,
                             text: TextSpan(
-                                text: 'Booking Date\n',
-                                style: context.textTheme.labelSmall?.copyWith(
-                                  fontSize: 9,
+                              text: 'Booking Date\n',
+                              style: context.textTheme.labelSmall?.copyWith(
+                                fontSize: 9,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text:
+                                      ticketEntity.entryDate?.splitMerge(
+                                        ' ',
+                                        joiner: '\n',
+                                      ) ??
+                                      'N/A',
+                                  style: context.textTheme.headlineSmall
+                                      ?.copyWith(fontSize: 10),
                                 ),
-                                children: [
-                                  TextSpan(
-                                    text: ticketEntity.entryDate
-                                            ?.splitMerge(' ', joiner: '\n') ??
-                                        'N/A',
-                                    style: context.textTheme.headlineSmall
-                                        ?.copyWith(
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                ]),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -243,21 +239,23 @@ class TicketItem extends StatelessWidget {
                           RichText(
                             textAlign: TextAlign.end,
                             text: TextSpan(
-                                text: 'Trip Depart Date\n',
-                                style: context.textTheme.labelSmall?.copyWith(
-                                  fontSize: 9,
+                              text: 'Trip Depart Date\n',
+                              style: context.textTheme.labelSmall?.copyWith(
+                                fontSize: 9,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text:
+                                      ticketEntity.tripDate?.splitMerge(
+                                        ' ',
+                                        joiner: '\n',
+                                      ) ??
+                                      'N/A',
+                                  style: context.textTheme.headlineSmall
+                                      ?.copyWith(fontSize: 10),
                                 ),
-                                children: [
-                                  TextSpan(
-                                    text: ticketEntity.tripDate
-                                            ?.splitMerge(' ', joiner: '\n') ??
-                                        'N/A',
-                                    style: context.textTheme.headlineSmall
-                                        ?.copyWith(
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                ]),
+                              ],
+                            ),
                           ),
                         ],
                       ),

@@ -1,11 +1,12 @@
-name: quick_ride_user
+name: quick_ride_mobile_app
 description: "A new Flutter project."
 
-publish_to: 'none'
+publish_to: 'none' 
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.7.0
+  sdk: ^3.7.2
+
 
 dependencies:
   flutter:
@@ -80,8 +81,9 @@ flutter_native_splash:
   fullscreen: true
   android: true
   android_gravity: center
-  ios: false
+  ios: true
   ios_content_mode: center
+
 
 
 flutter:

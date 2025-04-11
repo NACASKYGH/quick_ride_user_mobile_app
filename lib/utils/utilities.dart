@@ -1,5 +1,5 @@
+import '../utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:quick_ride_user/utils/app_colors.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:flutter_platform_alert/flutter_platform_alert.dart';
 // import 'package:flutter_vibrate/flutter_vibrate.dart';

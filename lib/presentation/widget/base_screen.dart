@@ -1,12 +1,9 @@
+import '/utils/extensions.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
-import 'package:quick_ride_user/utils/extensions.dart';
 
 class BaseScreen extends StatefulWidget {
-  const BaseScreen({
-    super.key,
-    required this.safeArea,
-  });
+  const BaseScreen({super.key, required this.safeArea});
 
   final SafeArea safeArea;
 

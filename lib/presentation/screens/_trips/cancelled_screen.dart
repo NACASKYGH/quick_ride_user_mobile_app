@@ -1,4 +1,5 @@
 import 'package:gap/gap.dart';
+import '/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import '../../widget/base_screen.dart';
 import '../../widget/page_loader.dart';
@@ -7,9 +8,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import '../../widget/empty_state_widget.dart';
 import '../../widget/error_state_widget.dart';
+import '/presentation/notifiers/trips_notifier.dart';
 import '../../../entity/cancelled_ticket_entity.dart';
-import 'package:quick_ride_user/utils/extensions.dart';
-import 'package:quick_ride_user/presentation/notifiers/trips_notifier.dart';
 
 class CancelledScreen extends StatefulWidget {
   const CancelledScreen({super.key});
@@ -41,41 +41,40 @@ class _CancelledScreenState extends State<CancelledScreen> {
             children: [
               const Gap(12),
               Expanded(
-                child: (tripsNotifier.getCancelsErrorMsg ?? '').isNotEmpty &&
-                        !(tripsNotifier.getCancelsErrorMsg ?? '').isNotFound
-                    ? Padding(
-                        padding: const EdgeInsets.only(bottom: 70.0),
-                        child: ErrorStateWidget(
+                child:
+                    (tripsNotifier.getCancelsErrorMsg ?? '').isNotEmpty &&
+                            !(tripsNotifier.getCancelsErrorMsg ?? '').isNotFound
+                        ? Padding(
+                          padding: const EdgeInsets.only(bottom: 70.0),
+                          child: ErrorStateWidget(
                             title: 'Oops!',
-                            desc: tripsNotifier.getCancelsErrorMsg ??
+                            desc:
+                                tripsNotifier.getCancelsErrorMsg ??
                                 'An error occurred.',
                             onRetry: () {
                               tripsNotifier.getCancelTicket();
-                            }),
-                      )
-                    : tripsNotifier.isCancelLoading &&
+                            },
+                          ),
+                        )
+                        : tripsNotifier.isCancelLoading &&
                             tripsNotifier.cancelledList.isEmpty
-                        ? const PageLoader(
-                            title: 'Loading available buses...',
-                          )
+                        ? const PageLoader(title: 'Loading available buses...')
                         : tripsNotifier.cancelledList.isEmpty ||
-                                (tripsNotifier.getCancelsErrorMsg ?? '')
-                                    .isNotFound
-                            ? EmptyStateWidget(
-                                title: 'No record Found',
-                                desc: 'You do not have any cancelled ticket.',
-                                padding: const EdgeInsets.only(bottom: 120),
-                              )
-                            : ListView.builder(
-                                padding: const EdgeInsets.only(bottom: 32),
-                                itemCount: tripsNotifier.cancelledList.length,
-                                itemBuilder: (context, index) {
-                                  return CancelledTicketItem(
-                                    ticketEntity:
-                                        tripsNotifier.cancelledList[index],
-                                  );
-                                },
-                              ),
+                            (tripsNotifier.getCancelsErrorMsg ?? '').isNotFound
+                        ? EmptyStateWidget(
+                          title: 'No record Found',
+                          desc: 'You do not have any cancelled ticket.',
+                          padding: const EdgeInsets.only(bottom: 120),
+                        )
+                        : ListView.builder(
+                          padding: const EdgeInsets.only(bottom: 32),
+                          itemCount: tripsNotifier.cancelledList.length,
+                          itemBuilder: (context, index) {
+                            return CancelledTicketItem(
+                              ticketEntity: tripsNotifier.cancelledList[index],
+                            );
+                          },
+                        ),
               ),
             ],
           ),
@@ -86,10 +85,7 @@ class _CancelledScreenState extends State<CancelledScreen> {
 }
 
 class CancelledTicketItem extends StatelessWidget {
-  const CancelledTicketItem({
-    super.key,
-    required this.ticketEntity,
-  });
+  const CancelledTicketItem({super.key, required this.ticketEntity});
 
   final CancelledTicketEntity ticketEntity;
 
@@ -104,9 +100,7 @@ class CancelledTicketItem extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: const Color(0xFFF2F2F2),
-            ),
+            border: Border.all(color: const Color(0xFFF2F2F2)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,19 +113,19 @@ class CancelledTicketItem extends StatelessWidget {
                       child: RichText(
                         textAlign: TextAlign.start,
                         text: TextSpan(
-                            text: 'Can. Name\n',
-                            style: context.textTheme.labelSmall?.copyWith(
-                              fontSize: 9,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: ticketEntity.canName,
-                                style:
-                                    context.textTheme.headlineSmall?.copyWith(
-                                  fontSize: 13,
-                                ),
+                          text: 'Can. Name\n',
+                          style: context.textTheme.labelSmall?.copyWith(
+                            fontSize: 9,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: ticketEntity.canName,
+                              style: context.textTheme.headlineSmall?.copyWith(
+                                fontSize: 13,
                               ),
-                            ]),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     const Gap(12),
@@ -145,8 +139,11 @@ class CancelledTicketItem extends StatelessWidget {
                           ),
                           children: [
                             TextSpan(
-                              text: ticketEntity
-                                  .cancelDate?.toDateTime3?.dayMonthDayFYear,
+                              text:
+                                  ticketEntity
+                                      .cancelDate
+                                      ?.toDateTime3
+                                      ?.dayMonthDayFYear,
                               style: context.textTheme.headlineSmall?.copyWith(
                                 fontSize: 13,
                               ),
@@ -167,19 +164,19 @@ class CancelledTicketItem extends StatelessWidget {
                       child: RichText(
                         textAlign: TextAlign.start,
                         text: TextSpan(
-                            text: 'Ticket ID:\n',
-                            style: context.textTheme.labelSmall?.copyWith(
-                              fontSize: 9,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: ticketEntity.ticketNo,
-                                style:
-                                    context.textTheme.headlineSmall?.copyWith(
-                                  fontSize: 13,
-                                ),
+                          text: 'Ticket ID:\n',
+                          style: context.textTheme.labelSmall?.copyWith(
+                            fontSize: 9,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: ticketEntity.ticketNo,
+                              style: context.textTheme.headlineSmall?.copyWith(
+                                fontSize: 13,
                               ),
-                            ]),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     const Gap(12),
@@ -214,24 +211,24 @@ class CancelledTicketItem extends StatelessWidget {
                       child: RichText(
                         textAlign: TextAlign.start,
                         text: TextSpan(
-                            text: 'Payment Status:\n',
-                            style: context.textTheme.labelSmall?.copyWith(
-                              fontSize: 9,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: ticketEntity.paymentStatus,
-                                style:
-                                    context.textTheme.headlineSmall?.copyWith(
-                                  fontSize: 13,
-                                  color: ticketEntity.paymentStatus
-                                              ?.toLowerCase() ==
-                                          'pending'
-                                      ? AppColors.yellow
-                                      : AppColors.lightBlue,
-                                ),
+                          text: 'Payment Status:\n',
+                          style: context.textTheme.labelSmall?.copyWith(
+                            fontSize: 9,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: ticketEntity.paymentStatus,
+                              style: context.textTheme.headlineSmall?.copyWith(
+                                fontSize: 13,
+                                color:
+                                    ticketEntity.paymentStatus?.toLowerCase() ==
+                                            'pending'
+                                        ? AppColors.yellow
+                                        : AppColors.lightBlue,
                               ),
-                            ]),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

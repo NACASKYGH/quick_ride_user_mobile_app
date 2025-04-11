@@ -1,0 +1,91 @@
+{
+    "appName": "X-ride",
+    "shared": {
+        "next": "Next",
+        "done": "Done"
+    },
+    "onboarding": {
+        "btnText": "Let's Get Started",
+        "title": "Relax, your bus-stop is just a click away.",
+        "description": "Book a bus ticket and enjoy your ride without cramming for space, in a comfortable bus."
+    },
+    "phoneNumber": {
+        "title": "Hey, tell us your mobile number",
+        "description": "We'll. send a verification code on this number.",
+        "invalidPhone": "\u26A0 Phone number entered is incorrect",
+        "requiredPhone": "\u26A0 Phone number is required"
+    },
+    "otp": {
+        "title": "Enter the verification code sent to you",
+        "description": "We have sent you a four-digit code on your {}",
+        "incorrectOTP": "\u26A0 Incorrect OTP. Please check the code and try again.",
+        "resend": "Resend Code",
+        "login": "Login"
+    },
+    "signUpName": {
+        "title": "What's your name?",
+        "description": "Your name helps drivers to identify you.",
+        "invalidName": "\u26A0  You entered an invalid name",
+        "requiredName": "\u26A0 Your name is required",
+        "signup": "Signup"
+    },
+    "index": {
+        "home": "Home",
+        "trips": "Trips",
+        "profile":"Profiles"
+    },
+    "home": {
+        "confirmLocation": "Confirm Location",
+        "pickLocInstruction": "Place the pin at your location to select...",
+        "whereTo": "Where to?",
+        "greetings": "Hey there, {}"
+    },
+    "profile": {
+        "name": "Name",
+        "phoneNumber": "Phone Number",
+        "updateProfile": "Update Profile",
+        "editProfile": "Edit Profile",
+        "addHome": "Add Home",
+        "addWork": "Add Work",
+        "savedPlaces": "Saved Places",
+        "addNewPlace": "Add a new Place",
+        "saveAPlace": "Save a place",
+        "nameOfPlace": "Name this Place",
+        "nameOfPlaceEg": "e.g. Sam's House",
+        "address": "Address",
+        "requiredName":"Place name is required.",
+        "saveAddress": "Save Address",
+        "promos": "Promos",
+        "referralCode": "Referral Code",
+        "inviteWithCode": "Invite your friends and family to join this app with your referral code!",
+        "enterCode": "Enter Code",
+        "shareCodeTitle": "🚀 Ride & Earn! 🛺💰",
+        "shareCodeDesc": "Hey there! 🌟 Join me on X-ride, the best way to book tricycle rides easily! Use my referral code {} when you sign up and enjoy rewards. 🎉\n\n👉 Download the app now and start riding! 🚖📲\nhttps://google.com",
+        "emergencyContacts": "Emergency Contacts",
+        "addContact": "Add Contact",
+        "emergencyContactsDesc": "Keep your friends and family informed, by sharing your trip status.",
+        "emergencyContactsManager": "Manage Sharing Settings",
+        "emergencyContactsManagerDesc":"Select when to share your ride status with {}."
+    },
+    "settings": {
+        "save": "Save",
+        "choose": "Choose...",
+        "selectGender": "Select gender",
+        "firstName":"Name in full",
+        "gender": "Gender",
+        "male": "Male",
+        "female": "Female",
+        "aboutUs":"About Us",
+        "rateUs": "Rate us",
+        "changePass": "Change Password",
+        "logout": "Log out",
+        "deleteAccount":"Delete my account",
+        "oldPassword": "Enter the old Password",
+        "newPassword": "Enter the new Password",
+        "repeatPassword": "Repeat the new Password",
+        "change": "Change",
+        "fieldIsRequired": "Field is required.",
+        "forgetPassword": "Forget password"
+    }
+}
+

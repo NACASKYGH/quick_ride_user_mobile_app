@@ -8,14 +8,11 @@ import '../../../utils/app_colors.dart';
 import 'package:go_router/go_router.dart';
 import '/presentation/widget/app_button.dart';
 import '/presentation/widget/app_text_field.dart';
+import '/presentation/notifiers/auth_notifier.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:quick_ride_user/presentation/notifiers/auth_notifier.dart';
 
 class PhoneNumberScreen extends StatefulWidget {
-  const PhoneNumberScreen({
-    super.key,
-    required this.phoneNumber,
-  });
+  const PhoneNumberScreen({super.key, required this.phoneNumber});
   final String phoneNumber;
   @override
   State<PhoneNumberScreen> createState() => _PhoneNumberScreenState();
@@ -34,8 +31,9 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance
-        .addPostFrameCallback((_) => authNotifier.errorMsg = null);
+    SchedulerBinding.instance.addPostFrameCallback(
+      (_) => authNotifier.errorMsg = null,
+    );
   }
 
   @override
@@ -70,9 +68,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                     showPassword
                         ? 'Great! You have an account, kindly enter your password to proceed.'
                         : 'phoneNumber.description'.tr(),
-                    style: context.textTheme.labelSmall?.copyWith(
-                      fontSize: 14,
-                    ),
+                    style: context.textTheme.labelSmall?.copyWith(fontSize: 14),
                   ),
                   const Gap(32),
                   AppTextField(
@@ -92,9 +88,10 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                       color: isPhoneError ? AppColors.red : null,
                       fontSize: 28,
                     ),
-                    errorStyle: isPhoneError
-                        ? null
-                        : TextStyle(color: AppColors.transparent),
+                    errorStyle:
+                        isPhoneError
+                            ? null
+                            : TextStyle(color: AppColors.transparent),
                     prefixWidget: Text(
                       '  🇬🇭  |  ',
                       style: context.textTheme.headlineLarge?.copyWith(
@@ -152,16 +149,17 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                   if ((authNotifier.errorMsg ?? '').isNotEmpty)
                     Container(
                       decoration: BoxDecoration(
-                        border: Border.all(
-                          color: AppColors.red,
-                          width: .5,
-                        ),
+                        border: Border.all(color: AppColors.red, width: .5),
                       ),
                       alignment: Alignment.center,
                       margin: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 20),
+                        horizontal: 16,
+                        vertical: 20,
+                      ),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
                       child: Text(
                         authNotifier.errorMsg ?? '',
                         overflow: TextOverflow.ellipsis,

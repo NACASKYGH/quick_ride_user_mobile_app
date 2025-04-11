@@ -1,4 +1,4 @@
-import './entity/bus_info_entity.dart';
+import 'entity/bus_info_entity.dart';
 import 'package:go_router/go_router.dart';
 import 'presentation/screens/index_screen.dart';
 import 'presentation/screens/splash_screen.dart';
@@ -8,8 +8,8 @@ import 'presentation/screens/auth/sign_up_name.dart';
 import 'presentation/screens/_home/seat_sel_screen.dart';
 import 'presentation/screens/_profile/change_password.dart';
 import 'presentation/screens/auth/phone_number_screen.dart';
+import '/presentation/screens/_home/enter_details_screen.dart';
 import 'presentation/screens/_home/available_buses_screen.dart';
-import 'package:quick_ride_user/presentation/screens/_home/enter_details_screen.dart';
 
 class AppRouter {
   static GoRouter router = GoRouter(
@@ -34,9 +34,7 @@ class AppRouter {
         path: '/phone-screen',
         name: RouteConsts.phoneScreen,
         builder: (context, state) {
-          return PhoneNumberScreen(
-            phoneNumber: state.extra as String? ?? '',
-          );
+          return PhoneNumberScreen(phoneNumber: state.extra as String? ?? '');
         },
       ),
       GoRoute(
@@ -44,10 +42,7 @@ class AppRouter {
         name: RouteConsts.otpScreen,
         builder: (context, state) {
           final extra = state.extra as (String, String);
-          return OTPScreen(
-            phoneNumber: extra.$1,
-            otpCode: extra.$2,
-          );
+          return OTPScreen(phoneNumber: extra.$1, otpCode: extra.$2);
         },
       ),
       GoRoute(
@@ -56,10 +51,7 @@ class AppRouter {
         builder: (context, state) {
           final extra = state.extra as (String, String);
 
-          return SignUpName(
-            phoneNumber: extra.$1,
-            otpCode: extra.$2,
-          );
+          return SignUpName(phoneNumber: extra.$1, otpCode: extra.$2);
         },
       ),
       GoRoute(
@@ -74,28 +66,21 @@ class AppRouter {
         name: RouteConsts.availableBuses,
         builder: (context, state) {
           final extras = state.extra as (String, String, String);
-          return AvailableBusesScreen(
-            from: extras.$1,
-            to: extras.$2,
-          );
+          return AvailableBusesScreen(from: extras.$1, to: extras.$2);
         },
       ),
       GoRoute(
         path: '/bus-seat',
         name: RouteConsts.busSeat,
         builder: (context, state) {
-          return SeatSelScreen(
-            bus: state.extra as BusInfoEntity,
-          );
+          return SeatSelScreen(bus: state.extra as BusInfoEntity);
         },
       ),
       GoRoute(
         path: '/enter-details',
         name: RouteConsts.enterDetails,
         builder: (context, state) {
-          return EnterDetailsScreen(
-            bus: state.extra as BusInfoEntity,
-          );
+          return EnterDetailsScreen(bus: state.extra as BusInfoEntity);
         },
       ),
       GoRoute(

@@ -1,7 +1,7 @@
 import 'bookings_screen.dart';
 import 'cancelled_screen.dart';
+import '/utils/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:quick_ride_user/utils/extensions.dart';
 
 class TripScreen extends StatefulWidget {
   const TripScreen({super.key});
@@ -30,19 +30,13 @@ class _TripScreenState extends State<TripScreen>
         elevation: 0,
         bottom: TabBar(
           controller: tabController,
-          tabs: [
-            Tab(text: 'Bookings'),
-            Tab(text: 'Cancellations'),
-          ],
+          tabs: [Tab(text: 'Bookings'), Tab(text: 'Cancellations')],
         ),
       ),
       body: TabBarView(
         controller: tabController,
         physics: NeverScrollableScrollPhysics(),
-        children: [
-          const BookingsScreen(),
-          const CancelledScreen(),
-        ],
+        children: [const BookingsScreen(), const CancelledScreen()],
       ),
     );
   }

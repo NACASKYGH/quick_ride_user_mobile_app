@@ -1,3 +1,4 @@
+import '/routes.dart';
 import '../../di.dart';
 import '../../utils/constants.dart';
 import '../../utils/app_colors.dart';
@@ -6,14 +7,10 @@ import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import '../notifiers/auth_notifier.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quick_ride_user/routes.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({
-    super.key,
-    this.showLoading = true,
-  });
+  const SplashScreen({super.key, this.showLoading = true});
 
   final bool showLoading;
 
@@ -51,15 +48,9 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
-            'assets/png/logo.png',
-            height: 200,
-          ),
+          Image.asset('assets/png/logo.png', height: 200),
           widget.showLoading
-              ? SpinKitThreeBounce(
-                  size: 26,
-                  color: AppColors.white,
-                )
+              ? SpinKitThreeBounce(size: 26, color: AppColors.white)
               : const SizedBox.shrink(),
         ],
       ),

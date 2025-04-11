@@ -1,20 +1,20 @@
 import '../../../routes.dart';
 import 'package:gap/gap.dart';
+import '/utils/app_colors.dart';
+import '/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import '../../notifiers/trips_notifier.dart';
+import '/presentation/widget/app_button.dart';
+import '/presentation/widget/base_screen.dart';
+import '/presentation/widget/image_loader.dart';
 import '/presentation/widget/app_text_field.dart';
+import '/presentation/notifiers/auth_notifier.dart';
+import '/presentation/notifiers/buses_notifier.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:quick_ride_user/utils/app_colors.dart';
-import 'package:quick_ride_user/utils/extensions.dart';
 import 'package:date_picker_plus/date_picker_plus.dart';
-import 'package:quick_ride_user/presentation/widget/app_button.dart';
-import 'package:quick_ride_user/presentation/widget/base_screen.dart';
-import 'package:quick_ride_user/presentation/widget/image_loader.dart';
-import 'package:quick_ride_user/presentation/notifiers/auth_notifier.dart';
-import 'package:quick_ride_user/presentation/notifiers/buses_notifier.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

@@ -60,7 +60,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_native_contact_picker: 390f08cc44058386ee91499f05360d647dddfc66
-  flutter_native_splash: f71420956eb811e6d310720fee915f1d42852e7a
+  flutter_native_splash: df59bb2e1421aa0282cb2e95618af4dcb0c56c29
   flutter_platform_alert: f507baf17889a38794d3cf16b98b637fb69479bd
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   sensors_plus: 7229095999f30740798f0eeef5cd120357a8f4f2
@@ -69,6 +69,6 @@ SPEC CHECKSUMS:
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
   webview_flutter_wkwebview: a4af96a051138e28e29f60101d094683b9f82188
 
-PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
+PODFILE CHECKSUM: 4305caec6b40dde0ae97be1573c53de1882a07e5
 
 COCOAPODS: 1.16.2

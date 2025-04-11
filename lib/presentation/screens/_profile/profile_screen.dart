@@ -1,25 +1,25 @@
+import '/di.dart';
 import 'package:gap/gap.dart';
+import '/utils/extensions.dart';
 import '../../../../routes.dart';
 import '../shared/app_webview.dart';
 import '../../widget/app_button.dart';
 import '../../../utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:quick_ride_user/di.dart';
 import '../../widget/app_drop_down.dart';
 import '../../widget/app_text_field.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../utils/app_colors.dart';
+import '/presentation/widget/base_screen.dart';
 import 'package:random_avatar/random_avatar.dart';
+import '/presentation/notifiers/ui_notifier.dart';
+import '/presentation/notifiers/auth_notifier.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:quick_ride_user/utils/extensions.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_platform_alert/flutter_platform_alert.dart';
-import 'package:quick_ride_user/presentation/widget/base_screen.dart';
-import 'package:quick_ride_user/presentation/notifiers/ui_notifier.dart';
-import 'package:quick_ride_user/presentation/notifiers/auth_notifier.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -78,9 +78,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: 24,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              border: Border.all(
-                                color: AppColors.grey,
-                              ),
+                              border: Border.all(color: AppColors.grey),
                             ),
                             child: Icon(
                               Icons.edit,
@@ -151,8 +149,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               context: context,
                               initialDate: dateOfBirth,
                               minDate: DateTime.parse('1900-01-01'),
-                              maxDate:
-                                  DateTime.now().add(const Duration(days: 31)),
+                              maxDate: DateTime.now().add(
+                                const Duration(days: 31),
+                              ),
                               selectedDate: dateOfBirth,
                               initialPickerType: PickerType.days,
                               leadingDateTextStyle:
@@ -164,10 +163,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   context.textTheme.labelMedium,
                               selectedCellTextStyle:
                                   context.textTheme.labelMedium,
-                              disabledCellsTextStyle:
-                                  context.textTheme.labelMedium?.copyWith(
-                                color: AppColors.grey1.withValues(alpha: .8),
-                              ),
+                              disabledCellsTextStyle: context
+                                  .textTheme
+                                  .labelMedium
+                                  ?.copyWith(
+                                    color: AppColors.grey1.withValues(
+                                      alpha: .8,
+                                    ),
+                                  ),
                             );
 
                             if (date != null) {
@@ -231,9 +234,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ///
                   Container(
                     decoration: BoxDecoration(
-                      color: context.isDarkMode
-                          ? context.colors.tertiary
-                          : AppColors.grey100,
+                      color:
+                          context.isDarkMode
+                              ? context.colors.tertiary
+                              : AppColors.grey100,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: ListView(
@@ -243,20 +247,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         SettingsListItem(
                           title: 'settings.aboutUs'.tr(),
                           icon: Icons.info_outline_rounded,
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AppWebview(
-                                title: 'About QuickRide Ghana',
-                                url: 'https://quickridegh.com/Aboutus.aspx',
+                          onTap:
+                              () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => AppWebview(
+                                        title: 'About QuickRide Ghana',
+                                        url:
+                                            'https://quickridegh.com/Aboutus.aspx',
+                                      ),
+                                ),
                               ),
-                            ),
-                          ),
                         ),
-                        Divider(
-                          height: 1,
-                          color: context.colors.tertiary,
-                        ),
+                        Divider(height: 1, color: context.colors.tertiary),
                         SettingsListItem(
                           title: 'settings.rateUs'.tr(),
                           icon: Icons.star_border_purple500_rounded,
@@ -273,9 +277,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ///
                   Container(
                     decoration: BoxDecoration(
-                      color: context.isDarkMode
-                          ? context.colors.tertiary
-                          : AppColors.grey100,
+                      color:
+                          context.isDarkMode
+                              ? context.colors.tertiary
+                              : AppColors.grey100,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: ListView(
@@ -285,25 +290,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         SettingsListItem(
                           title: 'settings.changePass'.tr(),
                           icon: Icons.info_outline_rounded,
-                          onTap: () =>
-                              context.pushNamed(RouteConsts.changePassword),
+                          onTap:
+                              () =>
+                                  context.pushNamed(RouteConsts.changePassword),
                         ),
-                        Divider(
-                          height: 1,
-                          color: context.colors.tertiary,
-                        ),
+                        Divider(height: 1, color: context.colors.tertiary),
                         SettingsListItem(
                           title: 'settings.logout'.tr(),
                           icon: Icons.logout_rounded,
                           onTap: () async {
                             final result =
                                 await FlutterPlatformAlert.showCustomAlert(
-                              windowTitle: 'Attention!',
-                              text:
-                                  'Do you really want to sign out from this device?',
-                              positiveButtonTitle: 'Yes',
-                              negativeButtonTitle: 'Cancel',
-                            );
+                                  windowTitle: 'Attention!',
+                                  text:
+                                      'Do you really want to sign out from this device?',
+                                  positiveButtonTitle: 'Yes',
+                                  negativeButtonTitle: 'Cancel',
+                                );
                             if (result == CustomButton.positiveButton &&
                                 context.mounted) {
                               authNotifier.signOut();
@@ -312,22 +315,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             }
                           },
                         ),
-                        Divider(
-                          height: 1,
-                          color: context.colors.tertiary,
-                        ),
+                        Divider(height: 1, color: context.colors.tertiary),
                         SettingsListItem(
                           title: 'settings.deleteAccount'.tr(),
                           icon: Icons.delete_outline_rounded,
                           onTap: () async {
                             final result =
                                 await FlutterPlatformAlert.showCustomAlert(
-                              windowTitle: 'Attention!',
-                              text:
-                                  'Is this what you want to do?\nDeleting your account?',
-                              positiveButtonTitle: 'Yes',
-                              negativeButtonTitle: 'No',
-                            );
+                                  windowTitle: 'Attention!',
+                                  text:
+                                      'Is this what you want to do?\nDeleting your account?',
+                                  positiveButtonTitle: 'Yes',
+                                  negativeButtonTitle: 'No',
+                                );
                             if (result == CustomButton.positiveButton &&
                                 context.mounted) {
                               authNotifier.signOut();
@@ -376,10 +376,7 @@ class SettingsListItem extends StatelessWidget {
           color: context.textTheme.labelSmall?.color?.withValues(alpha: .4),
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Icon(
-          icon,
-          color: context.colors.surface,
-        ),
+        child: Icon(icon, color: context.colors.surface),
       ),
       trailing: Icon(
         Icons.arrow_forward_ios_rounded,

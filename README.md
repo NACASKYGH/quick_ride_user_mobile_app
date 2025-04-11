@@ -1,4 +1,4 @@
-# x_ride_user
+# quick_ride_mobile_app
 
 A new Flutter project.
 

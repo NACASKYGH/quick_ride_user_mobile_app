@@ -1,5 +1,7 @@
 import 'package:gap/gap.dart';
 import 'payment_details.dart';
+import '/utils/utilities.dart';
+import '/utils/extensions.dart';
 import '../../widget/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,11 +12,9 @@ import 'package:collection/collection.dart';
 import '../../notifiers/auth_notifier.dart';
 import '../../notifiers/buses_notifier.dart';
 import '../../../entity/bus_info_entity.dart';
-import 'package:quick_ride_user/utils/utilities.dart';
+import '/presentation/widget/base_screen.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:quick_ride_user/utils/extensions.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:quick_ride_user/presentation/widget/base_screen.dart';
 
 class EnterDetailsScreen extends StatefulWidget {
   const EnterDetailsScreen({super.key, required this.bus});

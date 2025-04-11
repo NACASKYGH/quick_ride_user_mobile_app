@@ -1,8 +1,8 @@
+import '/di.dart';
+import '/entity/ticket_entity.dart';
+import '/repository/repository.dart';
 import 'package:flutter/material.dart';
-import 'package:quick_ride_user/di.dart';
 import '../../entity/cancelled_ticket_entity.dart';
-import 'package:quick_ride_user/entity/ticket_entity.dart';
-import 'package:quick_ride_user/repository/repository.dart';
 
 class TripsNotifier extends ChangeNotifier {
   Repository get _repository => getIt<Repository>();

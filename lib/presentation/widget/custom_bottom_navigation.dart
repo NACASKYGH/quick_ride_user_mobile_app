@@ -1,19 +1,16 @@
+import '/routes.dart';
 import '/utils/extensions.dart';
 import '../../utils/app_colors.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quick_ride_user/routes.dart';
 import '/presentation/notifiers/ui_notifier.dart';
+import '/presentation/notifiers/auth_notifier.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:quick_ride_user/presentation/notifiers/auth_notifier.dart';
 
 class CustomBottomNavigation extends StatefulWidget {
-  const CustomBottomNavigation({
-    super.key,
-    required this.showPathWayBadge,
-  });
+  const CustomBottomNavigation({super.key, required this.showPathWayBadge});
 
   final bool showPathWayBadge;
 
@@ -67,18 +64,22 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
                     asset: 'assets/svg/nav-explore',
                     label: 'index.trips'.tr(),
                     isActive: uiNotifier.indexTabIndex == 1,
-                    onTap: () => !isLoggedIn
-                        ? context.pushNamed(RouteConsts.phoneScreen)
-                        : uiNotifier.indexTabIndex = 1,
+                    onTap:
+                        () =>
+                            !isLoggedIn
+                                ? context.pushNamed(RouteConsts.phoneScreen)
+                                : uiNotifier.indexTabIndex = 1,
                   ),
                   _BottomNavItem(
                     asset: 'assets/svg/nav-profile',
                     label: 'index.profile'.tr(),
                     badgeCount: 0,
                     isActive: uiNotifier.indexTabIndex == 2,
-                    onTap: () => !isLoggedIn
-                        ? context.pushNamed(RouteConsts.phoneScreen)
-                        : uiNotifier.indexTabIndex = 2,
+                    onTap:
+                        () =>
+                            !isLoggedIn
+                                ? context.pushNamed(RouteConsts.phoneScreen)
+                                : uiNotifier.indexTabIndex = 2,
                   ),
                 ],
               ),
@@ -141,13 +142,10 @@ class _BottomNavItem extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: AppColors.red,
                     shape: BoxShape.circle,
-                    border: Border.all(
-                      width: 2,
-                      color: AppColors.lightBg,
-                    ),
+                    border: Border.all(width: 2, color: AppColors.lightBg),
                   ),
                 ),
-              )
+              ),
             ],
           ),
           const SizedBox(height: 5),

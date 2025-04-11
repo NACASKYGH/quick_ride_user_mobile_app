@@ -1,9 +1,9 @@
+import '/di.dart';
+import '/utils/extensions.dart';
+import '/repository/repository.dart';
 import 'package:flutter/material.dart';
-import 'package:quick_ride_user/di.dart';
 import '../../entity/bus_info_entity.dart';
 import '../../entity/bus_seat_entity.dart';
-import 'package:quick_ride_user/utils/extensions.dart';
-import 'package:quick_ride_user/repository/repository.dart';
 
 class BusesNotifier extends ChangeNotifier {
   Repository get _repository => getIt<Repository>();
