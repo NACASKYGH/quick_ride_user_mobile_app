@@ -89,14 +89,14 @@ extension StringX on String {
 
   String splitRemoveMerge(
     String pattern,
-    List<int> indexs, {
+    List<int> indexes, {
     String joiner = ', ',
   }) {
     final splitList = split(pattern);
     return splitList
         .mapIndexed((index, e) {
           //Remove first element
-          if (indexs.contains(index)) return '';
+          if (indexes.contains(index)) return '';
 
           //Add - {last value} to the end
           if (index == splitList.length - 1) {
@@ -108,6 +108,23 @@ extension StringX on String {
         .where((e) => e.trim().isNotEmpty)
         .join(joiner)
         .replaceFirst(', -', ' - ');
+  }
+
+  String splitReturnMerge(
+    String pattern,
+    List<int> indexes, {
+    String joiner = ', ',
+  }) {
+    final splitList = split(pattern);
+    return splitList
+        .mapIndexed((index, e) {
+          //Remove first element
+          if (!indexes.contains(index)) return '';
+
+          return e.trim().capitalize;
+        })
+        .where((e) => e.trim().isNotEmpty)
+        .join(joiner);
   }
 
   String get filterDialCode => trim().startsWith('+') ? this : '+$this';
