@@ -161,29 +161,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const Gap(24),
-                Row(
-                  children: [
-                    Spacer(),
-                    AppButton(
-                      width: 130,
-                      title: 'Search',
-                      isGradient: true,
-                      onTap: () {
-                        if (!formKey.currentState!.validate()) return;
-                        context.pushNamed(
-                          RouteConsts.availableBuses,
-                          extra: (
-                            fromController.text,
-                            toController.text,
-                            travelingDate.ddMMMy,
-                          ),
-                        );
 
-                        // fromController.clear();
-                        // toController.clear();
-                      },
-                    ),
-                  ],
+                AppButton(
+                  // width: 130,
+                  title: 'Search',
+                  isGradient: true,
+                  radius: 8,
+                  onTap: () {
+                    if (!formKey.currentState!.validate()) return;
+                    context.pushNamed(
+                      RouteConsts.availableBuses,
+                      extra: (
+                        fromController.text,
+                        toController.text,
+                        travelingDate.ddMMMy,
+                      ),
+                    );
+
+                    // fromController.clear();
+                    // toController.clear();
+                  },
                 ),
 
                 ////
@@ -200,40 +197,49 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: AppColors.primary,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Row(
+                  child: Stack(
                     children: [
-                      Expanded(
-                        child: CarouselSlider(
-                          options: CarouselOptions(
-                            height: 150,
-                            viewportFraction: 0.8,
-                            autoPlay: true,
-                            enlargeCenterPage: true,
-                          ),
-                          items:
-                              ['NRSA', '0', '2', '6', '4'].map((i) {
-                                return Builder(
-                                  builder: (BuildContext context) {
-                                    return ImageLoader(
-                                      imageUrl: 'assets/png/$i.png',
-                                      isAsset: true,
-                                      fit: BoxFit.contain,
-                                    );
-                                  },
-                                );
-                              }).toList(),
-                        ),
+                      Image.asset(
+                        'assets/png/pattern-with-gradient1.png',
+                        color: AppColors.lightBlue.withValues(alpha: .2),
                       ),
-                      const Gap(12),
-                      Expanded(
-                        child: Text(
-                          'Our trusted Partners',
-                          textAlign: TextAlign.center,
-                          style: context.textTheme.headlineLarge?.copyWith(
-                            fontSize: 18,
-                            color: AppColors.white,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: CarouselSlider(
+                              options: CarouselOptions(
+                                height: 150,
+                                viewportFraction: 0.8,
+                                autoPlay: true,
+                                enlargeCenterPage: true,
+                              ),
+                              items:
+                                  ['NRSA', '0', '2', '6', '4'].map((i) {
+                                    return Builder(
+                                      builder: (BuildContext context) {
+                                        return ImageLoader(
+                                          imageUrl: 'assets/png/$i.png',
+                                          isAsset: true,
+                                          fit: BoxFit.contain,
+                                        );
+                                      },
+                                    );
+                                  }).toList(),
+                            ),
                           ),
-                        ),
+                          const Gap(12),
+                          SizedBox(
+                            width: 120,
+                            child: Text(
+                              'Our Trusted Partners',
+                              textAlign: TextAlign.center,
+                              style: context.textTheme.headlineLarge?.copyWith(
+                                fontSize: 24,
+                                color: AppColors.white,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
