@@ -24,13 +24,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final dateController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  DateTime travelingDate = DateTime.now();
-
   final fromController = TextEditingController();
   final toController = TextEditingController();
-  final dateController = TextEditingController();
-
+  DateTime travelingDate = DateTime.now();
   late TripsNotifier tripsNotifier;
 
   @override
@@ -57,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const Gap(50),
                 if (authNotifier.appUser == null)
                   Row(
                     children: [
@@ -69,7 +68,31 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                const Gap(70),
+                if (authNotifier.appUser != null) ...[
+                  RichText(
+                    text: TextSpan(
+                      text:
+                          'Hi ${authNotifier.appUser?.name?.splitReturnMerge(' ', [0])},\n',
+                      style: context.textTheme.headlineLarge?.copyWith(
+                        fontSize: 24,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: 'Where  would you like to go?',
+                          style: context.textTheme.labelMedium?.copyWith(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+
+                ///
+                ///
+                ///
+                ///
+                ///
+                const Gap(30),
+
                 AppTextField(
                   label: 'Where From',
                   hintText: 'Traveling from?',
@@ -170,33 +193,52 @@ class _HomeScreenState extends State<HomeScreen> {
                 ///
                 const Spacer(),
                 const Spacer(),
-                Text(
-                  'Our Partners',
-                  style: context.textTheme.headlineLarge?.copyWith(
-                    fontSize: 16,
+
+                Container(
+                  height: 150,
+                  decoration: BoxDecoration(
+                    color: AppColors.primary,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: CarouselSlider(
+                          options: CarouselOptions(
+                            height: 150,
+                            viewportFraction: 0.8,
+                            autoPlay: true,
+                            enlargeCenterPage: true,
+                          ),
+                          items:
+                              ['NRSA', '0', '2', '6', '4'].map((i) {
+                                return Builder(
+                                  builder: (BuildContext context) {
+                                    return ImageLoader(
+                                      imageUrl: 'assets/png/$i.png',
+                                      isAsset: true,
+                                      fit: BoxFit.contain,
+                                    );
+                                  },
+                                );
+                              }).toList(),
+                        ),
+                      ),
+                      const Gap(12),
+                      Expanded(
+                        child: Text(
+                          'Our trusted Partners',
+                          textAlign: TextAlign.center,
+                          style: context.textTheme.headlineLarge?.copyWith(
+                            fontSize: 18,
+                            color: AppColors.white,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const Gap(12),
-                CarouselSlider(
-                  options: CarouselOptions(
-                    height: 70,
-                    viewportFraction: 0.8,
-                    autoPlay: true,
-                    enlargeCenterPage: true,
-                  ),
-                  items:
-                      ['NRSA', '0', '2', '6', '4'].map((i) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return ImageLoader(
-                              imageUrl: 'assets/png/$i.png',
-                              isAsset: true,
-                              fit: BoxFit.contain,
-                            );
-                          },
-                        );
-                      }).toList(),
-                ),
+
                 Spacer(),
               ],
             ),
