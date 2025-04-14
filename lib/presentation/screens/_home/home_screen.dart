@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Gap(50),
+                const Spacer(),
                 if (authNotifier.appUser == null)
                   Row(
                     children: [
@@ -163,7 +163,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 const Gap(24),
 
                 AppButton(
-                  // width: 130,
                   title: 'Search',
                   isGradient: true,
                   radius: 8,
@@ -177,9 +176,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         travelingDate.ddMMMy,
                       ),
                     );
-
-                    // fromController.clear();
-                    // toController.clear();
                   },
                 ),
 
