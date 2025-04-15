@@ -24,8 +24,9 @@ class BusesNotifier extends ChangeNotifier {
     if (_locations.isNotEmpty) return;
     try {
       final resp = await _repository.getLocations();
-      logger.d(resp);
-      _locations = resp;
+      _locations =
+          resp.map((item) => item.splitReturnMerge(' ', [0])).toSet().toList();
+
       notifyListeners();
     } catch (e) {
       logger.d(e);

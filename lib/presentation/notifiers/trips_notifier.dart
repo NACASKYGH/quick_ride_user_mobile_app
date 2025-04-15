@@ -31,7 +31,6 @@ class TripsNotifier extends ChangeNotifier {
       _getBookingsErrorMsg = null;
       notifyListeners();
     } catch (e) {
-      logger.d(e);
       _getBookingsErrorMsg = e.toString();
       _bookingsList.clear();
       _bookingsList = [];

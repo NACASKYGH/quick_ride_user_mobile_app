@@ -95,7 +95,7 @@ extension StringX on String {
     final splitList = split(pattern);
     return splitList
         .mapIndexed((index, e) {
-          //Remove first element
+          //Remove if in the index
           if (indexes.contains(index)) return '';
 
           //Add - {last value} to the end
@@ -118,7 +118,7 @@ extension StringX on String {
     final splitList = split(pattern);
     return splitList
         .mapIndexed((index, e) {
-          //Remove first element
+          //Remove if not in the index
           if (!indexes.contains(index)) return '';
 
           return e.trim().capitalize;
