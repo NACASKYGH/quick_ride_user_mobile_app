@@ -15,8 +15,6 @@ class BusesNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///
-
   List<String> _locations = [];
   List<String> get locations => _locations;
 
@@ -34,8 +32,6 @@ class BusesNotifier extends ChangeNotifier {
       notifyListeners();
     }
   }
-
-  ////
 
   List<BusInfoEntity> _busesInfo = [];
   List<BusInfoEntity> get busesInfo => _busesInfo;
