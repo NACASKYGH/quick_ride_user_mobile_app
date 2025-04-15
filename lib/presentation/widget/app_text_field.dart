@@ -115,54 +115,50 @@ class _AppTextFieldState extends State<AppTextField> {
           ),
           Gap(widget.labelSpace),
         ],
-        Container(
-          decoration: BoxDecoration(
-            color: widget.bgColor,
-            borderRadius: BorderRadius.circular(widget.radius),
-          ),
-          child: TextFormField(
-            enabled: !widget.disabled,
-            controller: widget.controller ?? localController,
-            obscureText: widget.obscureText,
-            obscuringCharacter: widget.obscuringCharacter,
-            textInputAction: widget.textInputAction,
-            minLines: widget.minLines,
-            maxLines: widget.maxLines,
-            onTap: widget.onTap,
-            style:
-                widget.textStyle ??
+        TextFormField(
+          enabled: !widget.disabled,
+          controller: widget.controller ?? localController,
+          obscureText: widget.obscureText,
+          obscuringCharacter: widget.obscuringCharacter,
+          textInputAction: widget.textInputAction,
+          minLines: widget.minLines,
+          maxLines: widget.maxLines,
+          onTap: widget.onTap,
+          style:
+              widget.textStyle ??
+              context.textTheme.headlineMedium?.copyWith(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: widget.textColor,
+              ),
+          onFieldSubmitted: widget.onSubmitted,
+          onChanged: widget.onChanged,
+          keyboardType: widget.keyboardType,
+          decoration: InputDecoration(
+            filled: widget.bgColor != null,
+            fillColor: widget.bgColor,
+            prefixIcon: widget.prefixWidget,
+            suffixIcon: widget.suffixWidget,
+            border: basedBorder,
+            focusedBorder: widget.focusBorder ?? basedBorder,
+            enabledBorder: basedBorder,
+            errorBorder: basedBorder,
+            focusedErrorBorder: basedBorder,
+            errorStyle: widget.errorStyle,
+            contentPadding:
+                widget.contentPadding ??
+                const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            hintText: widget.hintText,
+            hintStyle:
+                widget.hintStyle ??
                 context.textTheme.headlineMedium?.copyWith(
+                  overflow: TextOverflow.ellipsis,
                   fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: widget.textColor,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.grey1,
                 ),
-            onFieldSubmitted: widget.onSubmitted,
-            onChanged: widget.onChanged,
-            keyboardType: widget.keyboardType,
-            decoration: InputDecoration(
-              prefixIcon: widget.prefixWidget,
-              suffixIcon: widget.suffixWidget,
-              border: basedBorder,
-              focusedBorder: widget.focusBorder ?? basedBorder,
-              enabledBorder: basedBorder,
-              errorBorder: basedBorder,
-              focusedErrorBorder: basedBorder,
-              errorStyle: widget.errorStyle,
-              contentPadding:
-                  widget.contentPadding ??
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-              hintText: widget.hintText,
-              hintStyle:
-                  widget.hintStyle ??
-                  context.textTheme.headlineMedium?.copyWith(
-                    overflow: TextOverflow.ellipsis,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.grey1,
-                  ),
-            ),
-            validator: widget.validator,
           ),
+          validator: widget.validator,
         ),
       ],
     );
