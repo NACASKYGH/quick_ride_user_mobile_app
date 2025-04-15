@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import '../../notifiers/trips_notifier.dart';
 import '/presentation/widget/app_button.dart';
 import '/presentation/widget/base_screen.dart';
+import '../../widget/app_search_selection.dart';
 import '/presentation/widget/image_loader.dart';
 import '/presentation/widget/app_text_field.dart';
 import '/presentation/notifiers/auth_notifier.dart';
@@ -95,7 +96,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ///
                 const Gap(30),
 
-                AppTextField(
+                AppSearchSelection(
+                  selectionList: busesNotifier.locations,
+                  onSuggestionTap: (e) {},
                   label: 'Where From',
                   hintText: 'Traveling from?',
                   controller: fromController,
@@ -107,8 +110,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     return null;
                   },
                 ),
+
                 const Gap(14),
-                AppTextField(
+                AppSearchSelection(
+                  selectionList: busesNotifier.locations,
+                  onSuggestionTap: (e) {},
                   label: 'Where To?',
                   hintText: 'Traveling to?',
                   controller: toController,
