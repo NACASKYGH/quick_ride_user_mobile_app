@@ -15,6 +15,27 @@ class BusesNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  ///
+
+  List<String> _locations = [];
+  List<String> get locations => _locations;
+
+  Future<void> getLocations() async {
+    if (_locations.isNotEmpty) return;
+    try {
+      final resp = await _repository.getLocations();
+      logger.d(resp);
+      _locations = resp;
+      notifyListeners();
+    } catch (e) {
+      logger.d(e);
+      _locations = [];
+      notifyListeners();
+    }
+  }
+
+  ////
+
   List<BusInfoEntity> _busesInfo = [];
   List<BusInfoEntity> get busesInfo => _busesInfo;
 
@@ -23,7 +44,7 @@ class BusesNotifier extends ChangeNotifier {
   String? _getBusesErrorMsg;
   String? get getBusesErrorMsg => _getBusesErrorMsg;
 
-  void getBuses({required String from, required String to}) async {
+  Future<void> getBuses({required String from, required String to}) async {
     if (isLoading) return;
 
     isLoading = true;

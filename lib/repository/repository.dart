@@ -6,6 +6,8 @@ import '../entity/book_bus_ticket_entity.dart';
 import '../entity/cancelled_ticket_entity.dart';
 
 abstract class Repository {
+  Future<List<String>> getLocations();
+
   Future<List<BusInfoEntity>> searchTravelResult({
     required String from,
     required String to,

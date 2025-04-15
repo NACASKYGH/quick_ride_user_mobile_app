@@ -14,7 +14,7 @@ class TripsNotifier extends ChangeNotifier {
   String? _getBookingsErrorMsg;
   String? get getBookingsErrorMsg => _getBookingsErrorMsg;
 
-  void getTicketBookings({bool clear = false}) async {
+  Future<void> getTicketBookings({bool clear = false}) async {
     if (isLoading) return;
     if (clear) _bookingsList.clear();
 
@@ -31,6 +31,7 @@ class TripsNotifier extends ChangeNotifier {
       _getBookingsErrorMsg = null;
       notifyListeners();
     } catch (e) {
+      logger.d(e);
       _getBookingsErrorMsg = e.toString();
       _bookingsList.clear();
       _bookingsList = [];

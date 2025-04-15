@@ -17,6 +17,39 @@ class RepositoryImpl implements Repository {
     : _getToken = token;
 
   @override
+  Future<List<String>> getLocations() async {
+    try {
+      final result =
+          (await _dioInstance.post(
+            'http://67.222.135.24:8024/API/Data2/API_GetLocationRoute',
+            data: {'ID': 0},
+            options: Options(
+              headers: {
+                'APITocken': '9D85A0FB-73E1-413C-BC2C-C95DDCD9CD89',
+                'AppType': 'MOBAND',
+                'Content-Type': 'application/json',
+              },
+            ),
+          )).data;
+
+      if (result['success'] == true) {
+        final list =
+            (result['SearchDetail'] as Iterable).map((e) {
+              return (e['Name'] ?? '').toString();
+            }).toList();
+        list.removeWhere((e) => e.isEmpty);
+        return list;
+      } else {
+        throw result['Message'];
+      }
+    } on DioException catch (e) {
+      throw e.formattedError;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
   Future<List<BusInfoEntity>> searchTravelResult({
     required String from,
     required String to,
@@ -27,8 +60,8 @@ class RepositoryImpl implements Repository {
           (await _dioInstance.post(
             '/Data/API_GetListBusAllWebMobAppWild',
             data: {
-              'SourceName': 'Acc',
-              'DestinationName': 'Ku',
+              'SourceName': from,
+              'DestinationName': to,
               'TravelDate': date,
             },
             options: Options(

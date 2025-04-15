@@ -29,9 +29,7 @@ class _IndexScreenState extends State<IndexScreen> {
           const ProfileScreen(),
         ],
       ),
-      bottomNavigationBar: CustomBottomNavigation(
-        showPathWayBadge: true,
-      ),
+      bottomNavigationBar: CustomBottomNavigation(showPathWayBadge: true),
     );
   }
 }

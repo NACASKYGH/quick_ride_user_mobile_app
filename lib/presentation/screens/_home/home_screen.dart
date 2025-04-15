@@ -29,12 +29,14 @@ class _HomeScreenState extends State<HomeScreen> {
   final fromController = TextEditingController();
   final toController = TextEditingController();
   DateTime travelingDate = DateTime.now();
-  late TripsNotifier tripsNotifier;
 
+  late TripsNotifier tripsNotifier;
+  late BusesNotifier busesNotifier;
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      busesNotifier.getLocations();
       tripsNotifier.getTicketBookings(clear: true);
     });
   }
@@ -43,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     tripsNotifier = context.watch<TripsNotifier>();
     AuthNotifier authNotifier = context.watch<AuthNotifier>();
-    BusesNotifier busesNotifier = context.watch<BusesNotifier>();
+    busesNotifier = context.watch<BusesNotifier>();
 
     return BaseScreen(
       safeArea: SafeArea(
