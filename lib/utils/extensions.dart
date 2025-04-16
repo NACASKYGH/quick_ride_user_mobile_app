@@ -50,7 +50,8 @@ extension StringX on String {
 
   DateTime? get toDateTime2 {
     final format = DateFormat('MM/dd/y h:m:s a');
-    return format.parse(this);
+
+    return format.parse(toLowerCase());
   }
 
   DateTime? get toDateTime3 {

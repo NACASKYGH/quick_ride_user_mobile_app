@@ -31,8 +31,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  late DateTime dateOfBirth =
-      authNotifier.appUser?.dateOfBirth?.toDateTime2 ?? DateTime.now();
+  DateTime? dateOfBirth;
 
   String? gender;
   final _fNameController = TextEditingController();
@@ -45,6 +44,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     authNotifier = context.watch<AuthNotifier>();
+
+    if (dateOfBirth == null) {
+      try {
+        dateOfBirth =
+            authNotifier.appUser?.dateOfBirth?.trim().toDateTime2 ??
+            DateTime.now();
+      } catch (e) {
+        logger.e(e);
+      }
+    }
 
     return Scaffold(
       body: BaseScreen(
@@ -181,7 +190,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: AppTextField(
                             hintText: 'Date of Birth',
                             controller: dateController,
-                            initialValue: dateOfBirth.dateFormat1,
+                            initialValue: dateOfBirth?.dateFormat1,
                             disabled: true,
                             prefixWidget: Icon(Icons.date_range_rounded),
                             validator: (p0) {
@@ -211,6 +220,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             toast('Gender is required.');
                             return;
                           }
+                          if (dateOfBirth == null) {
+                            toast('Date of birth is required');
+                            return;
+                          }
                           setState(() => isLoading = true);
 
                           try {
@@ -218,7 +231,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               name: _fNameController.text,
                               email: _emailController.text,
                               gender: gender!,
-                              date: dateOfBirth.phpStandardTime,
+                              date: dateOfBirth!.phpStandardTime,
                             );
                           } catch (e) {
                             logger.e(e);
