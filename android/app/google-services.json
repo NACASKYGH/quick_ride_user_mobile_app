@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "437347370427",
+    "project_id": "quick-ride-user",
+    "storage_bucket": "quick-ride-user.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:437347370427:android:c3c2c6fb1d6d47ee10b09e",
+        "android_client_info": {
+          "package_name": "com.nacasky.quick_ride_mobile_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuNvHQZ8I-ApMuwk3KnZcXqemrjETFZEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

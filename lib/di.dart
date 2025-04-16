@@ -7,7 +7,9 @@ import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'repository/repository.dart';
 import 'repository/repository_impl.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:quick_ride_mobile_app/firebase_options.dart';
 
 final getIt = GetIt.instance;
 
@@ -29,6 +31,7 @@ Future<AppUser?> getUserToken() async {
 }
 
 Future<void> diSetup() async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   getIt.registerSingleton<SharedPreferences>(prefs);
 
