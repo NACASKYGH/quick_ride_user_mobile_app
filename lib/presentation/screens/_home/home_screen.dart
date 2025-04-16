@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return BaseScreen(
       safeArea: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Form(
             key: formKey,
@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Spacer(),
+                const Gap(50),
                 if (authNotifier.appUser == null)
                   Row(
                     children: [
@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ///
                 ///
                 ///
-                const Gap(30),
+                const Gap(38),
 
                 AppSearchSelection(
                   selectionList: busesNotifier.locations,
@@ -192,8 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ///
                 ///
                 ///
-                const Spacer(),
-                const Spacer(),
+                const Gap(76),
 
                 Container(
                   height: 150,
@@ -248,8 +247,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-
-                Spacer(),
               ],
             ),
           ),
