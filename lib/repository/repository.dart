@@ -22,6 +22,7 @@ abstract class Repository {
   });
 
   Future<String> checkIfExistingUser({required String phone});
+  Future<String> sendOTP({required String phone});
 
   Future<AppUser> login({required String phone, required String password});
 

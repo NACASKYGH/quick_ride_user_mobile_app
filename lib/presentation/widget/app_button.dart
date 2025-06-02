@@ -21,6 +21,7 @@ class AppButton extends StatelessWidget {
     this.trArgs,
     this.translateText = false,
     this.borderColor,
+    this.bgColor,
     this.radius = 47,
     this.trailing,
     this.leading,
@@ -39,6 +40,7 @@ class AppButton extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final List<String>? trArgs;
   final bool translateText;
+  final Color? bgColor;
   final Color? borderColor;
   final double radius;
   final Widget? trailing;
@@ -62,9 +64,10 @@ class AppButton extends StatelessWidget {
             elevation: 0,
             foregroundColor: AppColors.transparent,
             backgroundColor: AppColors.transparent,
-            side: isNegative
-                ? BorderSide(color: borderColor ?? context.scaffoldColor)
-                : null,
+            side:
+                isNegative
+                    ? BorderSide(color: borderColor ?? context.scaffoldColor)
+                    : null,
           ),
           child: Ink(
             decoration: BoxDecoration(
@@ -72,59 +75,60 @@ class AppButton extends StatelessWidget {
                 begin: Alignment.centerRight,
                 end: Alignment.centerLeft,
                 stops: [0.1, 0.9, 0.9],
-                colors: isNegative
-                    ? [
-                        context.scaffoldColor,
-                        context.scaffoldColor,
-                        context.scaffoldColor,
-                      ]
-                    : isDisabled
+                colors:
+                    bgColor != null
+                        ? [bgColor!, bgColor!, bgColor!]
+                        : isNegative
                         ? [
-                            AppColors.grey1,
-                            AppColors.grey1,
-                            AppColors.grey1,
-                          ]
+                          context.scaffoldColor,
+                          context.scaffoldColor,
+                          context.scaffoldColor,
+                        ]
+                        : isDisabled
+                        ? [AppColors.grey1, AppColors.grey1, AppColors.grey1]
                         : isGradient
-                            ? [
-                                const Color.fromARGB(255, 50, 116, 183),
-                                AppColors.primary,
-                                AppColors.primary,
-                                // const Color.fromARGB(255, 98, 194, 101),
-                              ]
-                            : [
-                                AppColors.primary,
-                                AppColors.primary,
-                                AppColors.primary,
-                              ],
+                        ? [
+                          const Color.fromARGB(255, 50, 116, 183),
+                          AppColors.primary,
+                          AppColors.primary,
+                        ]
+                        : [
+                          AppColors.primary,
+                          AppColors.primary,
+                          AppColors.primary,
+                        ],
               ),
               borderRadius: BorderRadius.circular(radius),
             ),
             child: Container(
               height: height,
               alignment: Alignment.center,
-              child: isLoading
-                  ? const SpinKitThreeInOut(
-                      color: AppColors.whiteText,
-                      size: 20.0,
-                    )
-                  : Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        leading ?? const SizedBox.shrink(),
-                        child ??
-                            Text(
-                              translateText ? title.tr(args: trArgs) : title,
-                              style: textStyle ??
-                                  context.textTheme.labelMedium?.copyWith(
-                                    color: isNegative
-                                        ? AppColors.primary
-                                        : AppColors.whiteText,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                            ),
-                        trailing ?? const SizedBox.shrink(),
-                      ],
-                    ),
+              child:
+                  isLoading
+                      ? const SpinKitThreeInOut(
+                        color: AppColors.whiteText,
+                        size: 20.0,
+                      )
+                      : Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          leading ?? const SizedBox.shrink(),
+                          child ??
+                              Text(
+                                translateText ? title.tr(args: trArgs) : title,
+                                style:
+                                    textStyle ??
+                                    context.textTheme.labelMedium?.copyWith(
+                                      color:
+                                          isNegative
+                                              ? AppColors.primary
+                                              : AppColors.whiteText,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
+                          trailing ?? const SizedBox.shrink(),
+                        ],
+                      ),
             ),
           ),
         ),

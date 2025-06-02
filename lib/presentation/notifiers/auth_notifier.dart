@@ -61,6 +61,14 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
+  Future<String?> sendOTP({required String phone}) async {
+    try {
+      return await _repository.sendOTP(phone: phone);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<bool?> login({required String phone, required String password}) async {
     if (_isLoading) return null;
     _isLoading = true;

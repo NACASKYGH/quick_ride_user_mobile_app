@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import '/presentation/widget/app_button.dart';
 import '/presentation/widget/app_text_field.dart';
 import '/presentation/notifiers/auth_notifier.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class PhoneNumberScreen extends StatefulWidget {
@@ -25,8 +26,10 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
 
   bool isPhoneError = false;
   bool showPassword = false;
+  bool isSendingOTP = false;
 
   late AuthNotifier authNotifier;
+  String? checkPhoneResp;
 
   @override
   void initState() {
@@ -142,6 +145,44 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                         return null;
                       },
                     ),
+                    const Gap(32),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: AppButton(
+                            title: 'Forgot Password',
+                            isNegative: true,
+                            onTap: () {},
+                          ),
+                        ),
+                        const Gap(16),
+                        Expanded(
+                          child: AppButton(
+                            title: 'Use OTP',
+                            bgColor: AppColors.primary.withValues(alpha: .6),
+                            isLoading: isSendingOTP,
+                            onTap: () async {
+                              setState(() => isSendingOTP = true);
+                              try {
+                                String? resp = await authNotifier.sendOTP(
+                                  phone: phoneController.text,
+                                );
+                                setState(() => isSendingOTP = false);
+
+                                if (resp == null || !context.mounted) return;
+                                context.pushReplacementNamed(
+                                  RouteConsts.otpScreen,
+                                  extra: (phoneController.text, resp),
+                                );
+                              } catch (e) {
+                                setState(() => isSendingOTP = false);
+                                toast(e.toString());
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
 
                   ///
@@ -170,52 +211,50 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                         ),
                       ),
                     ),
-                  Row(
-                    children: [
-                      Spacer(),
-                      AppButton(
-                        isDisabled:
-                            phoneController.text.isEmpty || isPhoneError,
-                        translateText: true,
-                        title: 'shared.next',
-                        isLoading: authNotifier.isLoading,
-                        isGradient: true,
-                        width: 100,
-                        onTap: () async {
-                          if (!formKey.currentState!.validate()) return;
-                          if (showPassword) {
-                            bool? resp = await authNotifier.login(
-                              phone: phoneController.text,
-                              password: passwordController.text,
-                            );
-                            if (resp == true && context.mounted) {
-                              showPassword = false;
-                              context.pop();
-                            }
-                            return;
-                          }
-                          String? resp = await authNotifier.checkPhone(
-                            phone: phoneController.text,
-                          );
-                          if (resp == null || !context.mounted) return;
-                          if (resp.isEmpty) {
-                            setState(() => showPassword = true);
-                          } else {
-                            context.pushReplacementNamed(
-                              RouteConsts.otpScreen,
-                              extra: (phoneController.text, resp),
-                            );
-                          }
-                        },
-                        trailing: Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Icon(
-                            Icons.arrow_forward,
-                            color: AppColors.whiteText,
-                          ),
-                        ),
+                  AppButton(
+                    isDisabled:
+                        isSendingOTP ||
+                        phoneController.text.isEmpty ||
+                        isPhoneError,
+                    translateText: true,
+                    title: 'shared.next',
+                    isLoading: authNotifier.isLoading,
+                    isGradient: true,
+                    // width: 100,
+                    onTap: () async {
+                      if (!formKey.currentState!.validate()) return;
+                      if (showPassword) {
+                        bool? resp = await authNotifier.login(
+                          phone: phoneController.text,
+                          password: passwordController.text,
+                        );
+                        if (resp == true && context.mounted) {
+                          showPassword = false;
+                          context.pop();
+                        }
+                        return;
+                      }
+                      String? resp = await authNotifier.checkPhone(
+                        phone: phoneController.text,
+                      );
+                      if (resp == null || !context.mounted) return;
+                      if (resp.isEmpty) {
+                        checkPhoneResp = resp;
+                        setState(() => showPassword = true);
+                      } else {
+                        context.pushReplacementNamed(
+                          RouteConsts.otpScreen,
+                          extra: (phoneController.text, resp),
+                        );
+                      }
+                    },
+                    trailing: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Icon(
+                        Icons.arrow_forward,
+                        color: AppColors.whiteText,
                       ),
-                    ],
+                    ),
                   ),
                   const Gap(24),
                 ],

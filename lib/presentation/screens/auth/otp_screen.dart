@@ -9,6 +9,7 @@ import '../../../utils/app_colors.dart';
 import 'package:go_router/go_router.dart';
 import '../../notifiers/auth_notifier.dart';
 import '/presentation/widget/app_button.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class OTPScreen extends StatefulWidget {
@@ -37,8 +38,9 @@ class _OTPScreenState extends State<OTPScreen> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance
-        .addPostFrameCallback((_) => authNotifier.errorMsg = null);
+    SchedulerBinding.instance.addPostFrameCallback(
+      (_) => authNotifier.errorMsg = null,
+    );
   }
 
   @override
@@ -53,9 +55,7 @@ class _OTPScreenState extends State<OTPScreen> {
         fontSize: 28,
       ),
       decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: AppColors.grey1, width: 1.5),
-        ),
+        border: Border(bottom: BorderSide(color: AppColors.grey1, width: 1.5)),
       ),
     );
 
@@ -89,9 +89,7 @@ class _OTPScreenState extends State<OTPScreen> {
                   const Gap(8),
                   Text(
                     'otp.description'.tr(args: [widget.phoneNumber]),
-                    style: context.textTheme.labelSmall?.copyWith(
-                      fontSize: 14,
-                    ),
+                    style: context.textTheme.labelSmall?.copyWith(fontSize: 14),
                   ),
                   const Gap(32),
                   Pinput(
@@ -107,8 +105,8 @@ class _OTPScreenState extends State<OTPScreen> {
                     defaultPinTheme: defaultPinTheme,
                     focusedPinTheme: defaultPinTheme.copyBorderWith(
                       border: Border(
-                          bottom:
-                              BorderSide(color: AppColors.black, width: 1.5)),
+                        bottom: BorderSide(color: AppColors.black, width: 1.5),
+                      ),
                     ),
                     errorTextStyle: context.textTheme.labelMedium?.copyWith(
                       color: AppColors.red,
@@ -123,7 +121,7 @@ class _OTPScreenState extends State<OTPScreen> {
                         title: 'otp.resend',
                         width: 150,
                         onTap: () async {
-                          String? resp = await authNotifier.checkPhone(
+                          String? resp = await authNotifier.sendOTP(
                             phone: widget.phoneNumber,
                           );
                           if (resp == null || !context.mounted) return;
@@ -131,6 +129,7 @@ class _OTPScreenState extends State<OTPScreen> {
                             //Goto password screen
                             // Do nothing
                           } else {
+                            toast('OTP sent');
                             setState(() => otpCode = resp);
                           }
                         },
@@ -163,7 +162,7 @@ class _OTPScreenState extends State<OTPScreen> {
                             color: AppColors.whiteText,
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                   const Gap(24),

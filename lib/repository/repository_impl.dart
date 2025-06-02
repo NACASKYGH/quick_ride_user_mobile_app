@@ -192,6 +192,35 @@ class RepositoryImpl implements Repository {
 
   ///
   @override
+  Future<String> sendOTP({required String phone}) async {
+    try {
+      final result =
+          (await _dioInstance.post(
+            '/Data2/API_ReqOTP',
+            data: {'MobileNo': phone, 'AppType': 'MOBAND'},
+            options: Options(
+              headers: {
+                'APITocken': '9D85A0FB-73E1-413C-BC2C-C95DDCD9CD89',
+                'AppType': 'MOBAND',
+                'Content-Type': 'application/json',
+              },
+            ),
+          )).data;
+
+      if (result['success'] == true) {
+        return result['MobileLoginInformations'][0]['Msg'];
+      } else {
+        throw result['Message'];
+      }
+    } on DioException catch (e) {
+      throw e.formattedError;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  ///
+  @override
   Future<AppUser> signup({required Map<String, dynamic> map}) async {
     try {
       final result =
